@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="Origen, hardware y planes iniciales del clúster Núcster: la idea, el material y las decisiones que quedaban por tomar.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="Clúster 01 - El germen">
+    <meta property="og:description" content="Origen, hardware y planes iniciales del clúster Núcster: la idea, el material y las decisiones que quedaban por tomar.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/posts/nucster/cluster01elgermen.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>Clúster 01 - El germen</title>
+          <style>
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+               oculto visualmente hasta que recibe el foco del teclado. */
+            .saltar-contenido {
+                position: absolute;
+                left: -10000px;
+            }
+            .saltar-contenido:focus {
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1000;
+                padding: 0.75rem 1rem;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 0 0 0.25rem 0;
+            }
+        </style>
+    </head>
+  <body>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+<header>
+      <p>Clúster 01 - Núcster</p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mi</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="inventario.html">Inventario</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="contenido">
+      <article id="cluster01" data-estado="revision">
+        <header>
+          <h1>Clúster 01 - El germen</h1>
+          <p>El germen de la idea y sus maleables planes de desarrollo</p>
+        </header>
+        <section aria-labelledby="estado-inicial-titulo">
+          <h2 id="estado-inicial-titulo">Estado inicial</h2>
+          <p>
+            Este blog nace con un objetivo sencillo: documentar, paso a paso y sin maquillar los errores, cómo se construye un pequeño laboratorio de sistemas desde cero. Estoy aprendiendo, así que lo que lees aquí no es una guía de expertos, sino un cuaderno de bitácora.
+          </p>
+        </section>
+        <section aria-labelledby="idea-titulo">
+          <h2 id="idea-titulo">La idea</h2>
+            <p>
+
+              La base será un clúster Proxmox. Sobre él, y dentro de máquinas virtuales, montaré un clúster de Kubernetes. Quiero entender cada capa por separado antes de juntarlas: virtualización, redes, almacenamiento y, por último, orquestación de contenedores.
+
+              Este laboratorio es independiente de mi homelab de uso diario (producción), al que prefiero llamar homeserver porque no experimento en él. Aquí se puede romper todo, y de eso se trata.
+            </p>
+        </section> 
+        <section aria-labelledby="hardware-titulo">
+          <h2 id="hardware-titulo">Hardware</h2>
+            <p>El hardware:</p>
+            <ul>
+              <li>3 mini PC Intel NUC6CAYH</li>
+              <li>CPU: Intel Cleron J3455 (4) @ 2.30 GHz</li>
+              <li>RAM por nodo: 8 GB por nodo</li>
+              <li>Almacenamiento por nodo: [COMPLETAR]
+                <ul>
+                  <li>Nucster10: Crucial BX500 1 TB</li>
+                  <li>Nucster20: Crucial BX500 1 TB</li>
+                  <li>Nucster30: Samsung 860 EVO 250 GB</li>
+                </ul>
+              </li>
+              <li>Una sola tarjeta de red por equipo, excepto en el equipo que tendrá instalado pfSense como router y firewall que tendrá un NIC USB-Ethernet adicional.</li>
+              <li>Switch gestionable Zyxel GS1200-8:
+                <ul>
+                  <li>Soporta VLAN 802.1Q.</li>
+                  <li>Se configura solo por web, sin línea de comandos ni agregación de enlaces (LACP).</li>
+                </ul> 
+              </li>             
+              </ul>
+          <figure>
+            <img
+              src="../../../img/nucster01.jpg" width="300" height="300"
+              alt="Estado inicial del conjunto de hardware del clúster"> <!--En el manual se especifica que se deben poner ../ para subir un nivel de carpetas (relativas a la ubicación de la presente página). En este caso son necesarias 2 subidas y una bajada específica a img para llegar a la ruta de la imagen-->
+          <figcaption>Estado inicial del hardware del clúster llamado Núcster</figcaption>  
+          </figure>
+        </section>
+        <section aria-labelledby="arquitectura-titulo">
+          <h2 id="arquitectura-titulo">Arquitectura</h2>
+            <p>
+              Lo que aún no está decidido estoy en la fase de planificar, y mucho queda aún por decidir:
+            </p>
+            <ul>
+              <li>Cómo repartir los tres nodos: todos en el clúster Proxmox, o reservar uno para copias de seguridad con Proxmox Backup Server.</li>
+              <li>La topología de Kubernetes: cuántos nodos de control y cuántos de trabajo, clusterizar y todo lo que requiere y conlleva es completamente nuevo para mí.</li>
+              <li>Cómo garantizar servicios como el DNS (Pi-hole) si cae un nodo.</li>
+            </ul>    
+        </section>
+        <section aria-labelledby="documentacion-titulo">
+          <h2 id="documentacion-titulo">Sobre la Documentación</h2>                                                                              
+          <p>
+          Iré anotando cada decisión con su razonamiento, y también cuando me equivoque y tenga que rectificar en dos formatos distendidos: el blog y un informe técnico. 
+          El blog será más informal, con capturas de pantalla y gráficos de consumo de recursos, mientras que el informe técnico será más formal, con diagramas de red y tablas de configuración.
+          </p>
+          <p>
+          *Todos los datos capturas serán tratados antes de ser publicados para no comprometer la seguridad de mi homelab, de mi red, o de mi privacidad.
+          </p>
+        </section>
+        <section aria-labelledby="entradasrecientes">
+          <h2 id="entradasrecientes">Entradas Recientes</h2>
+          <ul>
+             <li>
+              <a href="../../../content/posts/nucster/cluster01elgermen.html">Clúster 01 - El germen</a>
+            </li>
+             <li>
+              <a href="../../../content/posts/nucster/cluster02primerospasos.html">Clúster 02 - Primeros pasos</a>
+            </li>
+          </ul>
+        </section>
+    </article>
+    </main>
+    
+    <footer>
+      <p>Christian Comes - octubre de 2026</p>
+    </footer>
+  </body>
+</html>

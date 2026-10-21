@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Informe técnico INF-2026-03: resultados de validación normativa (W3C), navegación por teclado y prueba sin imágenes del sitio. Registro de incidencias corregidas.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="INF-2026-03 - Validación y accesibilidad del sitio">
+    <meta property="og:description" content="Informe técnico INF-2026-03: resultados de validación normativa (W3C), navegación por teclado y prueba sin imágenes del sitio. Registro de incidencias corregidas.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/informes/nucster/informe-validacion.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>INF-2026-03 - Validación y accesibilidad del sitio</title>
+        <style>
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+               oculto visualmente hasta que recibe el foco del teclado. */
+            .saltar-contenido {
+                position: absolute;
+                left: -10000px;
+            }
+            .saltar-contenido:focus {
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1000;
+                padding: 0.75rem 1rem;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 0 0 0.25rem 0;
+            }
+        </style>
+    </head>
+
+<body>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+<header>
+        <p>Informe INF-2026-03 - Validación</p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mi</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="../../posts/nucster/inventario.html">Inventario</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="contenido">
+        <article id="inf-2026-03">
+            <header>
+                <h1>Informe técnico INF-2026-03: validación y accesibilidad del sitio</h1>
+                <table>
+                    <caption>Ficha del documento</caption>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Referencia</th>
+                            <td>INF-2026-03</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Versión</th>
+                            <td>1.2</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fecha de emisión</th>
+                            <td>18 de octubre de 2026</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Autor</th>
+                            <td>Christian Comes</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Destinatario</th>
+                            <td>Evaluación del módulo LMSGI (Lenguajes de Marcas), Quincena 3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Estado</th>
+                            <td>En revisión</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </header>
+
+            <section aria-labelledby="resumen">
+                <h2 id="resumen">1. Resumen ejecutivo</h2>
+                <p>Se recogen en este informe los resultados de la campaña de verificación ejecutada el 18 de
+                    octubre de 2026 sobre la totalidad del sitio (15 páginas, tras el alta de la página CV): validación normativa de marcado
+                    contra el validador del W3C, prueba de accesibilidad mediante navegación por teclado y
+                    prueba de legibilidad sin imágenes. El sitio obtiene resultado satisfactorio en las tres
+                    pruebas: 0 errores y 0 avisos de validación en las 15 páginas, 158 elementos interactivos
+                    alcanzables con la tecla <kbd>Tab</kbd> y contenido legible con las imágenes deshabilitadas.
+                    Las incidencias detectadas durante la quincena se detallan en el apartado 6, todas
+                    resueltas.</p>
+            </section>
+
+            <section aria-labelledby="alcance">
+                <h2 id="alcance">2. Alcance y metodología</h2>
+                <p>El alcance comprende las 15 páginas públicas del sitio: 5 páginas fijas (inicio, sobre mí,
+                    proyectos, contacto y CV), 2 entradas de la bitácora del clúster, 1 página de inventario
+                    histórico, 3 entradas de la serie de elaboración del sitio (portfolio) y 4 páginas de
+                    informes técnicos (índice y referencias INF-2026-01 a INF-2026-03).</p>
+                <table>
+                    <caption>Pruebas ejecutadas, herramienta y fuente de evidencia</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Prueba</th>
+                            <th scope="col">Herramienta</th>
+                            <th scope="col">Procedimiento</th>
+                            <th scope="col">Evidencia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Validación normativa</th>
+                            <td>Nu Html Checker del W3C (validator.w3.org/nu), salida JSON</td>
+                            <td>Envío del código fuente de cada página y recogida de errores y avisos</td>
+                            <td><code>evidencias/ud3/Validador/</code> (15 informes JSON y resumen)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Navegación por teclado</th>
+                            <td>geckodriver 0.37.1 + Mozilla Firefox 158.0 (headless) por WebDriver</td>
+                            <td>Pulsación secuencial de <kbd>Tab</kbd> registrando
+                                <code>document.activeElement</code> hasta cerrar el ciclo; captura del anillo
+                                de foco en primer, intermedio y último elemento</td>
+                            <td><code>evidencias/ud3/Teclado/recorrido_teclado.md</code> y 45 capturas</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Sin imágenes</th>
+                            <td>Brave Browser 155.1.97.57 (headless, Chromium)</td>
+                            <td>Carga con <code>--blink-settings=imagesEnabled=false</code> y captura a
+                                1280×1600 px</td>
+                            <td><code>evidencias/ud3/Sin_imagenes/</code> (4 capturas y nota de pruebas)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Apunte sobre CSS: el sitio no enlaza ningún fichero de hoja de estilos externo, por lo que la
+                    prueba «sin CSS» queda cubierta de forma intrínseca: las capturas corresponden ya al
+                    documento renderizado sin estilos externos, con la hoja por defecto del navegador.</p>
+            </section>
+
+            <section aria-labelledby="w3c">
+                <h2 id="w3c">3. Resultado de la validación normativa (W3C)</h2>
+                <table>
+                    <caption>Resultados por página (Nu Html Checker, 18/10/2026)</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Página</th>
+                            <th scope="col">Errores</th>
+                            <th scope="col">Avisos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">index.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">proyectos.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">sobremi.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">contacto.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                                <tr>
+                            <th scope="row">cv-es.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+<tr>
+                            <th scope="row">cluster01elgermen.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">cluster02primerospasos.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">inventario.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">portfolio01planificacion.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">portfolio02construccion.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">portfolio03validacion.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">content/informes/nucster/index.html</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">informe-cluster01.html (INF-2026-01)</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">informe-cluster02.html (INF-2026-02)</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">informe-validacion.html (INF-2026-03)</th>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section aria-labelledby="teclado">
+                <h2 id="teclado">4. Resultado de la navegación por teclado</h2>
+                <p>Se verifica que todos los elementos interactivos de cada página son alcanzables con
+                    <kbd>Tab</kbd> en orden secuencial y que el navegador dibuja el anillo de foco visible:</p>
+                <table>
+                    <caption>Elementos alcanzados con Tab por página</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Página</th>
+                            <th scope="col">Elementos alcanzados</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">index.html</th>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">proyectos.html</th>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">sobremi.html</th>
+                            <td>7</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">contacto.html</th>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">cv-es.html</th>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">cluster01elgermen.html</th>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">cluster02primerospasos.html</th>
+                            <td>17</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">inventario.html</th>
+                            <td>7</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">portfolio01planificacion.html</th>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">portfolio02construccion.html</th>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">portfolio03validacion.html</th>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">content/informes/nucster/index.html</th>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">informe-cluster01.html (INF-2026-01)</th>
+                            <td>14</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">informe-cluster02.html (INF-2026-02)</th>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">informe-validacion.html (INF-2026-03)</th>
+                            <td>11</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Total: 158 elementos interactivos alcanzables con Tab en las 15 páginas.</strong>
+                    En cluster02 se incluyen las 8 paradas de foco de los controles nativos del reproductor de
+                    vídeo, que también son operables por teclado. El detalle paso a paso de cada recorrido y las
+                    45 capturas de foco se conservan en <code>evidencias/ud3/Teclado/</code>, junto con el
+                    script <code>test_teclado.py</code> que permite repetir la prueba de forma reproducible.</p>
+            </section>
+
+            <section aria-labelledby="sinmedios">
+                <h2 id="sinmedios">5. Resultado de la prueba sin imágenes</h2>
+                <p>Con las imágenes deshabilitadas, el contenido textual, la jerarquía de encabezados, las
+                    tablas y los enlaces se leen íntegramente; los huecos de las figuras muestran el texto
+                    alternativo, por lo que la información de cada imagen no se pierde. Se adjuntan 4 capturas:
+                    una de referencia con imágenes (index.html) y tres sin imágenes (index.html, la entrada
+                    cluster02 con mayor densidad gráfica y el informe INF-2026-02), en
+                    <code>evidencias/ud3/Sin_imagenes/</code>.</p>
+            </section>
+
+            <section aria-labelledby="incidencias">
+                <h2 id="incidencias">6. Incidencias de validación detectadas y resueltas</h2>
+                <table>
+                    <caption>Incidencias del ciclo de validación de la Quincena 3</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Referencia</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Página afectada</th>
+                            <th scope="col">Resolución</th>
+                            <th scope="col">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">INC-01</th>
+                            <td><code>Element ul not allowed as child of element ul</code>: la sublista de
+                                almacenamiento quedaba huérfana dentro de la lista madre</td>
+                            <td>cluster01elgermen.html</td>
+                            <td>Reanidamiento: el cierre <code>&lt;/li&gt;</code> de la fila de almacenamiento
+                                se desplazó después del cierre de la sublista</td>
+                            <td>Resuelta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-02</th>
+                            <td><code>Element title must not be empty</code> y documento sin contenido
+                                (atributo <code>lang</code> vacío, sin encabezado principal)</td>
+                            <td>inventario.html</td>
+                            <td>Reconstrucción completa de la página como acceso directo histórico al
+                                inventario</td>
+                            <td>Resuelta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-03</th>
+                            <td><code>Stray end tag th</code>: etiqueta de cierre desajustada en la tabla de
+                                VLANs</td>
+                            <td>informe-cluster02.html (INF-2026-02)</td>
+                            <td>Corrección de la etiqueta y revalidación completa del sitio (10 páginas entonces; 15 hoy)</td>
+                            <td>Resuelta</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section aria-labelledby="conclusiones">
+                <h2 id="conclusiones">7. Conclusiones y trabajo futuro</h2>
+                <p>El sitio queda verificado como apto en las tres pruebas ejecutadas: marcado normativo
+                    correcto, navegación completa por teclado con foco visible y contenido legible sin medios
+                    externos. Quedan fuera del alcance de este informe pruebas de contraste cromático, ampliación
+                    de texto al 200 % y evaluación con lector de pantalla, recogidas en el documento de
+                    auditoría de accesibilidad del Tema 3.</p>
+                <p>Como trabajo futuro de verificación: añadir la etiqueta <code>canonical</code> — la URL definitiva
+                    de GitHub Pages ya es conocida (<code>https://christiancomes.github.io/Portfolio/</code>) —
+                    y repetir esta campaña de validación tras cada alta de páginas.</p>
+            </section>
+
+            <section aria-labelledby="referencias">
+                <h2 id="referencias">8. Referencias</h2>
+                <ul>
+                    <li>Índice: <a href="index.html">Informes técnicos</a>.</li>
+                    <li>Informe: <a href="informe-cluster01.html">INF-2026-01 - Fase de planificación</a>.</li>
+                    <li>Informe: <a href="informe-cluster02.html">INF-2026-02 - Puesta en servicio del clúster
+                        Proxmox</a>.</li>
+                    <li>Bitácora: <a href="../../posts/nucster/cluster01elgermen.html">Clúster 01 - El germen</a>.</li>
+                    <li>Bitácora: <a href="../../posts/nucster/cluster02primerospasos.html">Clúster 02 - Primeros
+                        pasos</a>.</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Christian Comes - octubre de 2026</p>
+    </footer>
+</body>
+</html>

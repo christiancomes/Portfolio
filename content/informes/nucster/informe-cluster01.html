@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Informe técnico INF-2026-01: fase de planificación del clúster Núcster. Objetivos, inventario de hardware, decisiones de diseño pendientes, riesgos y criterios de documentación.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="INF-2026-01 - Informe de planificación del clúster">
+    <meta property="og:description" content="Informe técnico INF-2026-01: fase de planificación del clúster Núcster. Objetivos, inventario de hardware, decisiones de diseño pendientes, riesgos y criterios de documentación.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/informes/nucster/informe-cluster01.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>INF-2026-01 - Informe de planificación del clúster</title>
+        <style>
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+               oculto visualmente hasta que recibe el foco del teclado. */
+            .saltar-contenido {
+                position: absolute;
+                left: -10000px;
+            }
+            .saltar-contenido:focus {
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1000;
+                padding: 0.75rem 1rem;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 0 0 0.25rem 0;
+            }
+        </style>
+    </head>
+
+<body>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+<header>
+        <p>Informe INF-2026-01 - Núcster</p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mi</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="../../posts/nucster/inventario.html">Inventario</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="contenido">
+        <article id="inf-2026-01">
+            <header>
+                <h1>Informe técnico INF-2026-01: fase de planificación del clúster Núcster</h1>
+                <table>
+                    <caption>Ficha del documento</caption>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Referencia</th>
+                            <td>INF-2026-01</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Versión</th>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fecha de emisión</th>
+                            <td>17 de octubre de 2026</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Autor</th>
+                            <td>Christian Comes</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Destinatario</th>
+                            <td>Evaluación del módulo LMSGI (Lenguajes de Marcas), Quincena 3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Estado</th>
+                            <td>En revisión</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </header>
+
+            <section aria-labelledby="resumen">
+                <h2 id="resumen">1. Resumen ejecutivo</h2>
+                <p>El presente informe documenta la fase de planificación del proyecto de laboratorio denominado
+                    <strong>Núcster</strong>: un clúster de tres mini PC Intel NUC6CAYH sobre el que se
+                    desplegará una infraestructura de virtualización con Proxmox y, en una capa superior, un
+                    clúster de Kubernetes alojado en máquinas virtuales. La fase cubierta por este documento es
+                    exclusivamente de planificación: se describe el hardware disponible, los objetivos del
+                    proyecto, las decisiones de diseño aún abiertas y los criterios de documentación adoptados.
+                    La puesta en servicio se documenta en el informe
+                    <a href="informe-cluster02.html">INF-2026-02</a>.</p>
+            </section>
+
+            <section aria-labelledby="objetivos">
+                <h2 id="objetivos">2. Objetivos y alcance</h2>
+                <h3>2.1 Objetivo general</h3>
+                <p>Construir y documentar, paso a paso y sin ocultar los errores, un laboratorio de sistemas
+                    basado en un clúster de tres mini PC con virtualización, red segmentada y orquestación de
+                    contenedores, con fines formativos y de demostración práctica de competencias.</p>
+                <h3>2.2 Objetivos específicos</h3>
+                <ul>
+                    <li>Desplegar un clúster Proxmox de tres nodos con quórum estable.</li>
+                    <li>Segmentar la red del laboratorio mediante VLANs sobre el switch gestionable disponible.</li>
+                    <li>Estudiar cada capa de forma independiente antes de integrarla: virtualización, redes,
+                        almacenamiento y, por último, orquestación de contenedores (Kubernetes).</li>
+                    <li>Mantener el laboratorio separado del homelab de producción personal (homeserver), de modo
+                        que los experimentos no comprometan los servicios en uso.</li>
+                    <li>Documentar el proceso en dos formatos: bitácora de blog e informe técnico.</li>
+                </ul>
+                <h3>2.3 Alcance</h3>
+                <p>Quedan fuera del alcance de este informe la instalación y configuración de los componentes de
+                    software, que se detallan en <a href="informe-cluster02.html">INF-2026-02</a>, así como
+                    cualquier despliegue de servicios de producción.</p>
+            </section>
+
+            <section aria-labelledby="inventario">
+                <h2 id="inventario">3. Inventario de hardware disponible</h2>
+                <p>El inventario inicial del laboratorio queda constituido por los siguientes elementos:</p>
+                <table>
+                    <caption>Inventario de nodos de cómputo</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Elemento</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">CPU</th>
+                            <th scope="col">RAM</th>
+                            <th scope="col">Unidades</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Mini PC</th>
+                            <td>Intel NUC6CAYH</td>
+                            <td>Intel Celeron J3455 (4 núcleos) @ 2,30 GHz</td>
+                            <td>8 GB por equipo</td>
+                            <td>3</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <caption>Inventario de almacenamiento y red</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Marca y modelo</th>
+                            <th scope="col">Asignación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">SSD 2,5"</th>
+                            <td>Crucial BX500 1 TB</td>
+                            <td>nucster10</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">SSD 2,5"</th>
+                            <td>Crucial BX500 1 TB</td>
+                            <td>nucster20</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">SSD 2,5"</th>
+                            <td>Samsung 860 EVO 250 GB</td>
+                            <td>nucster30</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Switch gestionable</th>
+                            <td>Zyxel GS1200-8 (VLAN 802.1Q; gestión exclusivamente web; sin LACP)</td>
+                            <td>Conmutación y segmentación del laboratorio</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Adaptador de red USB</th>
+                            <td>RyuuOto 1000 Mbps</td>
+                            <td>WAN dedicada en nucster30 (junto a pfSense)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Cada equipo dispone de una única tarjeta de red integrada, con la excepción de
+                    nucster30, que contará con el adaptador USB-Ethernet adicional indicado. El detalle por nodo
+                    con sus direcciones de gestión se recoge en la página
+                    <a href="../../posts/nucster/inventario.html">Inventario de hardware</a> y en el apartado 3 de
+                    <a href="informe-cluster02.html">INF-2026-02</a>.</p>
+            </section>
+
+            <section aria-labelledby="arquitectura">
+                <h2 id="arquitectura">4. Arquitectura prevista</h2>
+                <p>La arquitectura se plantea por capas, de abajo arriba, de modo que cada una pueda estudiarse
+                    y validarse antes de pasar a la siguiente:</p>
+                <ol>
+                    <li><strong>Capa física:</strong> tres mini PC NUC6CAYH y un switch gestionable Zyxel
+                        GS1200-8 con soporte de VLAN 802.1Q.</li>
+                    <li><strong>Capa de virtualización:</strong> clúster Proxmox sobre los tres nodos, con
+                        quórum y réplica de máquinas virtuales entre nodos.</li>
+                    <li><strong>Capa de red:</strong> segmentación mediante VLANs (gestión, LAN tras pfSense,
+                        laboratorio y WAN), con nucster30 como futura casa de pfSense.</li>
+                    <li><strong>Capa de orquestación:</strong> clúster de Kubernetes desplegado sobre máquinas
+                        virtuales de Proxmox, cuya topología aún no está fijada (apartado 5).</li>
+                </ol>
+            </section>
+
+            <section aria-labelledby="decisiones">
+                <h2 id="decisiones">5. Decisiones de diseño pendientes</h2>
+                <p>En la fecha de emisión de este informe permanecen abiertas las siguientes decisiones:</p>
+                <table>
+                    <caption>Decisiones pendientes</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Referencia</th>
+                            <th scope="col">Decisión</th>
+                            <th scope="col">Opciones consideradas</th>
+                            <th scope="col">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">DEC-01</th>
+                            <td>Reparto de los tres nodos</td>
+                            <td>Dedicar los tres al clúster Proxmox, o reservar uno para copias de seguridad con
+                                Proxmox Backup Server</td>
+                            <td>Abierta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">DEC-02</th>
+                            <td>Topología del clúster de Kubernetes</td>
+                            <td>Número de nodos de control y de nodos de trabajo</td>
+                            <td>Abierta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">DEC-03</th>
+                            <td>Alta disponibilidad de servicios críticos</td>
+                            <td>Garantizar la continuidad del DNS (Pi-hole) ante la caída de un nodo</td>
+                            <td>Abierta</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section aria-labelledby="riesgos">
+                <h2 id="riesgos">6. Riesgos identificados</h2>
+                <table>
+                    <caption>Registro de riesgos iniciales</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Referencia</th>
+                            <th scope="col">Riesgo</th>
+                            <th scope="col">Impacto</th>
+                            <th scope="col">Mitigación prevista</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">RSK-01</th>
+                            <td>Capacidad y desgaste desiguales de los SSD (250 GB frente a 1 TB)</td>
+                            <td>Alto en almacenamiento</td>
+                            <td>Excluir Ceph de producción; optar por réplica entre nodos o NFS</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">RSK-02</th>
+                            <td>Una sola interfaz de red por equipo</td>
+                            <td>Medio en red</td>
+                            <td>Reservar el adaptador USB-Ethernet de nucster30 a WAN dedicada; evitar trunk sobre
+                                interfaces USB</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">RSK-03</th>
+                            <td>Switch sin agregación de enlaces (LACP) y sin línea de comandos</td>
+                            <td>Bajo</td>
+                            <td>Planificar la segmentación con VLANs y aceptar el ancho de banda de un solo
+                                enlace por nodo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">RSK-04</th>
+                            <td>Falta de experiencia previa en orquestación de contenedores</td>
+                            <td>Medio en plazos</td>
+                            <td>Abordar Kubernetes únicamente tras estabilizar las capas inferiores</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section aria-labelledby="documentacion">
+                <h2 id="documentacion">7. Criterios de documentación</h2>
+                <p>Se establece un esquema de documentación dual para el proyecto:</p>
+                <ul>
+                    <li><strong>Bitácora (blog):</strong> relato informal del proceso, con capturas de pantalla y
+                        gráficos de consumo de recursos. Cada avance relevante genera una entrada.</li>
+                    <li><strong>Informe técnico:</strong> documento formal, con tablas de configuración,
+                        procedimientos, registro de incidencias y conclusiones. Es el formato que se recoge en
+                        este repositorio.</li>
+                </ul>
+                <p>Asimismo, se establece como requisito previo a la publicación que todo dato capturado sea
+                    sanitizado para no comprometer la seguridad del homelab, de la red doméstica ni la privacidad
+                    del autor (direcciones IP externas, credenciales, seriales de equipos, MAC e identificadores
+                    de red interna).</p>
+            </section>
+
+            <section aria-labelledby="conclusiones">
+                <h2 id="conclusiones">8. Conclusiones y trabajo futuro</h2>
+                <p>El hardware disponible resulta suficiente para los objetivos formativos previstos, con
+                    margen suficiente para un clúster de virtualización de tres nodos, si bien el nodo con
+                    almacenamiento de 250 GB y desgaste del 18 % condiciona la estrategia de almacenamiento y
+                    queda registrado como riesgo RSK-01. Las decisiones DEC-01 a DEC-03 deberán resolverse antes
+                    de abordar la capa de orquestación.</p>
+                <p>El trabajo futuro inmediato consiste en la puesta en servicio de los tres nodos, cuyo
+                    procedimiento, validación e incidencias se recogen en el informe
+                    <a href="informe-cluster02.html">INF-2026-02</a>.</p>
+            </section>
+
+            <section aria-labelledby="referencias">
+                <h2 id="referencias">9. Referencias</h2>
+                <ul>
+                    <li>Bitácora: <a href="../../posts/nucster/cluster01elgermen.html">Clúster 01 - El germen</a>.</li>
+                    <li><a href="../../posts/nucster/inventario.html">Inventario de hardware de Núcster</a>.</li>
+                    <li>Informe: <a href="informe-cluster02.html">INF-2026-02 - Puesta en servicio del clúster
+                        Proxmox</a>.</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Christian Comes - octubre de 2026</p>
+    </footer>
+</body>
+</html>

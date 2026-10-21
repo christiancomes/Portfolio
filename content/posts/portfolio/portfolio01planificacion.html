@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Cómo se planificó este sitio portfolio: de la asignatura LMSGI al mapa de páginas, los dos formatos de documentación y las decisiones de estructura.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="Portfolio 01 - Planificación">
+    <meta property="og:description" content="Cómo se planificó este sitio portfolio: de la asignatura LMSGI al mapa de páginas, los dos formatos de documentación y las decisiones de estructura.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/posts/portfolio/portfolio01planificacion.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>Portfolio 01 - Planificación</title>
+        <style>
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+               oculto visualmente hasta que recibe el foco del teclado. */
+            .saltar-contenido {
+                position: absolute;
+                left: -10000px;
+            }
+            .saltar-contenido:focus {
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1000;
+                padding: 0.75rem 1rem;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 0 0 0.25rem 0;
+            }
+        </style>
+    </head>
+
+<body>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+<header>
+        <p>Portfolio 01 - Planificación</p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mi</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="../nucster/inventario.html">Inventario</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="contenido">
+        <article id="portfolio01" data-estado="revision">
+            <header>
+                <h1>Portfolio 01 - Planificación: esto es lo que quería que fuera esta web</h1>
+                <p>Antes de escribir una línea de HTML hubo un buen rato mirando el techo. Esta entrada es el
+                    cuaderno de esa fase: de dónde salió la idea, cómo se organiza el contenido y qué decisiones
+                    de estructura se tomaron (y cuáles siguen sin tomar).</p>
+            </header>
+
+            <section aria-labelledby="asignatura">
+                <h2 id="asignatura">1. De la asignatura al sitio</h2>
+                <p>El sitio nace dentro del módulo de Lenguajes de Marcas y Sistemas de Gestión de la
+                    Información, del grado de ASIR. Pero no quería una web de prácticas desechable: quería un
+                    portfolio que documentara la elaboración del propio sitio — la paradoja es deliberada,
+                    porque así cada decisión queda explicada el día que se toma y no seis meses después,
+                    reconstruida de memoria.</p>
+                <p>El hosting se resolvió en octubre de 2026: <strong>GitHub</strong> (y GitHub Pages). El sitio
+                    es HTML estático sin build, así que la publicación es una copia del repositorio y nada
+                    más.</p>
+            </section>
+
+            <section aria-labelledby="dosformatos">
+                <h2 id="dosformatos">2. Dos formatos por contrato</h2>
+                <p>La decisión de documental más importante no la tomé yo solo: la tomé al planificar el
+                    clúster y la cumplí después. En la entrada
+                    <a href="../nucster/cluster01elgermen.html">Clúster 01 - El germen</a> quedó escrito que
+                    cada avance se contaría en dos formatos: la <strong>bitácora</strong> del blog, distendida,
+                    con capturas y sustos; y el <strong>informe técnico</strong>, formal, con tablas,
+                    procedimientos e incidencias. Este sitio lo cumple: los informes viven en su propio árbol y
+                    la bitácora sigue en <code>content/posts/</code>.</p>
+            </section>
+
+            <section aria-labelledby="estructura">
+                <h2 id="estructura">3. El menú y las páginas, en su primera versión sensata</h2>
+                <p>El menú pasó por fases. Hubo una época en la que existía una página de contacto con
+                    formulario; se eliminó en la primera evaluación porque era una prueba y porque los
+                    formularios aún no se habían visto en clase. Ahora mismo el menú son cinco elementos
+                    fijos — Inicio, Sobre mi, Proyectos, Inventario y Contacto — y la página de contacto ha
+                    vuelto <em>sin formulario</em>, a propósito, con el aviso de que vendrá cuando el módulo
+                    llegue a esa práctica.</p>
+                <p>Las entradas de blog no van en el menú: se enlazan desde el catálogo
+                    <a href="../../../proyectos.html">Proyectos</a> y desde el bloque «Entradas Recientes».
+                    Con la navegación saturada de enlaces se llega a ningún sitio con comodidad, y el menú
+                    tiene que leerse en dos segundos.</p>
+            </section>
+
+            <section aria-labelledby="pendientes">
+                <h2 id="pendientes">4. Lo que queda por diseñar (y no he tocado aún)</h2>
+                <ul>
+                    <li><strong>Hoja de estilos:</strong> el sitio se apoya hoy en HTML semántico puro y en la
+                        hoja por defecto del navegador. Paleta, tipografías, contraste y wireframes vendrán con
+                        el bloque de diseño de la guía.</li>
+                    <li><strong>SEO técnico:</strong> las etiquetas <code>og:url</code> y <code>og:image</code>
+                        se completaron el 18/10 con la URL definitiva de GitHub Pages
+                        (<code>https://christiancomes.github.io/Portfolio/</code>); queda la etiqueta
+                        <code>canonical</code>.</li>
+                    <li><strong>Accesibilidad avanzada:</strong> el enlace «Saltar al contenido» y otras
+                        mejoras están anotados en la auditoría del Tema 3.</li>
+                </ul>
+            </section>
+
+            <section aria-labelledby="cierre">
+                <h2 id="cierre">5. Cierre</h2>
+                <p>La planificación de esta web fue corta porque venía de la anterior: ya sabía qué me había
+                    costado documentar el clúster a posteriori, y esta vez quise que cada pieza tuviera su sitio
+                    desde el principio. La siguiente entrada cuenta cómo se construyó.</p>
+            </section>
+
+            <section aria-labelledby="serie">
+                <h2 id="serie">Serie: elaboración del sitio</h2>
+                <ul>
+                    <li><a href="portfolio01planificacion.html">Portfolio 01 - Planificación (esta entrada)</a></li>
+                    <li><a href="portfolio02construccion.html">Portfolio 02 - Construcción</a></li>
+                    <li><a href="portfolio03validacion.html">Portfolio 03 - Validación y accesibilidad</a></li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Christian Comes - octubre de 2026</p>
+    </footer>
+</body>
+</html>

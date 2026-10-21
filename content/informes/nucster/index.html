@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Índice de informes técnicos del clúster Núcster: documentos formales complementarios a la bitácora del blog.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="Informes técnicos">
+    <meta property="og:description" content="Índice de informes técnicos del clúster Núcster: documentos formales complementarios a la bitácora del blog.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/informes/nucster/index.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>Informes técnicos</title>
+        <style>
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+               oculto visualmente hasta que recibe el foco del teclado. */
+            .saltar-contenido {
+                position: absolute;
+                left: -10000px;
+            }
+            .saltar-contenido:focus {
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1000;
+                padding: 0.75rem 1rem;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 0 0 0.25rem 0;
+            }
+        </style>
+    </head>
+
+<body>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+<header>
+        <p>Christian Comes Homelab - Informes técnicos</p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mi</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="../../posts/nucster/inventario.html">Inventario</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="contenido">
+        <article id="informes">
+            <header>
+                <h1>Informes técnicos</h1>
+                <p>La documentación de este proyecto se publica en dos formatos complementarios, tal y como se
+                    estableció en la fase de planificación (ver
+                    <a href="informe-cluster01.html">INF-2026-01</a>, apartado 6): la <strong>bitácora</strong>
+                    del blog, de tono distendido, con capturas y gráficos de consumo de recursos; y el
+                    <strong>informe técnico</strong>, de formato formal, con tablas de configuración,
+                    procedimientos, registro de incidencias y conclusiones.</p>
+                <p>Los informes no sustituyen a las entradas del blog: la bitácora conserva el relato del día a
+                    día y los errores tal y como ocurrieron; este repositorio concentra la información en estado
+                    consolidado, con vocación de documento de referencia.</p>
+            </header>
+
+            <table>
+                <caption>Catálogo de informes técnicos</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Referencia</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Fecha de emisión</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Documento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">INF-2026-01</th>
+                        <td>Clúster 01: fase de planificación</td>
+                        <td>17 de octubre de 2026</td>
+                        <td>En revisión</td>
+                        <td><a href="informe-cluster01.html">Abrir informe</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">INF-2026-02</th>
+                        <td>Clúster 02: puesta en servicio del clúster Proxmox</td>
+                        <td>17 de octubre de 2026</td>
+                        <td>En revisión</td>
+                        <td><a href="informe-cluster02.html">Abrir informe</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">INF-2026-03</th>
+                        <td>Validación y accesibilidad del sitio</td>
+                        <td>18 de octubre de 2026</td>
+                        <td>En revisión</td>
+                        <td><a href="informe-validacion.html">Abrir informe</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="convenciones">Convenciones de los informes</h2>
+            <ul>
+                <li>Cada informe se identifica con una referencia <code>INF-AAAA-NN</code> y una versión.</li>
+                <li>Las incidencias se referencian con el código <code>INC-NN</code> dentro de su informe.</li>
+                <li>Todos los datos publicados se sanitizan previamente: no se publican IPs públicas, seriales,
+                    credenciales ni información que permita identificar la red doméstica real del autor.</li>
+            </ul>
+        </article>
+    </main>
+    <footer>
+        <p>Christian Comes - octubre de 2026</p>
+    </footer>
+</body>
+</html>

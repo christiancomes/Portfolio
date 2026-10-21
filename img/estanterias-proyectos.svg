@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="100%" height="100%">
+  <defs>
+    <!-- Estilos base visuales -->
+    <style>
+      .bg-wall { fill: #121212; }
+      .wood-frame { fill: #3e2723; stroke: #271c19; stroke-width: 8; }
+      .wood-shelf { fill: #5d4037; stroke: #2c1d1a; stroke-width: 4; }
+      .header-lm { fill: #ff9800; rx: 5; }
+      .header-hl { fill: #0288d1; rx: 5; }
+      .text-header { font-family: 'Segoe UI', Arial, sans-serif; font-weight: bold; font-size: 18px; text-anchor: middle; }
+      .text-header-dark { fill: #000000; }
+      .text-header-light { fill: #ffffff; }
+      .shelf-label { font-family: 'Segoe UI', Arial, sans-serif; font-weight: bold; font-size: 12px; fill: #b0bec5; }
+      .book-text { font-family: 'Segoe UI', Arial, sans-serif; font-weight: bold; font-size: 11px; fill: #ffffff; text-anchor: middle; }
+      
+      /* Libros */
+      .book { rx: 3; ry: 3; stroke: rgba(0,0,0,0.3); stroke-width: 1; }
+      .b-orange { fill: #e65100; }
+      .b-amber  { fill: #ff8f00; }
+      .b-teal   { fill: #00695c; }
+      .b-blue   { fill: #1565c0; }
+      .b-purple { fill: #6a1b9a; }
+      .b-green  { fill: #2e7d32; }
+      .b-red    { fill: #c62828; }
+      .b-grey   { fill: #455a64; }
+    </style>
+  </defs>
+
+  <!-- Fondo de pared -->
+  <rect width="1000" height="650" class="bg-wall" />
+
+  <!-- ================= ESTANTERÍA 1: LENGUAJES DE MARCAS ================= -->
+  <g id="estanteria-lenguajes-marcas" transform="translate(30, 20)">
+    <!-- Marco de madera -->
+    <rect x="0" y="0" width="440" height="600" class="wood-frame" />
+    
+    <!-- Cartela de cabecera -->
+    <rect x="20" y="20" width="400" height="40" class="header-lm" />
+    <text x="220" y="46" class="text-header text-header-dark">LENGUAJES DE MARCAS</text>
+
+    <!-- Balda 1: Web & Maquetación -->
+    <g transform="translate(20, 80)">
+      <text x="5" y="15" class="shelf-label">BALDA 1: WEB &amp; MAQUETACIÓN (TEMAS 1 - 4)</text>
+      <!-- Libros -->
+      <rect x="10" y="25" width="85" height="90" class="book b-orange" />
+      <text x="52" y="75" class="book-text">T1: Marcas</text>
+
+      <rect x="105" y="25" width="90" height="90" class="book b-amber" />
+      <text x="150" y="75" class="book-text">T2: HTML5</text>
+
+      <rect x="205" y="25" width="95" height="90" class="book b-amber" />
+      <text x="252" y="75" class="book-text">T3: HTML Av.</text>
+
+      <rect x="310" y="25" width="80" height="90" class="book b-amber" />
+      <text x="350" y="75" class="book-text">T4: Forms</text>
+
+      <!-- Estante de madera -->
+      <rect x="0" y="115" width="400" height="15" class="wood-shelf" />
+    </g>
+
+    <!-- Balda 2: Estilos & JS -->
+    <g transform="translate(20, 230)">
+      <text x="5" y="15" class="shelf-label">BALDA 2: ESTILOS &amp; DINAMISMO (TEMAS 5 - 8)</text>
+      <!-- Libros -->
+      <rect x="10" y="25" width="85" height="90" class="book b-teal" />
+      <text x="52" y="75" class="book-text">T5: CSS Base</text>
+
+      <rect x="105" y="25" width="95" height="90" class="book b-teal" />
+      <text x="152" y="75" class="book-text">T6: Responsive</text>
+
+      <rect x="210" y="25" width="85" height="90" class="book b-blue" />
+      <text x="252" y="75" class="book-text">T7: JS / DOM</text>
+
+      <rect x="305" y="25" width="85" height="90" class="book b-purple" />
+      <text x="347" y="75" class="book-text">T8: RSS/Val.</text>
+
+      <!-- Estante de madera -->
+      <rect x="0" y="115" width="400" height="15" class="wood-shelf" />
+    </g>
+
+    <!-- Balda 3: XML & Empresa -->
+    <g transform="translate(20, 380)">
+      <text x="5" y="15" class="shelf-label">BALDA 3: XML, JSON &amp; ERP (TEMAS 9 - 13)</text>
+      <!-- Libros -->
+      <rect x="10" y="25" width="70" height="90" class="book b-red" />
+      <text x="45" y="75" class="book-text">T9: XML</text>
+
+      <rect x="85" y="25" width="75" height="90" class="book b-red" />
+      <text x="122" y="75" class="book-text">T10: XSLT</text>
+
+      <rect x="165" y="25" width="70" height="90" class="book b-green" />
+      <text x="200" y="75" class="book-text">T11: JSON</text>
+
+      <rect x="240" y="25" width="75" height="90" class="book b-green" />
+      <text x="277" y="75" class="book-text">T12: Datos</text>
+
+      <rect x="320" y="25" width="70" height="90" class="book b-grey" />
+      <text x="355" y="75" class="book-text">T13: ERP</text>
+
+      <!-- Estante de madera -->
+      <rect x="0" y="115" width="400" height="15" class="wood-shelf" />
+    </g>
+  </g>
+
+  <!-- ================= ESTANTERÍA 2: HOMELAB ================= -->
+  <g id="estanteria-homelab" transform="translate(530, 20)">
+    <!-- Marco de madera -->
+    <rect x="0" y="0" width="440" height="600" class="wood-frame" />
+    
+    <!-- Cartela de cabecera -->
+    <rect x="20" y="20" width="400" height="40" class="header-hl" />
+    <text x="220" y="46" class="text-header text-header-light">HOMELAB PORTFOLIO</text>
+
+    <!-- Balda 1: Hardware -->
+    <g transform="translate(20, 80)">
+      <text x="5" y="15" class="shelf-label">BALDA 1: HARDWARE &amp; BARE-METAL</text>
+      <!-- Libros / Componentes -->
+      <rect x="10" y="25" width="130" height="90" class="book b-blue" />
+      <text x="75" y="75" class="book-text">3x NUC6 (Núcster)</text>
+
+      <rect x="150" y="25" width="120" height="90" class="book b-blue" />
+      <text x="210" y="75" class="book-text">Switch L2/L3</text>
+
+      <rect x="280" y="25" width="110" height="90" class="book b-grey" />
+      <text x="335" y="75" class="book-text">Rack 3D Mount</text>
+
+      <!-- Estante de madera -->
+      <rect x="0" y="115" width="400" height="15" class="wood-shelf" />
+    </g>
+
+    <!-- Balda 2: Virtualización -->
+    <g transform="translate(20, 230)">
+      <text x="5" y="15" class="shelf-label">BALDA 2: VIRTUALIZACIÓN &amp; REDES</text>
+      <!-- Libros / Componentes -->
+      <rect x="10" y="25" width="95" height="90" class="book b-orange" />
+      <text x="57" y="75" class="book-text">Proxmox VE</text>
+
+      <rect x="110" y="25" width="90" height="90" class="book b-teal" />
+      <text x="155" y="75" class="book-text">PfSense MV</text>
+
+      <rect x="205" y="25" width="85" height="90" class="book b-teal" />
+      <text x="247" y="75" class="book-text">VLANs 802.1Q</text>
+
+      <rect x="295" y="25" width="95" height="90" class="book b-purple" />
+      <text x="342" y="75" class="book-text">Corosync HA</text>
+
+      <!-- Estante de madera -->
+      <rect x="0" y="115" width="400" height="15" class="wood-shelf" />
+    </g>
+
+    <!-- Balda 3: Orquestación -->
+    <g transform="translate(20, 380)">
+      <text x="5" y="15" class="shelf-label">BALDA 3: ORQUESTACIÓN &amp; SERVICIOS</text>
+      <!-- Libros / Componentes -->
+      <rect x="10" y="25" width="120" height="90" class="book b-green" />
+      <text x="70" y="75" class="book-text">Kubernetes (K3s)</text>
+
+      <rect x="140" y="25" width="120" height="90" class="book b-green" />
+      <text x="200" y="75" class="book-text">Ingress Controller</text>
+
+      <rect x="270" y="25" width="120" height="90" class="book b-grey" />
+      <text x="330" y="75" class="book-text">Prometheus/Grafana</text>
+
+      <!-- Estante de madera -->
+      <rect x="0" y="115" width="400" height="15" class="wood-shelf" />
+    </g>
+  </g>
+</svg>

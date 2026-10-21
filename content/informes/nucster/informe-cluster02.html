@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Informe técnico INF-2026-02: puesta en servicio del clúster Proxmox Núcster. Configuración de repositorios, red, formación del clúster, validación e incidencias registradas.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="INF-2026-02 - Informe de puesta en servicio del clúster">
+    <meta property="og:description" content="Informe técnico INF-2026-02: puesta en servicio del clúster Proxmox Núcster. Configuración de repositorios, red, formación del clúster, validación e incidencias registradas.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/informes/nucster/informe-cluster02.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>INF-2026-02 - Informe de puesta en servicio del clúster</title>
+        <style>
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+               oculto visualmente hasta que recibe el foco del teclado. */
+            .saltar-contenido {
+                position: absolute;
+                left: -10000px;
+            }
+            .saltar-contenido:focus {
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1000;
+                padding: 0.75rem 1rem;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 0 0 0.25rem 0;
+            }
+        </style>
+    </head>
+
+<body>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+<header>
+        <p>Informe INF-2026-02 - Núcster</p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mi</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="../../posts/nucster/inventario.html">Inventario</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="contenido">
+        <article id="inf-2026-02">
+            <header>
+                <h1>Informe técnico INF-2026-02: puesta en servicio del clúster Proxmox Núcster</h1>
+                <table>
+                    <caption>Ficha del documento</caption>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Referencia</th>
+                            <td>INF-2026-02</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Versión</th>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fecha de emisión</th>
+                            <td>17 de octubre de 2026</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Autor</th>
+                            <td>Christian Comes</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Destinatario</th>
+                            <td>Evaluación del módulo LMSGI (Lenguajes de Marcas), Quincena 3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Estado</th>
+                            <td>En revisión</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </header>
+
+            <section aria-labelledby="resumen">
+                <h2 id="resumen">1. Resumen ejecutivo</h2>
+                <p>Se describe en este informe la puesta en servicio de los tres nodos del clúster Núcster y la
+                    formación del clúster de virtualización. Durante la intervención se completaron las
+                    siguientes actuaciones: configuración de los repositorios de paquetes en modo comunitario
+                    (sin suscripción), actualización integral de los tres nodos a
+                    <code>pve-manager 9.2.21</code>, verificación de la identidad de red de los nodos, y
+                    formación del clúster con quórum estable de 3 de 3 nodos. Se registraron cuatro incidencias,
+                    todas ellas resueltas, entre ellas una de severidad alta derivada del uso de nombres de
+                    nodo con letras mayúsculas (INC-04). La intervención concluyó con el clúster operativo y
+                    validado.</p>
+            </section>
+
+            <section aria-labelledby="alcance">
+                <h2 id="alcance">2. Alcance y metodología</h2>
+                <p>El alcance de este informe se limita a la puesta en marcha inicial del clúster de
+                    virtualización. Quedan excluidos el despliegue de servicios sobre el clúster (pfSense,
+                    Kubernetes) y las pruebas de alta disponibilidad, que se abordarán en informes posteriores.</p>
+                <p>La metodología empleada consistió en: (i) verificación previa del estado de los nodos antes de
+                    cualquier cambio (lista de comprobación del apartado 4.4); (ii) aplicación de los
+                    procedimientos conforme a la documentación oficial de Proxmox y a la experiencia recogida en
+                    foros; y (iii) validación tras cada procedimiento antes de continuar.</p>
+            </section>
+
+            <section aria-labelledby="inventario">
+                <h2 id="inventario">3. Inventario vigente</h2>
+                <table>
+                    <caption>Inventario de nodos</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Nodo</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">CPU</th>
+                            <th scope="col">RAM</th>
+                            <th scope="col">SSD</th>
+                            <th scope="col">IP de gestión</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">nucster10</th>
+                            <td>NUC6CAYH</td>
+                            <td>Celeron J3455</td>
+                            <td>8 GB</td>
+                            <td>Crucial BX500 1 TB</td>
+                            <td>192.168.1.10</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">nucster20</th>
+                            <td>NUC6CAYH</td>
+                            <td>Celeron J3455</td>
+                            <td>8 GB</td>
+                            <td>Crucial BX500 1 TB</td>
+                            <td>192.168.1.20</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">nucster30</th>
+                            <td>NUC6CAYH</td>
+                            <td>Celeron J3455</td>
+                            <td>8 GB</td>
+                            <td>Samsung 860 EVO 250 GB</td>
+                            <td>192.168.1.30</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <caption>Inventario de otros dispositivos</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">IP de gestión</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Switch gestionado</th>
+                            <td>Zyxel</td>
+                            <td>GS1200-8</td>
+                            <td>192.168.1.3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Adaptador de red</th>
+                            <td>RyuuOto</td>
+                            <td>1000 Mbps</td>
+                            <td>No aplicable (WAN dedicada de nucster30)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Los discos de nucster10 y nucster20 (Crucial BX500 de 1 TB) se encontraban con desgaste al
+                    0 %, mientras que el Samsung 860 EVO de 250 GB de nucster30 presentaba un desgaste del 18 %
+                    y una partición raíz de 66 GB frente a los 93 GB de los otros dos nodos. En consecuencia, y
+                    conforme a RSK-01 del informe
+                    <a href="informe-cluster01.html">INF-2026-01</a>, se descarta Ceph para entornos productivos
+                    y se optará por réplica entre nodos o NFS para la alta disponibilidad de datos.</p>
+            </section>
+
+            <section aria-labelledby="configuracion">
+                <h2 id="configuracion">4. Configuración realizada</h2>
+
+                <h3>4.1 Repositorios de paquetes (modo comunitario)</h3>
+                <p>Los nodos llegaron configurados con el repositorio <code>enterprise</code>, que devuelve
+                    error HTTP 401 al no disponer de suscripción válida. Además, la versión instalada de Proxmox
+                    VE 9 utiliza ficheros de repositorio en formato DEB822 (<code>.sources</code>) y no los
+                    ficheros <code>.list</code> de versiones anteriores. Se procedió, en los tres nodos, a la
+                    realización de una copia de seguridad del fichero original, a la sustitución del repositorio
+                    por el espejo comunitario <code>download.proxmox.com</code> y al bloqueo del repositorio de
+                    Ceph:</p>
+                <pre><code>cp /etc/apt/sources.list.d/pve-enterprise.sources /root/pve-enterprise.sources.bak
+sed -i 's|https://enterprise.proxmox.com|http://download.proxmox.com|; s/Components: pve-enterprise/Components: pve-no-subscription/' /etc/apt/sources.list.d/pve-enterprise.sources
+echo "Enabled: false" &gt;&gt; /etc/apt/sources.list.d/ceph.sources
+apt update &amp;&amp; apt full-upgrade -y</code></pre>
+                <p>La actualización aplicó 182 paquetes por nodo y elevó el kernel de 7.0.2-6 a 7.0.14-23.
+                    Resultado verificado: <code>pve-manager 9.2.21</code> en los tres nodos. El aviso de
+                    suscripción se suprimió en la interfaz web mediante la manipulación habitual del elemento
+                    <code>void</code>, con recarga forzada del navegador
+                    (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>) para invalidar la caché del script; se
+                    advierte que el selector permanece en el código fuente como elemento muerto.</p>
+
+                <h3>4.2 Identificación de los nodos</h3>
+                <p>El clúster de Proxmox exige nombres de nodo en minúsculas y sin mayúsculas en ninguna
+                    posición. Se verificó la configuración de hostname de los tres nodos en minúsculas, así
+                    como el fichero <code>/etc/hosts</code> con una entrada por nodo. Se confirmó igualmente la
+                    zona horaria <code>Europe/Madrid</code> y la resolución DNS del entorno (DNS del proveedor
+                    de acceso).</p>
+
+                <h3>4.3 Configuración de red</h3>
+                <p>Se verificó que el bridge <code>vmbr0</code> de Proxmox se encontraba operativo, con
+                    <code>VLAN aware</code> habilitado y puerta de enlace <code>192.168.1.1</code>, en los tres
+                    nodos. La planificación de segmentación aprobada para el laboratorio es la siguiente:</p>
+                <table>
+                    <caption>Plan de VLANs del laboratorio</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">VLAN</th>
+                            <th scope="col">Uso</th>
+                            <th scope="col">Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Gestión</td>
+                            <td>Acceso a interfaces de Proxmox</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">10</th>
+                            <td>LAN</td>
+                            <td>Tras pfSense (nucster30)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">20</th>
+                            <td>LAB</td>
+                            <td>Tráfico de pruebas</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">99</th>
+                            <td>WAN</td>
+                            <td>Dedicada en nucster30 mediante adaptador USB-Ethernet</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>4.4 Formación del clúster</h3>
+                <p>Previo a la formación del clúster se ejecutó una lista de comprobación en los tres nodos:
+                    versiones de Proxmox alineadas, ausencia de <code>/etc/pve/corosync.conf</code> previo,
+                    ausencia de máquinas virtuales y contenedores definidos (<code>qm list</code> y
+                    <code>pct list</code> vacíos) y disponibilidad de una copia de seguridad de la
+                    configuración. A continuación se creó el clúster en nucster10 y se añadieron los dos nodos
+                    restantes:</p>
+                <pre><code>pvecm create Nucster --link0 192.168.1.10
+pvecm add 192.168.1.10 --link0 192.168.1.20
+pvecm add 192.168.1.10 --link0 192.168.1.30</code></pre>
+                <p>La interacción con <code>pvecm add</code> exige la confirmación completa
+                    (<code>yes</code>): el uso de la abreviatura <code>y</code> interrumpe la operación de
+                    incorporación y cierra la sesión (incidencia INC-03).</p>
+            </section>
+
+            <section aria-labelledby="validacion">
+                <h2 id="validacion">5. Validación y resultados</h2>
+                <p>Tras la intervención se ejecutaron las siguientes comprobaciones, con resultado satisfactorio
+                    salvo indicación:</p>
+                <table>
+                    <caption>Resultados de validación</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Comprobación</th>
+                            <th scope="col">Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Versión de Proxmox en los tres nodos</th>
+                            <td><code>pve-manager 9.2.21</code> (idéntica en los tres)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Estado del clúster desde cada nodo</th>
+                            <td>Quórum estable, 3 de 3 nodos</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Conectividad de gestión</th>
+                            <td>0 % de pérdida, latencia inferior a 0,3 ms</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Resolución DNS y acceso a internet</th>
+                            <td>Operativo, latencia aproximada de 8 ms</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Sincronización horaria</th>
+                            <td>Zona <code>Europe/Madrid</code> correcta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Ficha de recursos por nodo (fastfetch)</th>
+                            <td>CPU J3455 verificada; memoria visible de 7,17 GiB en nucster10 y 7,60 GiB en
+                                nucster20; interfaz de gestión en red privada</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section aria-labelledby="incidencias">
+                <h2 id="incidencias">6. Incidencias registradas</h2>
+                <table>
+                    <caption>Incidencias de la intervención</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Referencia</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Causa</th>
+                            <th scope="col">Resolución</th>
+                            <th scope="col">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">INC-01</th>
+                            <td>Error HTTP 401 al actualizar paquetes desde el repositorio empresarial</td>
+                            <td>Ausencia de suscripción válida; formato de repositorio DEB822 en Proxmox VE 9</td>
+                            <td>Cambio al repositorio comunitario <code>no-subscription</code> y bloqueo del
+                                repositorio de Ceph (apartado 4.1)</td>
+                            <td>Resuelta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-02</th>
+                            <td>El paquete <code>neofetch</code> no está disponible en Debian 13</td>
+                            <td>Proyecto <code>neofetch</code> sin mantenimiento; retirado de los repositorios</td>
+                            <td>Sustitución por <code>fastfetch</code> como herramienta de ficha de recursos</td>
+                            <td>Resuelta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-03</th>
+                            <td>Interrupción de la incorporación de un nodo al clúster y cierre de sesión
+                                inesperado</td>
+                            <td>Confirmación con <code>y</code> en lugar de <code>yes</code> en
+                                <code>pvecm add</code></td>
+                            <td>Recuperación del acceso mediante consola física y reincorporación del nodo con
+                                la confirmación completa</td>
+                            <td>Resuelta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-04</th>
+                            <td>Fallo de gestión tras renombrar nodos: mensaje
+                                <code>unknown node 'Nucster10' (500)</code>, estado <code>Standalone</code> con
+                                tres nodos visibles, certificados en gris y error <code>401 No ticket</code></td>
+                                <td>El cambio a minúsculas dejó un directorio fantasma
+                                    <code>/etc/pve/nodes/Nucster10</code> con el certificado antiguo</td>
+                            <td>Reubicación del directorio residual en <code>/root</code>, reinicio del proxy
+                                de Proxmox y reautenticación</td>
+                            <td>Resuelta. Procedimiento administrativo establecido: los nombres de nodo se
+                                asignan en minúsculas desde la instalación y no se renombran</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section aria-labelledby="resultados">
+                <h2 id="resultados">7. Resultados y evidencias</h2>
+                <p>La intervención concluyó con un clúster Proxmox operativo de tres nodos, con quórum estable
+                    y versión de plataforma homogénea. La demostración del estado del clúster se grabó en un
+                    vídeo de 1 minuto 13 segundos (WebM, VP8 + Opus, 1280×720, 5,0 MB) disponible en la
+                    <a href="../../posts/nucster/cluster02primerospasos.html">entrada de bitácora correspondiente</a>,
+                    junto con las capturas de validación por nodo.</p>
+            </section>
+
+            <section aria-labelledby="conclusiones">
+                <h2 id="conclusiones">8. Conclusiones y trabajo futuro</h2>
+                <p>El clúster queda constituido y homologado en su primera versión de plataforma. Las
+                    incidencias registradas, todas resueltas, subrayan dos lecciones aplicables a futuras
+                    intervenciones: el formato de repositorio DEB822 introducido en Proxmox VE 9 y la
+                    obligatoriedad de nombres de nodo en minúsculas desde el momento de la instalación.</p>
+                <p>El trabajo futuro inmediato comprende: instalación de pfSense en nucster30 con el adaptador
+                    USB-Ethernet como WAN dedicada; configuración de trunks hacia el switch Zyxel GS1200-8
+                    conforme al plan de VLANs del apartado 4.3; y primera prueba de alta disponibilidad con
+                    réplica entre nucster10 y nucster20.</p>
+            </section>
+
+            <section aria-labelledby="referencias">
+                <h2 id="referencias">9. Referencias</h2>
+                <ul>
+                    <li>Informe: <a href="informe-cluster01.html">INF-2026-01 - Fase de planificación</a>.</li>
+                    <li>Bitácora: <a href="../../posts/nucster/cluster02primerospasos.html">Clúster 02 - Primeros
+                        pasos</a>.</li>
+                    <li><a href="../../posts/nucster/inventario.html">Inventario de hardware de Núcster</a>.</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Christian Comes - octubre de 2026</p>
+    </footer>
+</body>
+</html>

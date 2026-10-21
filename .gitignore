@@ -1,0 +1,69 @@
+# ============================================================================
+# .gitignore — Bloqueo de subida a GitHub
+# ============================================================================
+# Alcance: este archivo SOLO evita la SUBIDA (git add / commit / push).
+# PROHIBIDO borrar, mover o editar los archivos bloqueados: permanecen
+# íntegros en el disco local del proyecto.
+# Criterio: se bloquea únicamente lo que demuestra o registra el uso de IA,
+# más el .env y el borrador temporal del AGENTS.
+# Nota: .gitignore solo afecta a ficheros AÚN NO trackeados. Si algo ya está
+# trackeado, hay que sacarlo con `git rm --cached <ruta>` (sin --hard).
+# ============================================================================
+
+# --- Entorno / credenciales (nunca se sube) ---
+.env*
+.env
+.env.local
+.env.*.local
+
+# --- Documentación de uso de IA / arnés del agente ---
+# (README.md DESBLOQUEADO el 21/10/2026: ya estaba publicado en el repo)
+registro_ia.md
+AGENTS.md
+MCP.md
+borrador_AGENTS.md
+
+# --- Memoria del agente y derivados de IA en docs/ ---
+# `memoria.md` sin ruta: cubre docs/memoria.md y cualquier otra carpeta (regla del AGENTS.md)
+memoria.md
+docs/memoria-proyecto.md
+docs/*borrador*ia*.md
+docs/auditorias/
+
+# --- Memoria persistente del agente ---
+ContextoIA/
+
+# --- Evidencias: carpetas y subcarpetas completas ---
+# cubre: evidencias/ia/, evidencias/ud2/ (incl. Uso_de_IA/), evidencias/ud3/
+#        y todo fichero suelto dentro, p. ej. evidencias/ud2/capturaIAsobreli03.png
+evidencias/
+
+# --- Material sensible: credenciales y claves (línea roja 10) ---
+# Bloqueo preventivo: nada de esto debe llegar al repositorio por error.
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+id_ecdsa*
+*.ppk
+credentials*
+*secret*
+*contraseña*
+*password*
+*.sqlite
+*.sqlite3
+*.db
+
+# --- Sistema / editor (ruido local) ---
+.DS_Store
+Thumbs.db
+*.swp
+*.kate-swp
+.*.kate-swp
+*~
+~*

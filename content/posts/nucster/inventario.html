@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Inventario de hardware del clúster Núcster: nodos y dispositivos de red en su estado inicial, conservado como acceso directo histórico.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="Inventario de hardware - Núcster (histórico)">
+    <meta property="og:description" content="Inventario de hardware del clúster Núcster: nodos y dispositivos de red en su estado inicial, conservado como acceso directo histórico.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/posts/nucster/inventario.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>Inventario de hardware - Núcster (histórico)</title>
+        <style>
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+               oculto visualmente hasta que recibe el foco del teclado. */
+            .saltar-contenido {
+                position: absolute;
+                left: -10000px;
+            }
+            .saltar-contenido:focus {
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1000;
+                padding: 0.75rem 1rem;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 0 0 0.25rem 0;
+            }
+        </style>
+    </head>
+
+<body>
+        <a class="saltar-contenido" href="#inventario">Saltar al contenido</a>
+<header>
+        <p>Christian Comes - Inventario de hardware del Homelab</p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mi</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="inventario.html" aria-current="page">Inventario</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="inventario">
+        <h1>Inventario de hardware de Núcster</h1>
+        <p>Esta página no es una entrada de blog: es un acceso directo y estable al hardware del proyecto.
+            Conserva el inventario en su estado inicial (Día 1), tal y como se documentó en la entrada
+            <a href="cluster02primerospasos.html">Clúster 02 - Primeros pasos</a>. Cada vez que el clúster
+            cambie de hardware, esta página documentará la nueva configuración.</p>
+
+        <section aria-labelledby="nodos">
+            <h2 id="nodos">Nodos</h2>
+            <table>
+                <caption>Inventario de Nodos</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Nodo</th>
+                        <th scope="col">Modelo</th>
+                        <th scope="col">CPU</th>
+                        <th scope="col">RAM</th>
+                        <th scope="col">SSD</th>
+                        <th scope="col">IP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">nucster10</th>
+                        <td>NUC6CAYH</td>
+                        <td>Celeron J3455</td>
+                        <td>8 GB</td>
+                        <td>Crucial BX500 1 TB</td>
+                        <td>192.168.1.10</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">nucster20</th>
+                        <td>NUC6CAYH</td>
+                        <td>Celeron J3455</td>
+                        <td>8 GB</td>
+                        <td>Crucial BX500 1 TB</td>
+                        <td>192.168.1.20</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">nucster30</th>
+                        <td>NUC6CAYH</td>
+                        <td>Celeron J3455</td>
+                        <td>8 GB</td>
+                        <td>Samsung 860 EVO 250 GB</td>
+                        <td>192.168.1.30</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section aria-labelledby="dispositivos">
+            <h2 id="dispositivos">Otros dispositivos</h2>
+            <table>
+                <caption>Inventario de otros dispositivos</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Modelo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Switch gestionado</td>
+                        <td>Zyxel</td>
+                        <td>GS1200-8</td>
+                    </tr>
+                    <tr>
+                        <td>Adaptador de red</td>
+                        <td>RyuuOto</td>
+                        <td>1000 Mbps</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <p>Christian Comes - octubre de 2026</p>
+    </footer>
+</body>
+</html>

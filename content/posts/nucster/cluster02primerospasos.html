@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Estudiante de ASIR monta su primer clúster Proxmox de 3 nodos: inventario, adiós al nag, fastfetch, red, pvecm y la lección de la mayúscula fantasma.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="Clúster 02 - Primeros pasos">
+    <meta property="og:description" content="Estudiante de ASIR monta su primer clúster Proxmox de 3 nodos: inventario, adiós al nag, fastfetch, red, pvecm y la lección de la mayúscula fantasma.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/posts/nucster/cluster02primerospasos.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>Clúster 02 - Primeros pasos</title>
+        <style>
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+               oculto visualmente hasta que recibe el foco del teclado. */
+            .saltar-contenido {
+                position: absolute;
+                left: -10000px;
+            }
+            .saltar-contenido:focus {
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1000;
+                padding: 0.75rem 1rem;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 0 0 0.25rem 0;
+            }
+        </style>
+    </head>
+
+<body>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+<header>
+        <p>
+            Clúster 02 - Primeros pasos
+        </p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mi</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="inventario.html">Inventario</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="contenido">
+        <article>
+            <h1>
+                Clúster 02 - Primeros pasos: 3 NUCs, mucho foro y una mayúscula que casi me mata
+            </h1>
+            <section aria-labelledby="origen">
+                <h2 id="origen">0. De dónde parto (y qué quiero)</h2>
+                <p>En clase vemos teoría, pero yo quería tocar chicha: un clúster donde romper cosas sin miedo. Tres NUC
+                    <code>NUC6CAYH</code> con Celeron J3455, Proxmox recién instalado un poco a lo loco (siguiente,
+                    siguiente, lo reconozco), cada uno con su IP <code>192.168.1.10</code>, <code>.20</code> y
+                    <code>.30</code>, y un Zyxel GS1200-8 en la <code>.3</code>. Lo primero que me saluda: el cartelito
+                    <em>No valid subscription</em>. Empezamos pidiendo perras.
+                </p>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/switch.png"
+                        alt="Switch Zyxel GS1200-8 con 5 puertos a 1000 Mbps Full" width="1479" height="856">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="157 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>El árbitro: 5 bocas a 1G y 3 libres para WAN y trunk.<br>PNG · 1479×856 px · 157 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+            </section>
+            <section aria-labelledby="inventario">
+                <h2 id="inventario">
+                    1. Inventario: los gemelos y el raro
+                </h2>
+                <p>Como nos enseñan: primero inventariar, luego tocar. Y sorpresa: dos Crucial BX500 de 1 TB al 0% y un
+                    Samsung 860 EVO de 250 GB al 18% en el 30, con la raíz de 66 GB frente a 93 GB. En los foros me lo
+                    dejaron claro: con discos así, ni se te ocurra Ceph productivo. Para HA me vale réplica entre
+                    gemelos o NFS. El 30 será la casa de pfSense y es el único con USB-Ethernet: irá de WAN dedicada,
+                    que de trunk esos <code>enx...</code> dan sustos.
+                </p>
+                <table>
+                    <caption>Inventario de Nodos</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Nodo</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">CPU</th>
+                            <th scope="col">RAM</th>
+                            <th scope="col">SSD</th>
+                            <th scope="col">IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">nucster10</th>
+                            <td>NUC6CAYH</td>
+                            <td>Celeron J3455</td>
+                            <td>8 GB</td>
+                            <td>Crucial BX500 1 TB</td>
+                            <td>192.168.1.10</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">nucster20</th>
+                            <td>NUC6CAYH</td>
+                            <td>Celeron J3455</td>
+                            <td>8 GB</td>
+                            <td>Crucial BX500 1 TB</td>
+                            <td>192.168.1.20</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">nucster30</th>
+                            <td>NUC6CAYH</td>
+                            <td>Celeron J3455</td>
+                            <td>8 GB</td>
+                            <td>Samsung 860 EVO 250 GB</td>
+                            <td>192.168.1.30</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <caption>Inventario de otros dispositivos</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Modelo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Switch gestionado</td>
+                            <td>Zyxel</td>
+                            <td>GS1200-8</td>
+                        </tr>
+                        <tr>
+                            <td>Adaptador de red</td>
+                            <td>RyuuOto</td>
+                            <td>1000 Mbps</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster10/nucster10_sumary.png" alt="Resumen Proxmox de nucster10"
+                        width="1919" height="867">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="190 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>El gemelo bueno número uno.<br>PNG · 1919×867 px · 190 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster20/nucster20_summary.png" alt="Resumen Proxmox de nucster20"
+                        width="1919" height="867">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="193 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>El gemelo bueno número dos.<br>PNG · 1919×867 px · 193 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster30/nucster30_summary.png" alt="Resumen Proxmox de nucster30"
+                        width="1919" height="867">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="191 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>El raro, con la raíz pequeña. Las capturas de discos las quito: llevaban seriales a la
+                        vista.<br>PNG · 1919×867 px · 191 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+            </section>
+            <section aria-labelledby="nag">
+                <h2 id="nag">2. Fuera el cartel de pago</h2>
+                <p>Venía con apuntes viejos de <code>.list</code> y PVE 9 usa <code>.sources</code> DEB822. Dos
+                    <code>401</code> a enterprise y bloqueo total. Doc oficial + foro y listo:
+                </p>
+                <pre><code>cp /etc/apt/sources.list.d/pve-enterprise.sources /root/pve-enterprise.sources.bak
+sed -i 's|https://enterprise.proxmox.com|http://download.proxmox.com|; s/Components: pve-enterprise/Components: pve-no-subscription/' /etc/apt/sources.list.d/pve-enterprise.sources
+echo "Enabled: false" &gt;&gt; /etc/apt/sources.list.d/ceph.sources
+apt update &amp;&amp; apt full-upgrade -y  # 182 paquetes, kernel 7.0.2-6 -&gt; 7.0.14-23</code></pre>
+                <p>Después: <code>pve-manager 9.2.21</code> clavadito en los tres. El popup se anula con el truco del
+                    <code>void</code>, pero ojo: el <code>title</code> sigue saliendo en el <code>grep</code> como
+                    código muerto, hay que buscar el <code>void</code>. Y <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>
+                    o sigues viendo el JS viejo. Cuando desapareció casi grito.
+                </p>
+            </section>
+            <section aria-labelledby="fichas">
+                <h2 id="fichas">3. Fichas con fastfetch</h2>
+                <p>Pedí <code>neofetch</code> y me enteré de que en Debian 13 está muerto. Otro aprendizaje: ahora es
+                    <code>fastfetch</code>. Captura por nodo y a comparar. Solo sale IP privada y modelo: publicable.
+                </p>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster10/nucster10_fastfetch.png" alt="fastfetch de nucster10"
+                        width="922" height="390">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="71 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Ficha del 10: J3455, 7.17 GiB, .10/24.<br>PNG · 922×390 px · 71 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster20/nucster20_fastfetch.png" alt="fastfetch de nucster20"
+                        width="922" height="390">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="72 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Ficha del 20: el gemelo con 7.60 GiB.<br>PNG · 922×390 px · 72 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster30/nucster30_fastfetch.png" alt="fastfetch de nucster30"
+                        width="922" height="390">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="72 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Ficha del 30: mismo micro, disco pequeño.<br>PNG · 922×390 px · 72 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+            </section>
+            <section aria-labelledby="red">
+                <h2 id="red">4. La red: minúsculas y el bridge que ya venía bien</h2>
+                <p>El clúster es tiquismiquis con los nombres: minúsculas siempre y <code>/etc/hosts</code> con las 3
+                    líneas. Ping 0% a menos de 0.3 ms, DNS Movistar, <code>Europe/Madrid</code> sincronizado e internet
+                    a ~8 ms. Y el <code>vmbr0</code> ya venía <code>VLAN aware</code> con gateway
+                    <code>192.168.1.1</code>. Mi plano: VLAN 1 mgmt, 10 LAN tras pfSense, 20 LAB, 99 WAN.
+                </p>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster10/nucster10_vlan_aware.png"
+                        alt="Red de nucster10 con vmbr0 VLAN aware" width="1039" height="172">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="26 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Red del 10, MACs tachadas: ya voy aprendiendo.<br>PNG · 1039×172 px · 26 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster20/nucster20_vlan_aware.png"
+                        alt="Red de nucster20 con vmbr0 VLAN aware" width="1039" height="172">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="26 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Red del 20, calcada.<br>PNG · 1039×172 px · 26 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster30/nucster30_vlan_aware.png"
+                        alt="Red de nucster30 con USB enx inactivo" width="1039" height="191">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="29 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Red del 30 con el USB <code>enx...</code> quieto hasta la WAN.<br>PNG · 1039×191 px · 29 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+            </section>
+            <section aria-labelledby="cluster">
+                <h2 id="cluster">5. El clúster (con susto)</h2>
+                <p>Pre-vuelo (versiones clavadas, sin <code>corosync.conf</code>, <code>qm/pct</code> vacíos, backup de
+                    14K) y adelante:</p>
+                <pre><code>pvecm create Nucster --link0 192.168.1.10
+pvecm add 192.168.1.10 --link0 192.168.1.20  # responde "yes", no "y"
+pvecm add 192.168.1.10 --link0 192.168.1.30</code></pre>
+                <p>El <code>y</code> me abortó el join y me cerró la sesión: pánico, pero el nodo seguía vivo al ping y
+                    entré por consola física. Con <code>yes</code> completo, dentro.</p>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster10/nucster10_cluster.png"
+                        alt="pvecm status 3/3 en nucster10" width="1143" height="856">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="148 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>3/3 quorate visto desde el 10.<br>PNG · 1143×856 px · 148 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster20/nucster20_cluster.png"
+                        alt="pvecm status 3/3 en nucster20" width="1143" height="856">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="158 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>
+                        Lo mismo desde el 20.
+                    <br>PNG · 1143×856 px · 158 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/cluster01/nucster30/nucster30_cluster.png"
+                        alt="pvecm status 3/3 en nucster30" width="1143" height="856">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="167 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Y desde el 30: con 3 votos aguantas una caída.<br>PNG · 1143×856 px · 167 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <p>Y llegó LA lección: <code>unknown node 'Nucster10' (500)</code>, <code>Standalone</code> viendo 3
+                    nodos, <code>?</code> grises y <code>401 No ticket</code>. Causa: mi cambio a minúsculas dejó un
+                    fantasma <code>/etc/pve/nodes/Nucster10</code> con la cert vieja. Fix: moverlo a <code>/root</code>,
+                    reiniciar proxy y re-login. En Proxmox los nombres siempre en minúsculas desde la instalación. La
+                    doc lo dice, los foros lo repiten, y yo lo aprendí a base de susto.</p>
+            </section>
+            <section aria-labelledby="cierre">
+                <h2 id="cierre">Cierre</h2>
+                <p>Día cerrado: sin nag, en <code>9.2.21</code>, en clúster y con fichas. Siguiente: pfSense en el 30,
+                    trunks al GS1200-8 y primer HA de juguete con réplica 10↔20. Si se cae uno y la CT sigue viva,
+                    medalla.</p>
+            </section>
+            <section aria-labelledby="video">
+                <h2 id="video">Vídeo demostración</h2>
+                <p>El vídeo muestra el inventario, y el funcionamiento como clúster de Nucster.</p>
+                     <video itemscope itemtype="https://schema.org/VideoObject" controls preload="metadata" width="1280" height="720">
+                <source src="../../../vid/nucster/02/demostracion_cluster.webm" type="video/webm" itemprop="contentUrl">
+                <meta itemprop="encodingFormat" content="video/webm">
+                <meta itemprop="contentSize" content="5,0 MB">
+                <meta itemprop="creator" content="Christian Comes">
+                <meta itemprop="copyrightYear" content="2026">
+                <meta itemprop="copyrightHolder" content="Christian Comes">
+                <meta itemprop="duration" content="PT1M13S">
+                El navegador no puede reproducir el vídeo. En el video se muestra el inventario de los tres nodos y el funcionamiento del clúster Nucster.
+            </video>
+            <p>Formato WebM (VP8 + Opus) · 5,0 MB · 1280×720 · 1 min 13 s · grabación propia de Christian Comes · licencia: todos los derechos reservados.</p>
+            </section>
+        </article>
+        <section aria-labelledby="entradasrecientes">
+            <h2 id="entradasrecientes">Entradas Recientes</h2>
+            <ul>
+                <li>
+                    <a href="../../../proyectos.html#proyectoscatalogo">Proyectos</a>
+                </li>
+                <li>
+                    <a href="cluster01elgermen.html">Clúster 01 - El germen</a>
+                </li>
+                <li>
+                    <a href="cluster02primerospasos.html">Clúster 02 - Primeros pasos</a>
+                </li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>Christian Comes - octubre 2026</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Validación y accesibilidad del sitio: pruebas W3C, recorrido de teclado automatizado con Firefox y prueba sin imágenes, con sus evidencias en evidencias/ud3.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="Portfolio 03 - Validación y accesibilidad">
+    <meta property="og:description" content="Validación y accesibilidad del sitio: pruebas W3C, recorrido de teclado automatizado con Firefox y prueba sin imágenes, con sus evidencias en evidencias/ud3.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/posts/portfolio/portfolio03validacion.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>Portfolio 03 - Validación y accesibilidad</title>
+        <style>
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+               oculto visualmente hasta que recibe el foco del teclado. */
+            .saltar-contenido {
+                position: absolute;
+                left: -10000px;
+            }
+            .saltar-contenido:focus {
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1000;
+                padding: 0.75rem 1rem;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 0 0 0.25rem 0;
+            }
+        </style>
+    </head>
+
+<body>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+<header>
+        <p>Portfolio 03 - Validación</p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mi</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="../nucster/inventario.html">Inventario</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="contenido">
+        <article id="portfolio03" data-estado="revision">
+            <header>
+                <h1>Portfolio 03 - Validación y accesibilidad: del error al 0/0</h1>
+                <p>Una web que no se prueba es una web que no está terminada. Esta entrada cuenta las tres
+                    pruebas que pasan todas las páginas del sitio y dónde vive cada evidencia
+                    (<code>evidencias/ud3/</code>).</p>
+            </header>
+
+            <section aria-labelledby="trespruebas">
+                <h2 id="trespruebas">1. Tres pruebas, una carpeta</h2>
+                <ul>
+                    <li><strong>Validación normativa</strong> contra el Nu Html Checker del W3C.</li>
+                    <li><strong>Navegación por teclado</strong> (Tab) con capturas del anillo de foco.</li>
+                    <li><strong>Lectura sin imágenes</strong> — y, de paso, sin estilos: el sitio no enlaza
+                        ningún CSS externo, así que «sin CSS» lo cubre la propia prueba.</li>
+                </ul>
+            </section>
+
+            <section aria-labelledby="w3c">
+                <h2 id="w3c">2. El validador: primero perdió, luego firmó</h2>
+                <p>Las páginas no nacieron a cero. Hubo que reanidar una sublista huérfana en
+                    <a href="../nucster/cluster01elgermen.html">Clúster 01</a>, reconstruir
+                    <a href="../nucster/inventario.html">inventario.html</a> — llegó a tener el
+                    <code>title</code> vacío y sin contenido — y corregir una etiqueta de cierre desajustada en
+                    un informe. Los tres casos están registrados como INC‑01 a INC‑03 en el informe
+                    <a href="../../informes/nucster/informe-validacion.html">INF‑2026‑03</a>. Tras las
+                    correcciones, <strong>todas las páginas validan con 0 errores y 0 avisos</strong>, y los
+                    JSON íntegros del validador se guardan en <code>evidencias/ud3/Validador/</code> con su
+                    resumen.</p>
+            </section>
+
+            <section aria-labelledby="teclado">
+                <h2 id="teclado">3. Teclado: automatizar Firefox para que no me mienta el «queda bonito»</h2>
+                <p>La prueba de teclado me la saltaba porque «se ve que se tabula». Así que la programé: un
+                    script (geckodriver + Firefox en modo headless, puro WebDriver sin dependencias) abre cada
+                    página, envía <kbd>Tab</kbd> uno a uno y anota qué elemento recibe el foco, hasta cerrar el
+                    ciclo. Después captura el anillo de foco en el primer, el intermedio y el último elemento
+                    de cada página.</p>
+                <p>El resultado está en <code>evidencias/ud3/Teclado/recorrido_teclado.md</code>: el recorrido
+                    completo, paso a paso, por página. Dato divertido: en la entrada del clúster, el foco para
+                    ocho veces dentro de los controles del reproductor de vídeo — también se maneja con
+                    teclado.</p>
+            </section>
+
+            <section aria-labelledby="sinimagenes">
+                <h2 id="sinimagenes">4. Sin imágenes: el texto se defiende solo</h2>
+                <p>Capturas con Brave en modo headless y las imágenes deshabilitadas: el contenido se lee
+                    entero y los huecos muestran el texto alternativo, que es exactamente para lo que está el
+                    <code>alt</code>. Nota y capturas en <code>evidencias/ud3/Sin_imagenes/</code>.</p>
+            </section>
+
+            <section aria-labelledby="notecubre">
+                <h2 id="notecubre">5. Lo que estas pruebas NO cubren</h2>
+                <p>Contraste cromático, ampliación al 200 % y lectores de pantalla quedan fuera de estas tres
+                    pruebas: están en el alcance de la auditoría de accesibilidad del Tema 3
+                    (<code>docs/auditorias/accesibilidad-tema3.md</code>), que sigue viva y con recomendaciones
+                    pendientes — entre ellas, el enlace «Saltar al contenido».</p>
+                <p>Y una nota de método: toda la conversación de trabajo con la IA queda registrada de forma
+                    fehaciente en <code>registro_ia.md</code>, con las decisiones marcadas, incluida esta serie
+                    de entradas.</p>
+            </section>
+
+            <section aria-labelledby="cierre">
+                <h2 id="cierre">6. Cierre</h2>
+                <p>Cero errores, cero avisos, foco visible y texto legible sin medios. No es que la web esté
+                    terminada — es que lo que está publicado, está probado.</p>
+            </section>
+
+            <section aria-labelledby="serie">
+                <h2 id="serie">Serie: elaboración del sitio</h2>
+                <ul>
+                    <li><a href="portfolio01planificacion.html">Portfolio 01 - Planificación</a></li>
+                    <li><a href="portfolio02construccion.html">Portfolio 02 - Construcción</a></li>
+                    <li><a href="portfolio03validacion.html">Portfolio 03 - Validación y accesibilidad (esta entrada)</a></li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Christian Comes - octubre de 2026</p>
+    </footer>
+</body>
+</html>

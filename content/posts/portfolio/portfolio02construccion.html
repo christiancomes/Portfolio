@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Construcción del sitio: cómo se levantaron las páginas, el menú de cinco elementos, los informes técnicos en content/informes/nucster y la documentación de los medios.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="Portfolio 02 - Construcción">
+    <meta property="og:description" content="Construcción del sitio: cómo se levantaron las páginas, el menú de cinco elementos, los informes técnicos en content/informes/nucster y la documentación de los medios.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/posts/portfolio/portfolio02construccion.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>Portfolio 02 - Construcción</title>
+        <style>
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+               oculto visualmente hasta que recibe el foco del teclado. */
+            .saltar-contenido {
+                position: absolute;
+                left: -10000px;
+            }
+            .saltar-contenido:focus {
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1000;
+                padding: 0.75rem 1rem;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 0 0 0.25rem 0;
+            }
+        </style>
+    </head>
+
+<body>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+<header>
+        <p>Portfolio 02 - Construcción</p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mi</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="../nucster/inventario.html">Inventario</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="contenido">
+        <article id="portfolio02" data-estado="revision">
+            <header>
+                <h1>Portfolio 02 - Construcción: páginas, menú e informes</h1>
+                <p>Fase de ladrillo: qué páginas se levantaron, cómo se organizaron las carpetas cuando el
+                    contenido empezó a crecer de verdad y por qué los informes acabaron viviendo en su propia
+                    rama del árbol.</p>
+            </header>
+
+            <section aria-labelledby="crecimiento">
+                <h2 id="crecimiento">1. Un sitio que creció por donde le tocaba</h2>
+                <p>El sitio arrancó con las tres páginas fijas de siempre — inicio, sobre mí y proyectos — y
+                    las primeras entradas del clúster. El desbordante vino después: entradas de dos proyectos
+                    distintos, un inventario histórico, informes técnicos… Cada tipo de contenido se llevó a su
+                    carpeta: la bitácora en <code>content/posts/</code> (con una subcarpeta por proyecto,
+                    <code>nucster/</code> y <code>portfolio/</code>), los informes en
+                    <code>content/informes/nucster/</code> y la documentación de entrega en
+                    <code>docs/</code> y <code>evidencias/</code>.</p>
+                <p>La mudanza de los informes a la subcarpeta <code>nucster/</code> fue una decisión explícita:
+                    son informes <em>sobre el clúster</em>, y cuando haya informes de otro proyecto no se van a
+                    mezclar.</p>
+            </section>
+
+            <section aria-labelledby="menu">
+                <h2 id="menu">2. El menú: cinco elementos y ni uno más</h2>
+                <p>El menú actual — Inicio · Sobre mi · Proyectos · Inventario · Contacto — está replicado en
+                    las catorce páginas del sitio, con el enlace de la página actual marcado con
+                    <code>aria-current="page"</code> para que también un lector de pantalla sepa dónde estás.
+                    El inventario entró en el menú como acceso directo histórico al hardware; las entradas se
+                    quedaron fuera, enlazadas desde el catálogo y desde «Entradas Recientes».</p>
+            </section>
+
+            <section aria-labelledby="informes">
+                <h2 id="informes">3. Los informes: formalidad con numeración</h2>
+                <p>Los informes técnicos llevan referencia <code>INF-AAAA-NN</code>, ficha de documento,
+                    versiones y tabla de incidencias <code>INC-NN</code>. Van de menos a más: planificación
+                    (INF‑2026‑01), puesta en servicio del clúster (INF‑2026‑02) y validación del sitio
+                    (INF‑2026‑03). El índice está en
+                    <a href="../../informes/nucster/index.html">Informes técnicos</a>. Es el formato que prometí
+                    en la bitácora del clúster: cero humor, tablas y conclusiones.</p>
+            </section>
+
+            <section aria-labelledby="medios">
+                <h2 id="medios">4. Los medios, documentados por duplicado</h2>
+                <p>Cada imagen y el vídeo de la demostración llevan sus metadatos <code>schema.org</code>
+                    (formato, tamaño, autoría, año y licencia) <em>y</em> una línea visible al pie del
+                    elemento: el método híbrido. Cuesta lo mismo que documentar a medias y se lee sin inspeccionar
+                    el código. El inventario de hardware, por su parte, vive en su
+                    <a href="../nucster/inventario.html">página propia</a> y también dentro de la entrada del
+                    clúster, porque la práctica pide tabla en la entrada.</p>
+            </section>
+
+            <section aria-labelledby="cierre">
+                <h2 id="cierre">5. Cierre</h2>
+                <p>Construido está: catorce páginas, un menú idéntico en todas y carpetas donde cada pieza
+                    sabe de dónde viene. Lo que no está es <em>probado</em> — y esa es exactamente la siguiente
+                    entrada.</p>
+            </section>
+
+            <section aria-labelledby="serie">
+                <h2 id="serie">Serie: elaboración del sitio</h2>
+                <ul>
+                    <li><a href="portfolio01planificacion.html">Portfolio 01 - Planificación</a></li>
+                    <li><a href="portfolio02construccion.html">Portfolio 02 - Construcción (esta entrada)</a></li>
+                    <li><a href="portfolio03validacion.html">Portfolio 03 - Validación y accesibilidad</a></li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Christian Comes - octubre de 2026</p>
+    </footer>
+</body>
+</html>
