@@ -12,51 +12,33 @@
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_ES">
     <meta property="og:url" content="https://christiancomes.github.io/Portfolio/cv-es.html">
-    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes-1080w.jpg">
     <title>Christian Comes - CV</title>
-        <style>
-            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
-               oculto visualmente hasta que recibe el foco del teclado. */
-            .saltar-contenido {
-                position: absolute;
-                left: -10000px;
-            }
-            .saltar-contenido:focus {
-                position: fixed;
-                left: 0;
-                top: 0;
-                z-index: 1000;
-                padding: 0.75rem 1rem;
-                background: #fff;
-                color: #000;
-                border: 2px solid #000;
-                border-radius: 0 0 0.25rem 0;
-            }
-        </style>
     </head>
 
 <body>
-        <a class="saltar-contenido" href="#cv">Saltar al contenido</a>
+        <a href="#cv">Saltar al contenido</a>
 <header>
         <p>Christian Comes - CV</p>
 <nav aria-label="Navegación principal">
   <a href="index.html">Inicio</a>
-  <a href="sobremi.html">Sobre mi</a>
+  <a href="sobremi.html">Sobre mí</a>
   <a href="contacto.html">Contacto</a>
   <a href="proyectos.html">Proyectos</a>
-  <a href="content/posts/nucster/inventario.html">Inventario</a>
+  <a href="content/posts/nucster/inventario.html">Inventario de Nucster</a>
   <a href="cv-es.html" aria-current="page">CV</a>
 </nav>
     </header>
 
     <main id="cv">
-        <article id="cv-es" data-estado="revision">
+        <article id="cv-es" data-estado="publicado">
             <header>
                 <h1>Currículum vitae</h1>
                 <p>Publicado el <time datetime="2026-05-27">27 de mayo de 2026</time>.</p>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
-                    <img itemprop="contentUrl" src="img/ChristianComes.jpg" alt="Retrato de Christian Comes"
-                        width="800" height="800">
+                    <img itemprop="contentUrl" src="img/ChristianComes-480w.jpg" alt="Retrato de Christian Comes" width="480" height="480" loading="lazy"
+                        srcset="img/ChristianComes-480w.jpg 480w, img/ChristianComes-720w.jpg 720w, img/ChristianComes-1080w.jpg 1080w"
+                        sizes="(max-width: 720px) 90vw, 500px" />
                     <meta itemprop="encodingFormat" content="image/jpeg">
                     <meta itemprop="contentSize" content="95 KB">
                     <meta itemprop="creator" content="Christian Comes">
@@ -82,7 +64,7 @@
 
                 <article aria-labelledby="exp-dgtic">
                     <h3 id="exp-dgtic">Proyecto DGTIC Generalitat Valenciana — Técnico IT L2</h3>
-                    <p><time datetime="2021">2021</time>–Actualidad</p>
+                    <p><time datetime="2021">Mayo-2021</time>–Actualidad</p>
                     <ul>
                         <li>Técnico de incidencias IT L2 en remoto</li>
                         <li>Diagnóstico y resolución general de problemas informáticos</li>
@@ -93,7 +75,7 @@
 
                 <article aria-labelledby="exp-salto">
                     <h3 id="exp-salto">Electrónica Saltó — Técnico IT de campo</h3>
-                    <p><time datetime="2021">2021</time></p>
+                    <p><time datetime="2021">Enero-2021 - Mayo-2021</time></p>
                     <ul>
                         <li>Técnico del programa de renovación de PCs de la sanidad pública</li>
                         <li>Servicios de montaje y desmontaje de equipos</li>
@@ -115,7 +97,7 @@
 
                 <article aria-labelledby="exp-marktel">
                     <h3 id="exp-marktel">Marktel — Helpdesk IT L1, Xirivella</h3>
-                    <p><time datetime="2017">2017</time>–<time datetime="2020">2020</time></p>
+                    <p><time datetime="2017">2017</time>–<time datetime="2019">2019</time></p>
                     <ul>
                         <li>Técnico L1 de proveedor de red</li>
                         <li>Diagnóstico y reparación remota de problemas de red</li>
@@ -175,5 +157,17 @@
     <footer>
         <p>Christian Comes - octubre de 2026</p>
     </footer>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Christian Comes",
+      "url": "https://christiancomes.github.io/Portfolio/cv-es.html",
+      "image": "img/ChristianComes-1080w.jpg",
+      "sameAs": ["https://github.com/christiancomes"],
+      "jobTitle": "Técnico IT L2"
+    
+    }
+  </script>
 </body>
 </html>
