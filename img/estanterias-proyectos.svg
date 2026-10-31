@@ -116,7 +116,7 @@
       <text x="5" y="15" class="shelf-label">BALDA 1: HARDWARE &amp; BARE-METAL</text>
       <!-- Libros / Componentes -->
       <rect x="10" y="25" width="130" height="90" class="book b-blue" />
-      <text x="75" y="75" class="book-text">3x NUC6 (Núcster)</text>
+      <text x="75" y="75" class="book-text">3x NUC6 (Nucster)</text>
 
       <rect x="150" y="25" width="120" height="90" class="book b-blue" />
       <text x="210" y="75" class="book-text">Switch L2/L3</text>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Estudiante de ASIR instala su primer pfSense como VM en Proxmox: el instalador online de Netgate que pidió internet, el USB que estaba DOWN, un comando sin verbo, el wizard completo y la lección del cable al revés.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="Clúster 03 - El primer pfSense">
+    <meta property="og:description" content="Estudiante de ASIR instala su primer pfSense como VM en Proxmox: el instalador online de Netgate que pidió internet, el USB que estaba DOWN, un comando sin verbo, el wizard completo y la lección del cable al revés.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/posts/nucster/cluster03primerpfsense.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>Clúster 03 - El primer pfSense</title>
+    </head>
+
+<body>
+        <a href="#contenido">Saltar al contenido</a>
+<header>
+        <p>
+            Clúster 03 - El primer pfSense
+        </p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mí</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="inventario.html">Inventario de Nucster</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="contenido">
+        <article>
+            <h1>
+                Clúster 03 - El primer pfSense: un instalador que quiere internet, un USB dormido y un cable al revés
+            </h1>
+            <section aria-labelledby="partida">
+                <h2 id="partida">0. De dónde parto (y qué toca hoy)</h2>
+                <p>Con el clúster <a href="cluster02primerospasos.html">formado y sano 3/3</a>, llega la fase que lo
+                    empezó todo: meter un pfSense de verdad en el 30, con el puerto USB-Ethernet
+                    (<code>enx…</code>, nombre derivado de su MAC y truncado aquí) de WAN y una LAN aislada
+                    detrás. El plan que me dejé por escrito: VM 100 <code>pfsense-master</code>, 2 GiB RAM, 2 núcleos
+                    <i>host</i>, disco de 32 GB en <code>local-lvm</code>, dos NIC VirtIO (net0 →
+                    <code>vmbr1</code> WAN, net1 → <code>vmbr10</code> LAN aislada) y un puente <code>vmbr1</code> con
+                    el USB de puerto en el 20 igual, para el futuro backup CARP. Mi regla nueva de la casa: todo por
+                    GUI cuando se pueda, consola solo para mirar.</p>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_hardware_config.png"
+                        alt="Hardware de la VM 100 pfsense-master: ISO del instalador, disco de 32 GB y dos NIC VirtIO sobre vmbr1 y vmbr10"
+                        width="1817" height="734">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="89 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>La VM 100 tal como la quise: 2 GiB, 2 núcleos <i>host</i>, disco de 32 GB, CD con el
+                        instalador y las dos redes separadas (WAN en <code>vmbr1</code>, LAN en <code>vmbr10</code>).
+                    <br>PNG · 1817×734 px · 105 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+            </section>
+
+            <section aria-labelledby="instalador">
+                <h2 id="instalador">1. El instalador: no es lo que pensaba (lección 1)</h2>
+                <p>Venia con la idea de "ISO de pfSense CE, arranco e instalo" como en el aula. Error: lo que copié por
+                    <code>scp</code> a los tres nodos (ronda 1 GB: <code>netgate-installer-v1.2-RELEASE-amd64.iso</code>) no
+                    es la ISO offline de CE, sino el <strong>Netgate Installer</strong>, que instala Plus por defecto y
+                    <em>necesita internet</em> durante la instalación. La doc lo dice, pero entre foros y prueba: la
+                    gracia es elegir <strong>Install CE</strong> en el aviso de dispositivo no soportado, y el espejo
+                    comunitario atxfiles solo llega hasta 2.7.2, así que la descarga va contra los servidores de Netgate. Esto es
+                    lo que significa "instalador en línea"... y por eso la WAN tiene que funcionar ANTES de instalar.
+                </p>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller10.png"
+                        alt="Pantalla Connectivity Check del instalador: verificando la conexión a internet contra los servidores de Netgate"
+                        width="1817" height="734">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="110 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>El connectivity check: "Trying to reach the Netgate Servers". Sin WAN viva no hay
+                        instalación. Dato tropezado: el cableado del 30 estaba AL REVÉS de mi plan (lo cuento en el
+                        apartado 5), y aún así funcionó — pero por motivos equivocados.<br>PNG · 1817×734 px · 110 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+            </section>
+
+            <section aria-labelledby="red-del-instalador">
+                <h2 id="red-del-instalador">2. WAN y LAN en el instalador</h2>
+                <p>Navegando el instalador van saliendo las pantallas: WAN en <code>vtnet0</code> con DHCP (cliente), VLANs fuera
+                    (aún no hay 802.1Q en el Zyxel), y LAN en <code>vtnet1</code> en estático 192.168.10.1/24 abriendo
+                    su propio DHCP de .100 a .199 — exactamente lo previsto en mi plan de segmentos: WAN dedicada al USB
+                    y LAN aislada. El <i>file system</i> va en ZFS (recomendado por defecto) con GPT.</p>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller5.png"
+                        alt="Network Mode Setup de la WAN vtnet0: modo DHCP cliente, VLAN tagging desactivado"
+                        width="1817" height="734">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="167 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>WAN (<code>vtnet0</code>) en modo DHCP (cliente) sin VLANs.<br>PNG · 1817×734 px · 167 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller8.png"
+                        alt="Network Mode Setup de la LAN vtnet1: IP estática 192.168.10.1/24 con DHCP server de .100 a .199"
+                        width="1817" height="734">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="180 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>LAN (<code>vtnet1</code>): estática 192.168.10.1/24 y DHCP server .100-.199, tal
+                        cual el plan. No hay nada detrás, pero pfSense ya da casa.<br>PNG · 1817×734 px · 180 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller12.png"
+                        alt="Installation Options: sistema de ficheros ZFS recomendado y esquema de particiones GPT"
+                        width="1817" height="734">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="151 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>ZFS recomendado + GPT compatible con MBR: por defecto y sin estrés.<br>PNG · 1817×734 px · 151 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller17.png"
+                        alt="Selección de versión de pfSense CE: 2.9.0 estable destacada"
+                        width="1817" height="734">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="140 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Versión elegida: <code>2.9.0</code> "Current Stable Version" (había 2.8.1 y 2.7.2). Se
+                        instalará FreeBSD 16.0-CURRENT, así que para el backup CARP el backup debe llevar LA MISMA
+                        versión exacta. Otra lección.<br>PNG · 1817×734 px · 140 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller18.png"
+                        alt="Descarga de 179 paquetes pfSense desde servidores de Netgate"
+                        width="1817" height="734">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="267 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>La trampa del instalador online: 179 paquetes, 994 MiB necesarios y 298 MiB bajados, no
+                        era offline. Suerte que la WAN la daba el router de casas.<br>PNG · 1817×734 px · 267 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller20.png"
+                        alt="Instalación completa de pfSense, pantalla de reinicio"
+                        width="1817" height="734">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="109 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>"Installation of pfSense complete! Would you like to reboot into the installed system
+                        now?" — sí, por favor.<br>PNG · 1817×734 px · 109 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller21.png"
+                        alt="Edición del CD/DVD de la VM 100: opción Do not use any media señalada"
+                        width="1817" height="734">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="121 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Trucuito fácil de olvidar: tras instalar, quitar el CD (edición del CD/DVD a "Do not
+                        use any media"); si no, en cada reinicio puede volver el instalador (el arranque tiene el CD
+                        por delante del disco).<br>PNG · 1817×734 px · 121 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+            </section>
+
+            <section aria-labelledby="primerarranque">
+                <h2 id="primerarranque">3. Primer arranque: WAN viva, LAN asomada</h2>
+                <p>Reboot y ahí está el menú de consola: <code>WAN (wan) -&gt; vtnet0 -&gt; v4/DHCP4:
+                    192.168.1.52/24</code> (el Movistar le dio IP) y <code>LAN (lan) -&gt; vtnet1 -&gt; v4:
+                    192.168.10.1/24</code>. El dashboard ya digería la LAN con su dirección desde la VM 102. Para
+                    llegar a la web del firewall hay que aceptar el certificado autofirmado en Firefox de la VM 102
+                    (esperado: pfSense emite su propio cert y nadie lo avala; es aceptable <strong>solo</strong> en una
+                    LAN aislada propia como esta). Login <code>admin</code> / <code>pfsense</code> de fábrica y a correr
+                    (ojo al WARNING de la web: contraseña por defecto, primero endurecer).</p>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller22.png"
+                        alt="Menú de consola de pfSense tras arrancar: WAN en DHCP 192.168.1.52 y LAN 192.168.10.1"
+                        width="1817" height="734">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="222 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>El menú clásico 0-16 con las dos interfaces a la vista: WAN por DHCP (192.168.1.52) y
+                        LAN estática (192.168.10.1).<br>PNG · 1817×734 px · 120 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller24.png"
+                        alt="Login de pfSense desde el Firefox de la VM 102 livedebian"
+                        width="1817" height="734">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="185 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Solo queda entrar. Todo lo que hacemos con el firewall lo miro desde la VM 102 (la
+                        jumpbox en la LAN), porque el 102 es el único en ese puente aislado.<br>PNG · 1817×734 px · 185 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall2.png"
+                        alt="Aviso de Firefox por el certificado autofirmado del pfSense en 192.168.10.1"
+                        width="1753" height="790">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="171 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>El "Warning: Potential Security Risk Ahead" clásico: cert autofirmado, Go Back o
+                        Advanced para aceptar el riesgo justificado.<br>PNG · 1753×790 px · 171 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall5.png"
+                        alt="Dashboard de pfSense con aviso de contraseña por defecto y datos de versión 2.9.0"
+                        width="1753" height="790">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="306 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Dentro: "Password is currently set to the default value (pfsense)" en rojo y el panel
+                        System Information viendo <code>2.9.0-RELEASE amd64</code> de 21-oct-2026 sobre
+                        <code>FreeBSD 16.0-CURRENT</code> (parece rama de desarrollo, algo a vigilar).<br>PNG · 1753×790 px · 348 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+            </section>
+
+            <section aria-labelledby="wizard">
+                <h2 id="wizard">4. El wizard: cada casilla con su porqué</h2>
+                <p>El Setup Wizard son 9 pasos y (casi) ninguno al azar. Lo que puse y por qué:</p>
+                <dl>
+                    <dt>Paso 2 — General Information</dt>
+                    <dd>Hostname <code>pfsense-master</code>, dominio <code>home.arpa</code> (no <code>.local</code>: ese
+                        TLD es de mDNS/Avahi/Bonjour y me lo puede liar; <code>home.arpa</code> es el que la RFC 8375
+                        reserva para redes domésticas — el propio wizard lo advierte). DNS <code>1.1.1.1</code> y
+                        <code>80.58.61.250</code> (los mismos que los nodos) con Override DNS marcado. Matiz que el
+                        wizard me suelta: el DNS Resolver ignora esos DNS para los clientes salvo que active DNS Query
+                        Forwarding después — decisión pendiente para cuando pruebe <code>deb.debian.org</code>.</dd>
+                    <dt>Paso 3 — Time Server</dt>
+                    <dd>NTP por defecto (<code>2.pfsense.pool.ntp.org</code>) y zona <code>Europe/Madrid</code>. Con el
+                        reloj desajustado, certificados y VPN fallan, y el CARP se diagnostica mejor con relojes
+                        sincronizados.</dd>
+                    <dt>Paso 4 — WAN</dt>
+                    <dd>DHCP y — decisión consciente de seguridad del lab — <strong>desmarcar Block RFC1918</strong>:
+                        la WAN cuelga del Movistar (192.168.1.0/24), todo lo que llega es privado y esa regla bloquearía
+                        el tráfico de prueba. Con una WAN real a internet, marcada sí o sí. Block bogons se queda.</dd>
+                    <dt>Paso 5 — LAN</dt>
+                    <dd>Sin tocar: <code>192.168.10.1/24</code>. Sin solapamiento con la WAN.</dd>
+                    <dt>Paso 6 — Contraseña admin</dt>
+                    <dd>Primera cosa que se endurece en un firewall. La contraseña nueva queda fuera del blog por
+                        razones obvias (solo el confirm del sistema como evidencia).</dd>
+                    <dt>Pasos 7-9 — Reload</dt>
+                    <dd>Reload (7/9), luego el 8/9 y el 9/9 con pestaña ya con <code>pfsense-master.home.arpa</code> como hostname. Al
+                        terminar NO hay que pulsar "Check for updates": para CARP el backup debe llevar exactamente la
+                        misma versión y comprobé en Status→System Update que ya decía "latest version" (2.9.0).</dd>
+                </dl>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall9.png"
+                        alt="Wizard paso 2 de 9: hostname pfsense-master, dominio home.arpa y servidores DNS"
+                        width="1753" height="790">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="248 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Paso 2/9: hostname, <code>home.arpa</code>, DNS 1.1.1.1 + 80.58.61.250 y Override
+                        marcado.<br>PNG · 1753×790 px · 248 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall6.png"
+                        alt="Cambio de contraseña del admin confirmado en pfSense"
+                        width="1753" height="790">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="219 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>"Password changed for user: admin" en verde — la fábrica a la calle.<br>PNG · 1753×790 px · 219 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall14.png"
+                        alt="Wizard paso 7 de 9: Reload configuration"
+                        width="1753" height="790">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="168 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Paso 7/9: Reload para reencarnar el firewall con la config definitiva.<br>PNG · 1753×790 px · 168 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+            </section>
+
+            <section aria-labelledby="validacion">
+                <h2 id="validacion">5. Validación: tres pings y medio</h2>
+                <p>Verificaciones desde la VM 102 (DHCP la dio pfSense: <code>192.168.10.100/24</code> con gateway
+                    <code>192.168.10.1</code>, proto dhcp — pfSense ya juega en su LAN): ping a
+                    <code>192.168.10.1</code> (LAN), a <code>1.1.1.1</code> (NAT y rutas, ~10-15 ms, 0% loss) y a
+                    <code>deb.debian.org</code> (resolución DNS + salida, ~12 ms). El ping por nombre a
+                    <code>192.168.10.1</code> me dijo "Name or service not known": lógico, la LAN aislada aún no
+                    registra nombres en ningún sitio. Todo se verificó a las 10:10 del 24 de octubre tras dejar el
+                    wizard listo la víspera (el instalador me absorbió unas cuantas horas el
+                    23).</p>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall19.png"
+                        alt="Terminal de la VM 102: IP por DHCP de pfSense, gateway 192.168.10.1 y pings de validación"
+                        width="1194" height="790">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="291 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>La prueba de fuego: DHCP del pfSense (192.168.10.100), y los tres pings (LAN, NAT 1.1.1.1
+                        y DNS deb.debian.org) en verde. Además, justo después, el <code>scp</code> del config.xml hacia
+                        el 30 — el backup del día, que cuento abajo.<br>PNG · 1194×790 px · 291 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+            </section>
+
+            <section aria-labelledby="incidentes">
+                <h2 id="incidentes">6. Lo que se rompió de camino (lo importante)</h2>
+                <p>Esta fase no ha sido salsear un instalador. Hubo cuatro sustos que enseñaron más juntos que por
+                    separado, y todos se podían aplanar en una frase: <strong>la configuración era correcta, el cable
+                    no</strong>.</p>
+
+                <h3>6.1 El USB que estaba DOWN (y el comando sin verbo)</h3>
+                <p>Quería pillar el USB del 30 y su gemelo del 20 para tenerlos a punto. El estado:</p>
+                <pre><code>ip link show enx…  # state DOWN (y en el 20 igual con su enx… en DOWN)</code></pre>
+                <p>Y aquí el tiro por la culata: lancé <code>ip link set dev enx...</code> — tres veces seguidas — y
+                    no pasó nada. Ni error ni cambio. Faltó el verbo: <code>up</code>. Con él, la interfaz pasa a UP y
+                    el PHY empieza a negociar; entonces <code>ethtool</code> dice <code>Link detected: yes</code> e
+                    <code>ip -br link show</code> la muestra UP + LOWER_UP. Sin verbo, el comando no hace nada ni avisa:
+                    "DOWN" (estado administrativo) ≠ "sin enlace" (estado de enlace, LOWER_UP). Era temporal y seguro:
+                    sin IP y sin bridge no hay bucle posible.</p>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb.png"
+                        alt="ip link show del USB del 30 en estado DOWN" width="1814" height="226">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="38 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>El USB del 30 en DOWN: la interfaz no emite señal y no negocia enlace.<br>PNG · 1814×226 px · 48 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb_up.png"
+                        alt="ip link show del USB del 30 ya en estado UP con enlace" width="1814" height="226">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="46 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Y ya con <code>up</code>: UP, a la espera de bridge. Down/UP son estados
+                        administrativos; LOWER_UP es el del cable físico — no caer en el semántico.<br>PNG · 1814×226 px · 59 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+
+                <h3>6.2 El bridge sin cable y las dos islas</h3>
+                <p>En la GUI del 20 vi un <code>vmbr1</code> "WAN_pfsense" con <strong>Ports/Slaves vacío</strong> —
+                    un switch virtual sin cables, que en el <code>bridge link</code> aparecía sin forwarding. El fix:
+                    poner el USB de puerto del bridge (System→Network→Edit de vmbr1) y Apply (Proxmox escribe en
+                    <code>interfaces.new</code> y no toca la red viva hasta el Apply — una red de seguridad genial).
+                    Y otra igual de rentable: al desconectar el cable switch↔router el clúster seguía 3/3 (los nodos
+                    se hablan entre sí por el switch) pero el PC se quedaba en una isla sin gateway: sin internet, sin
+                    Tailscale en el 10/20. La red estaba partida en dos: PC+router / switch+nodos. Reconectar el cable
+                    y todo fluye. El <code>ping 192.168.1.1</code> 0% loss lo confirmó.</p>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_autostart.png"
+                        alt="GUI de red de nucster20: vmbr1 sin puertos y USB ya levantado"
+                        width="1370" height="707">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="91 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>El vmbr1 del 20 antes de ponerle puerto: bridge sin cable = no hay nada bridged. Igual
+                        la "Apply Configuration" al gris tras aplicar los cambios — buena señal: nada pendiente.<br>PNG · 1370×707 px · 107 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_up.png"
+                        alt="USB de nucster20 ya en UP y LOWER_UP tras levantarlo"
+                        width="1370" height="707">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="161 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Y el del 20 en UP + LOWER_UP: escalo. Igual siempre y con un solo puente: USB →
+                        router. NUNCA al Zyxel (sin STP: unir ambos segmentos sería un bucle de capa 2 manual).<br>PNG · 1370×707 px · 194 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+
+                <h3>6.3 El cable del 30 estaba al revés (y la lección del testigo físico)</h3>
+                <p>Chocaban dos síntomas: sacar el cable de nic0 del 30 dejaba al 30 offline (sin IP de gestión), y
+                    sacar el cable del puerto 4 del Zyxel separaba al 30 de 10/20. Primera hipótesis: <em>ARP
+                    flux</em> (dos MACs respondiendo por la misma IP). Para no inventar: prueba discriminante con
+                    <code>ip neigh flush</code> + <code>ip neigh show</code> y <code>arping -I vmbr0 -c3
+                    192.168.1.30</code> — tres respuestas, los tres de <code>1c:69:7a:xx:xx:xx</code> (nic0/vmbr0 del
+                    30), ni una segunda MAC. Hipótesis refutada. La causa real, ya tocada con la física: en el 30 la
+                    NIC onboard (keystone roja) va <strong>directa al router</strong> y el USB (keystone azul) va al
+                    <strong>switch</strong> — justo lo contrario de mi plan documentado (onboard→switch, USB→router).
+                    La moral, apuntada en rojo: <em>antes de teorizar, pregunta por el enchufe</em>. Y para el futuro:
+                    etiquetar cables y hacer un mapa puerto a puerto del Zyxel y del router.</p>
+
+                <h3>6.4 El <code>qm set</code> que no se deja (typo + sintaxis)</h3>
+                <p>Intenté mover la LAN de pfSense de <code>vmbr10</code> aislada a VLAN 10 sobre <code>vmbr0</code>
+                    (primer paso hacia el CARP con LAN compartida):</p>
+                <pre><code>qm set 100 --net1 vitrio=BC:24:11:xx:xx:xx,bridge=vmbr0,tag10   # 400 Parameter verification failed</code></pre>
+                <p>Dos errores en una línea: <code>vitrio</code> (por <code>virtio</code>, el modelo va primero) y
+                    <code>tag10</code> debe ser <code>tag=10</code> (sin el =, Proxmox no lo lee como modelo y se queja).
+                    Pero ojo con la tercera: <code>qm set --net1</code> REEMPLAZA la definición de net1 al completo — si
+                    no repites opciones como firewall/mtu, se van. Por suerte la verificación de parámetros falla antes
+                    de tocar nada: <code>400</code> = 0 cambios. La decisión final: NO ejecutar aún la forma corregida.
+                    Por qué: el cableado no está alineado (nic0 del 30 al router, que no traga 802.1Q), la VLAN 10 no
+                    existe en el Zyxel y mover net1 en caliente me corta la web de pfSense salvo que la 102 salte también
+                    a vmbr0 tag 10. Orden pendiente: cableado → VLAN en el Zyxel → mover net1 y la 102 → crear el
+                    backup en el 20.</p>
+
+                <h3>6.5 El bridge dentro del bridge (<code>puepfsense</code>)</h3>
+                <p>Intentando dar IP al host en la LAN de pfSense endereé <code>puepfsense</code>: un Linux Bridge
+                    <strong>cuyo puerto es otro bridge</strong> (vmbr10) — el kernel no permite "bridging of bridges",
+                    así que su "Active: Yes" no demuestra nada (verificar con <code>bridge link</code> e <code>ip -br
+                    addr</code>). Y al intentar una interfaz VLAN <code>vmbr0.10</code> con default gateway me topé con
+                    <code>400 gateway: Default gateway already exists on interface 'vmbr0'</code>: solo puede haber
+                    <strong>un</strong> default gateway por nodo (el de vmbr0, 192.168.1.1). Cualquier otra IP
+                    en otra red va SIN gateway. Además ojo de seguridad: darle IP al host en la LAN de pfSense expone
+                    la GUI de Proxmox (8006) y el SSH al lab... y ese tráfico no pasa por pfSense (está dentro del
+                    segmento). Decisión: retirar/rehacer <code>puepfsense</code> se queda en cola sin <code>adelante</code>,
+                    y sigo gestionando pfSense desde la 102.</p>
+
+                <h3>6.6 Colateral: el DNS de Tailscale secuestró el 30 (y el CT lo heredó)</h3>
+                <p>Efecto lateral de esta fase: Tailscale en el 30 tomó <code>/etc/resolv.conf</code> del nodo
+                    (<code>nameserver 100.100.100.100</code> + <code>fd7a:...::53</code> de MagicDNS) y el CT 200 (que se
+                    genera su fichero al arrancar copiando el del nodo) heredó esos nameservers aunque su config decía
+                    <code>nameserver 1.1.1.1</code>. Como dentro del CT no existe <code>tailscale0</code>, la descarga
+                    de imágenes de Docker era "network is unreachable". El CT pendiente de reinicio; los nodos 10 y 20
+                    offline en Tailscale ~1 h — posible relación con los trasteos de cableado, por revisar. Nota para
+                    el futuro: cuando el CT con Pi-hole esté arriba, ¡que Pi-hole no sea su propio DNS
+                    (dependencia circular)!.</p>
+            </section>
+
+            <section aria-labelledby="backup">
+                <h2 id="backup">7. Cierre con red de seguridad: snapshot + export</h2>
+                <p>Antes de dar por bueno el master, red de seguridad doble (porque un firewall sin backup es una
+                    apuesta arriesgada):</p>
+                <ol>
+                    <li><strong>Snapshot en Proxmox</strong> de la VM 100, con RAM incluida
+                        (<code>pfsense-master-freshinstall-validado</code>, 1.90 GiB guardados en 17 s).</li>
+                    <li><strong>Export del config.xml</strong> desde Diagnostics→Backup &amp; Restore (Backup area All,
+                        Skip RRD data, Skip packages fuera, backup de SSH keys): XML de 12,1 KB descargado desde la 102
+                        y enviado por <code>scp</code> a <code>/root/scp-recibido/pfsense-conf-bk/</code> del 30.
+                        Pendiente en la lista de faenas: regenerarlo con el checkbox de cifrado marcado y guardar la
+                        contraseña en el gestor — un config.xml sin cifrar lleva las contraseñas de pfSense en
+                        claro dentro; mejor regenerarlo ya de una vez cifrado.</li>
+                </ol>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup1.png"
+                        alt="Creación del snapshot pfsense-master-freshinstall-validado en Proxmox" width="1452" height="790">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="66 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>Snapshot creado tras dejar el wizard y la contraseña listas.<br>PNG · 1452×790 px · 66 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup2.png"
+                        alt="Tarea de snapshot completada: 1.90 GiB guardados en 17 segundos" width="1452" height="790">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="110 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>"Saving VM state and RAM using storage local-lvm": TASK OK tras 1.90 GiB y 17
+                        s.<br>PNG · 1452×790 px · 110 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+                <figure itemscope itemtype="https://schema.org/ImageObject">
+                    <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup3.png"
+                        alt="Backup and Restore de pfSense: opciones de export del config.xml" width="1383" height="665">
+                    <meta itemprop="encodingFormat" content="image/png">
+                    <meta itemprop="contentSize" content="158 KB">
+                    <meta itemprop="creator" content="Christian Comes">
+                    <meta itemprop="copyrightYear" content="2026">
+                    <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <figcaption>El export "todo" (Backup area All, RRD fuera, SSH keys sí). El checkbox de cifrado
+                        aún sin marcar: faena pendiente.<br>PNG · 1383×665 px · 158 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                </figure>
+            </section>
+
+            <section aria-labelledby="cierre">
+                <h2 id="cierre">Cierre</h2>
+                <p>Día cerrado: pfSense <code>2.9.0</code> <i>master</i> instalado, wizard en regla, contraseña
+                    cambiada, DHCP y NAT validados con la 102 como cliente, snapshot + export como cinturón y
+                    faenas apuntadas (cifrar el export, cableado por alinear, VLAN 10 en el Zyxel, mover net1,
+                    retirar <code>puepfsense</code>). Lo que me llevo: el instalador es online (no ISO offline), y
+                    el error más feo no fue de software sino de cable — haberlo preguntado el primer día me habría
+                    ahorrado teoría sobre ARP y un test que me hizo instalar <code>arping</code> (con permiso, todo
+                    sea dicho).</p>
+                <p>Siguiente capítulo: alinear cables a lo documentado, VLAN 10 en el Zyxel, mover la LAN de pfSense
+                    a <code>vmbr0</code> tag 10 (con la 102 detrás), y clonar el camino en el 20 para el
+                    <code>pfsense-backup</code> con CARP y XMLRPC. Y el CT 200, ya en la VLAN 10, con Docker
+                    al fin sirviendo.</p>
+            </section>
+        </article>
+        <section aria-labelledby="entradasrecientes">
+            <h2 id="entradasrecientes">Entradas Recientes</h2>
+            <ul>
+                <li>
+                    <a href="../../../proyectos.html#proyectoscatalogo">Proyectos</a>
+                </li>
+                <li>
+                    <a href="cluster01elgermen.html">Clúster 01 - El germen</a>
+                </li>
+                <li>
+                    <a href="cluster02primerospasos.html">Clúster 02 - Primeros pasos</a>
+                </li>
+                <li>
+                    <a href="cluster03primerpfsense.html">Clúster 03 - El primer pfSense</a>
+                </li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>Christian Comes - octubre de 2026</p>
+    </footer>
+</body>
+
+</html>

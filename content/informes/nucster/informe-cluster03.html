@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Informe técnico INF-2026-04: instalación del firewall pfSense master (VM 100 en nucster30) sobre el clúster Proxmox Nucster. Netgate Installer en línea, bridges WAN/LAN, wizard, validación, copias de seguridad e incidencias registradas.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="INF-2026-04 - Informe de instalación del firewall pfSense master">
+    <meta property="og:description" content="Informe técnico INF-2026-04: instalación del firewall pfSense master (VM 100 en nucster30) sobre el clúster Proxmox Nucster. Netgate Installer en línea, bridges WAN/LAN, wizard, validación, copias de seguridad e incidencias registradas.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/informes/nucster/informe-cluster03.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>INF-2026-04 - Informe de instalación del firewall pfSense master</title>
+    </head>
+
+<body>
+        <a href="#contenido">Saltar al contenido</a>
+<header>
+        <p>Informe INF-2026-04 - Nucster</p>
+<nav aria-label="Navegación principal">
+  <a href="../../../index.html">Inicio</a>
+  <a href="../../../sobremi.html">Sobre mí</a>
+  <a href="../../../contacto.html">Contacto</a>
+  <a href="../../../proyectos.html">Proyectos</a>
+  <a href="../../posts/nucster/inventario.html">Inventario de Nucster</a>
+  <a href="../../../cv-es.html">CV</a>
+</nav>
+    </header>
+    <main id="contenido">
+        <article id="inf-2026-04">
+            <header>
+                <h1>Informe técnico INF-2026-04: instalación del firewall pfSense master</h1>
+                <table>
+                    <caption>Ficha del documento</caption>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Referencia</th>
+                            <td>INF-2026-04</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Versión</th>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fecha de emisión</th>
+                            <td>24 de octubre de 2026</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Autor</th>
+                            <td>Christian Comes</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Destinatario</th>
+                            <td>Evaluación del módulo LMSGI (Lenguajes de Marcas), Quincena 4</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Estado</th>
+                            <td>En revisión</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </header>
+
+            <section aria-labelledby="resumen">
+                <h2 id="resumen">1. Resumen ejecutivo</h2>
+                <p>Se describe en este informe la fase 2 del proyecto Nucster: instalación y configuración inicial del
+                    firewall pfSense master sobre una máquina virtual del nodo nucster30. Durante la intervención se
+                    completaron las siguientes actuaciones: preparación de los puentes de red WAN y LAN en los nodos
+                    20 y 30, instalación de pfSense CE 2.9.0 en la VM 100 (pfsense-master) mediante el Netgate
+                    Installer, ejecución del asistente de configuración con decisiones documentadas, endurecimiento
+                    inicial de la cuenta de administración, validación del DHCP, del NAT y de la resolución DNS desde
+                    un cliente de la LAN aislada, y copias de seguridad (snapshot de Proxmox y exportación de
+                    config.xml). Se registraron ocho incidencias, todas ellas resueltas o cerradas con causa
+                    documentada, destacando tres de diagnóstico de red de capa 1 (INC-04, INC-05, INC-06): la causa
+                    raíz fue un cableado físico contrario al plan documentado, y no una anomalía de software.</p>
+            </section>
+
+            <section aria-labelledby="alcance">
+                <h2 id="alcance">2. Alcance y metodología</h2>
+                <p>El alcance de este informe se limita a la instalación del pfSense master en nucster30 y a la
+                    preparación de red necesaria para ello. Quedan excluidos y se abordan como trabajo futuro: el
+                    traslado de la LAN del laboratorio a la VLAN 10 (requiere crear la VLAN en el switch Zyxel,
+                    alinear el cableado físico y migrar la NIC del cliente), el firewall pfSense-backup en nucster20
+                    con CARP/XMLRPC para alta disponibilidad, y la retirada del artefacto <code>puepfsense</code>
+                    (INC-07).</p>
+                <p>La metodología empleada combinó: (i) criterio de operar por GUI siempre que sea posible,
+                    reservando la consola a la verificación de lectura; (ii) aplicación de los procedimientos conforme
+                    a la documentación oficial de Netgate/Proxmox; (iii) verificación tras cada paso antes de
+                    continuar; (iv) registro de decisiones con su motivación (formato DECISIÓN/QUÉ/POR QUÉ); y
+                    (v) refutación de hipótesis mediante medición antes de aplicar cambios correctivos.</p>
+            </section>
+
+            <section aria-labelledby="arquitectura">
+                <h2 id="arquitectura">3. Arquitectura desplegada</h2>
+                <h3>3.1 Bloques de red en los nodos afectados</h3>
+                <table>
+                    <caption>Puentes de red y NIC definidos para la fase</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Elemento</th>
+                            <th scope="col">Función</th>
+                            <th scope="col">Detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">vmbr0 (10/20/30)</th>
+                            <td>Gestión y corosync</td>
+                            <td>192.168.1.x/24, sobre <code>nic0</code>, gateway 192.168.1.1</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">vmbr1 (20/30)</th>
+                            <td>WAN de pfSense</th>
+                            <td>Sin IP en el host; puerto: NIC USB (<code>enx…</code>, nombres derivados de las MAC, omitidas)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">vmbr10 (20/30)</th>
+                            <td>LAN aislada de pfSense</td>
+                            <td>Sin puerto físico ni IP en el host; solo guests</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Decisiones motivadas: <code>vmbr1</code> sin IP en el host (la IP la toma pfSense por DHCP del
+                    router; si el host tuviera IP en ese segmento, Proxmox quedaría accesible desde el lado del router) y
+                    la NIC USB conectada al router, nunca al switch (el Zyxel GS1200-8 no ejecuta spanning tree, por lo
+                    que unir ambos segmentos crearía un bucle de capa 2).</p>
+
+                <h3>3.2 Máquina virtual pfsense-master (VM 100, nodo 30)</h3>
+                <table>
+                    <caption>Hardware de la VM 100 tras la instalación</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Parámetro</th>
+                            <th scope="col">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Memoria</th>
+                            <td>2 GiB</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Procesadores</th>
+                            <td>2 (1 socket, 2 cores, tipo <code>host</code>)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Disco</th>
+                            <td><code>local-lvm: vm-100-disk-0</code>, 32 GB, SATA</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">NIC net0 / net1</th>
+                            <td>VirtIO; net0 → <code>vmbr1</code> (WAN), net1 → <code>vmbr10</code> (LAN)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Arranque</th>
+                            <td>Start at boot: yes; orden <code>sata0, ide2, net0</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">CD/DVD</th>
+                            <td>Retirado tras la instalación ("do not use any media") para evitar remontar el
+                                instalador</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Gestión del firewall: exclusivamente desde la VM 102 (Debian live, VMID 102, cliente de la LAN
+                    aislada), que actúa como <i>jumpbox</i>. Así, ni la GUI ni el SSH del firewall quedan expuestos a
+                    la red doméstica, y el host no interviene en el tránsito LAN.</p>
+            </section>
+
+            <section aria-labelledby="configuracion">
+                <h2 id="configuracion">4. Configuración realizada</h2>
+
+                <h3>4.1 Instalación del sistema (Netgate Installer)</h3>
+                <p>La imagen copiada a los tres nodos (<code>netgate-installer-v1.2-RELEASE-amd64.iso</code>, 1011 MB,
+                    vía <code>scp</code> desde nucster30) no es una ISO offline de pfSense CE, sino el Netgate
+                    Installer: un instalador en línea que aplica pfSense Plus por defecto y exige conectividad a los
+                    servidores de Netgate durante la instalación (comprobación de conectividad y descarga de 179
+                    paquetes, 298 MiB). La corrección de método consistió en seleccionar la instalación de
+                    <strong>pfSense CE</strong> en el aviso de dispositivo no soportado, con la versión estable
+                    2.9.0. Consecuencia operativa: la WAN debe estar viva antes de instalar, y el producto instalado es
+                    pfSense CE 2.9.0-RELEASE sobre FreeBSD 16.0-CURRENT (rama de desarrollo, a vigilar). La
+                    paridad de versiones con el futuro backup es requisito de CARP/XMLRPC.</p>
+                <p>En el propio instalador se fijaron los modos de red: WAN (<code>vtnet0</code>) en modo DHCP
+                    cliente sin etiquetado VLAN, y LAN (<code>vtnet1</code>) estática en 192.168.10.1/24 con DHCP
+                    server habilitado en el rango 192.168.10.100-199; sistema de ficheros ZFS (recomendado) con
+                    esquema de particiones GPT.</p>
+
+                <h3>4.2 Asistente de configuración (9 pasos) y endurecimiento</h3>
+                <table>
+                    <caption>Decisiones del asistente y motivación</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Paso</th>
+                            <th scope="col">Valor aplicado</th>
+                            <th scope="col">Motivación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">General</th>
+                            <td><code>pfsense-master</code> · <code>home.arpa</code> · DNS 1.1.1.1 y 80.58.61.250 ·
+                                Override DNS</td>
+                            <td><code>home.arpa</code> es el dominio reservado a redes domésticas (RFC 8375);
+                                <code>.local</code> queda reservado a mDNS y provoca conflictos. Mismos DNS que los
+                                nodos por coherencia (pendiente decidir DNS Query Forwarding)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">NTP / zona</th>
+                            <td><code>2.pfsense.pool.ntp.org</code> · <code>Europe/Madrid</code></td>
+                            <td>Relojes coherentes con los nodos; certificados/VPN fallan con reloj desajustado y CARP
+                                se diagnostica mejor</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">WAN</th>
+                            <td>DHCP · Block RFC1918 <strong>desmarcado</strong> · Block bogons activo</td>
+                            <td>La WAN cuelga de 192.168.1.0/24 (doble NAT del laboratorio); la regla bloquearía el
+                                tráfico de prueba. Es una excepción consciente, a reactivar con WAN real</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">LAN</th>
+                            <td>192.168.10.1/24 sin cambios</td>
+                            <td>Red de diseño, sin solapamiento con la WAN</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Admin</th>
+                            <td>Contraseña de fábrica sustituida (no registrada)</td>
+                            <td>La credencial <code>admin/pfsense</code> es pública; endurecer es la primera actuación
+                                de seguridad</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Reload</th>
+                            <td>Recarga aplicada (pasos 7-9)</td>
+                            <td>Sin pulsar "Check for updates": el backup debe reproducir exactamente la misma
+                                versión</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>4.3 Copias de seguridad</h3>
+                <p>Antes de dar el sistema por válido se aplicaron dos mecanismos: (1) snapshot de Proxmox de la VM
+                    100 con RAM incluida (<code>pfsense-master-freshinstall-validado</code>, 1,90 GiB en 17 s); y
+                    (2) exportación del <code>config.xml</code> integrado desde Diagnostics → Backup &amp; Restore
+                    (área All, RRD data excluido, SSH keys incluidas), de 12,1 KB, descargado desde la VM 102 y
+                    almacenado en <code>/root/scp-recibido/pfsense-conf-bk/</code> de nucster30 vía
+                    <code>scp</code>. Pendiente: regenerar el export con cifrado activado y custodiar la
+                    contraseña de cifrado en el gestor de contraseñas (un XML sin cifrar contiene las credenciales de
+                    pfSense en claro).</p>
+            </section>
+
+            <section aria-labelledby="validacion">
+                <h2 id="validacion">5. Validación y resultados</h2>
+                <table>
+                    <caption>Resultados de validación</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Comprobación</th>
+                            <th scope="col">Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Estado del clúster tras la fase</th>
+                            <td>3 de 3 nodos, quórum estable mantenido</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Asignación WAN del pfSense</th>
+                            <td><code>vtnet0</code>, v4/DHCP4 192.168.1.52/24 (concesión del router doméstico)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">LAN del pfSense</th>
+                            <td><code>vtnet1</code>, 192.168.10.1/24 estática</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">DHCP del pfSense sobre el cliente</th>
+                            <td>VM 102 recibe 192.168.10.100/24, gateway 192.168.10.1 (<code>proto dhcp</code>)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">NAT y acceso exterior desde la LAN</th>
+                            <td>Ping a 1.1.1.1: 0 % de pérdida, ~10-15 ms</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Resolución DNS y salida HTTPS</th>
+                            <td>Ping a <code>deb.debian.org</code>: 0 % de pérdida, ~12 ms</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Cuenta admin</th>
+                            <td>"Password changed for user: admin" confirmado</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Versión del sistema</th>
+                            <td>pfSense CE 2.9.0-RELEASE, dashboard reporta "latest version"</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section aria-labelledby="incidencias">
+                <h2 id="incidencias">6. Incidencias registradas</h2>
+                <table>
+                    <caption>Incidencias de la intervención</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Ref.</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Causa</th>
+                            <th scope="col">Resolución</th>
+                            <th scope="col">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">INC-01</th>
+                            <td>La instalación de pfSense exige conectividad con servidores de Netgate, no es posible
+                                desde una ISO offline</td>
+                            <td>La imagen copiada es el Netgate Installer en línea, no la ISO offline de CE; el espejo
+                                comunitario estaba desactualizado (hasta 2.7.2)</td>
+                            <td>Selección "Install CE" en el aviso de dispositivo no soportado; WAN viva previa a la
+                                instalación</td>
+                            <td>Resuelta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-02</th>
+                            <td>La NIC USB permanecía sin enlace (<code>ethtool</code>: <code>Link detected: no</code>)</td>
+                            <td>Estado administrativo DOWN: sin el verbo <code>up</code> el comando
+                                <code>ip link set dev enx...</code> no hace nada ni informa; el PHY no negocia
+                                (3 ejecuciones infructuosas)</td>
+                            <td><code>ip link set dev enx... up</code>; verificado UP + LOWER_UP. Concepto fijado:
+                                estado administrativo (UP/DOWN) frente a estado de enlace (LOWER_UP)</td>
+                            <td>Resuelta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-03</th>
+                            <td><code>vmbr1</code> en nucster20 sin efecto: Ports/Slaves vacío</td>
+                            <td>Un bridge sin puertos es internamente un switch vacío (no se transmite nada)</td>
+                            <td>Asignación de la NIC USB como puerto del bridge por GUI y Apply Configuration
+                                (Proxmox escribe en <code>interfaces.new</code> y no toca la red viva hasta aplicar:
+                                salvavidas reversible)</td>
+                            <td>Resuelta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-04</th>
+                            <td>Al desconectar el cable switch↔router, pérdida de gestión e internet en el PC y de
+                                Tailscale en 10/20, sin caída del quórum</td>
+                            <td>Red partida en dos islas (PC+router / switch+nodos): los nodos se ven entre sí por el
+                                switch, pero pierden el gateway 192.168.1.1</td>
+                            <td>Reconexión del cable; verificado <code>ping 192.168.1.1</code> 0 % loss</td>
+                            <td>Resuelta</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-05</th>
+                            <td>Los dos síntomas persistentes: retirar el cable de nic0 del 30 lo dejaba offline;
+                                retirar el cable del puerto 4 del Zyxel lo separaba de 10/20</td>
+                            <td>Cableado físico del 30 contrario al plan: NIC onboard (keystone roja) directa al
+                                router y NIC USB (keystone azul) al switch. La hipótesis de ARP flux fue refutada por
+                                medición (<code>ip neigh</code> y <code>arping</code>: una sola MAC,
+                                <code>1c:69:7a:xx:xx:xx</code>, sin extras)</td>
+                            <td>Causa documentada; pendiente alinear con el plan (trabajo futuro) y etiquetar
+                                cables/keystones con mapa de puertos del Zyxel y del router</td>
+                            <td>Cerrada con causa; corrección de cableado pendiente</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-06</th>
+                            <td><code>qm set 100 --net1 vitrio=...,tag10</code> → <code>400 Parameter verification
+                                failed</code></td>
+                            <td>Dos errores de sintaxis (<code>vitrio</code> por <code>virtio</code>; <code>tag10</code>
+                                sin <code>=</code>) y y un tercero, de alcance: <code>qm set --net1</code> reemplaza la
+                                definición completa de la NIC</td>
+                            <td>Sin cambios aplicados (la verificación falla antes de escribir). La migración a VLAN 10
+                                se pospone por orden de dependencias: cableado alineado → VLAN en el Zyxel → mover net1
+                                y la VM 102</td>
+                            <td>Cerrada con decisión aplazada</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-07</th>
+                            <td>Artefacto <code>puepfsense</code> (bridge cuyo puerto es otro bridge) y error
+                                <code>400 gateway: Default gateway already exists on interface 'vmbr0'</code></td>
+                            <td>Linux no admite "bridging of bridges"; el host admite un único default gateway. Además,
+                                darle IP al host en la LAN de pfSense expone la GUI/SSH de Proxmox al lab sin pasar por
+                                el firewall</td>
+                            <td>Nada aplicado; retirada/rehacer de <code>puepfsense</code> en cola requiriendo
+                                aprobación, y administración del firewall desde la VM 102</td>
+                            <td>Cerrada con decisión aplazada</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INC-08</th>
+                            <td>Descarga de imágenes Docker fallida en el CT 200: <code>network is unreachable</code>
+                                hacia el DNS de Tailscale</td>
+                            <td>Efecto colateral de la fase: Tailscale tomó <code>/etc/resolv.conf</code> del nodo 30
+                                (MagicDNS 100.100.100.100 / fd7a::53) y el CT copió esos nameservers al arrancar; dentro
+                                del CT no existe <code>tailscale0</code></td>
+                            <td>Reinicio del CT pendiente para que se genere el fichero con su propio nameserver
+                                (1.1.1.1, ya en config). Advertencia futura: Pi-hole no debe ser su propio DNS
+                                (dependencia circular); 10/20 offline en Tailscale por revisar</td>
+                            <td>Diagnóstico cerrado; corrección pendiente de reinicio</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section aria-labelledby="resultados">
+                <h2 id="resultados">7. Resultados y evidencias</h2>
+                <p>La intervención concluyó con un pfSense CE 2.9.0 operativo como firewall master en la VM 100 de
+                    nucster30, la LAN aislada 192.168.10.0/24 sirviendo DHCP, NAT validado y cuenta de administración
+                    endurecida, junto con copia de seguridad en dos formatos (snapshot y config.xml). Las 24 capturas
+                    de la fase están disponibles en la
+                    <a href="../../posts/nucster/cluster03primerpfsense.html">entrada de bitácora correspondiente</a>.
+                    Nota de higiene de datos: los identificadores de la red doméstica real se
+                    <strong>omiten del texto</strong> de este informe y de la bitácora (MACs completas sustituidas
+                    por <code>xx:xx:xx</code>, nombres de interfaz <code>enx…</code> truncados, sin seriales,
+                    claves ni huellas SSH); en las capturas, la ocultación de los mismos datos se aplica en la
+                    edición manual a cargo del autor.</p>
+            </section>
+
+            <section aria-labelledby="conclusiones">
+                <h2 id="conclusiones">8. Conclusiones y trabajo futuro</h2>
+                <p>Las tres incidencias de red de capa 1 (INC-04, INC-05, INC-06) comparten lección: los síntomas nos
+                    apuntaron primero a software (ARP flux, ajustes de bridges) y la causa real era física (un cable al
+                    revés). Se establecen dos procedimientos: contrastar toda hipótesis con una medición antes de
+                    aplicar cambios (refutación por observación) y verificar el "<i>estado del enchufe</i>" (cableado y
+                    etiquetas físicas) antes de teorizar. La decisión de red: queda aplazada toda migración a
+                    VLAN 10 hasta alinear el cableado, por seguridad y reversibilidad.</p>
+                <p>Trabajo futuro: (1) alinear el cableado con el plan en 10/20/30 (onboard → switch, USB → router) y
+                    verificar quórum; (2) crear la VLAN 10 en el Zyxel (miembros tagged, PVID 1 intacto, puerto del
+                    router no miembro); (3) trasladar la LAN de pfSense a <code>vmbr0</code> tag 10, junto con la VM 102
+                    (por GUI); (4) repetir el camino para el pfSense-backup en nucster20 con CARP/XMLRPC y VIP de WAN;
+                    (5) reiniciar el CT 200 y revalidar su DNS; (6) regenerar el export de config.xml cifrado con la
+                    contraseña custodiada; (7) tabla de direccionamiento IP global del laboratorio.</p>
+            </section>
+
+            <section aria-labelledby="referencias">
+                <h2 id="referencias">9. Referencias</h2>
+                <ul>
+                    <li>Informe: <a href="informe-cluster02.html">INF-2026-02 - Puesta en servicio del clúster</a>.</li>
+                    <li>Bitácora: <a href="../../posts/nucster/cluster03primerpfsense.html">Clúster 03 - El primer
+                        pfSense</a>.</li>
+                    <li><a href="../../posts/nucster/inventario.html">Inventario de hardware de Nucster</a>.</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Christian Comes - octubre de 2026</p>
+    </footer>
+</body>
+</html>

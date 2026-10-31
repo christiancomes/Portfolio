@@ -4,45 +4,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
-          content="Catálogo de proyectos del homelab de Christian Comes: el clúster Núcster con Proxmox y Kubernetes, y la documentación del ciclo de Lenguajes de Marcas.">
+          content="Catálogo de proyectos del homelab de Christian Comes: el clúster Nucster con Proxmox y Kubernetes, y la documentación del ciclo de Lenguajes de Marcas.">
     <meta name="author" content="Christian Comes">
     <meta property="og:title" content="Proyectos">
-    <meta property="og:description" content="Catálogo de proyectos del homelab de Christian Comes: el clúster Núcster con Proxmox y Kubernetes, y la documentación del ciclo de Lenguajes de Marcas.">
+    <meta property="og:description" content="Catálogo de proyectos del homelab de Christian Comes: el clúster Nucster con Proxmox y Kubernetes, y la documentación del ciclo de Lenguajes de Marcas.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_ES">
     <meta property="og:url" content="https://christiancomes.github.io/Portfolio/proyectos.html">
     <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
     <title>Proyectos</title>
-          <style>
-            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
-               oculto visualmente hasta que recibe el foco del teclado. */
-            .saltar-contenido {
-                position: absolute;
-                left: -10000px;
-            }
-            .saltar-contenido:focus {
-                position: fixed;
-                left: 0;
-                top: 0;
-                z-index: 1000;
-                padding: 0.75rem 1rem;
-                background: #fff;
-                color: #000;
-                border: 2px solid #000;
-                border-radius: 0 0 0.25rem 0;
-            }
-        </style>
     </head>
   <body>
-        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+        <a href="#contenido">Saltar al contenido</a>
 <header>
       <p>Christian Comes - Proyectos</p>
 <nav aria-label="Navegación principal">
   <a href="index.html">Inicio</a>
-  <a href="sobremi.html">Sobre mi</a>
+  <a href="sobremi.html">Sobre mí</a>
   <a href="contacto.html">Contacto</a>
   <a href="proyectos.html" aria-current="page">Proyectos</a>
-  <a href="content/posts/nucster/inventario.html">Inventario</a>
+  <a href="content/posts/nucster/inventario.html">Inventario de Nucster</a>
   <a href="cv-es.html">CV</a>
 </nav>
     </header>
@@ -55,49 +36,58 @@
             La idea es facilitar la navegación y la búsqueda de información, para que el lector pueda encontrar lo que busca sin tener que leer todo el contenido.
           </p>
         </header>
-        <section aria-labelledby="biblioteca-visual">
-            <h2 id="biblioteca-visual">Visualización de la Biblioteca</h2>
-            <figure itemscope itemtype="https://schema.org/ImageObject">
-                <img itemprop="contentUrl"
-                    src="img/estanterias-proyectos.svg" 
-                    width="1000" height="650"
-                    alt="Gráfico vectorial SVG con dos estanterías: la de Lenguajes de Marcas organizada por temas y la de Homelab organizada por capas de infraestructura">
-                <meta itemprop="encodingFormat" content="image/svg+xml">
-                <meta itemprop="contentSize" content="7 KB">
-                <meta itemprop="creator" content="Christian Comes">
-                <meta itemprop="copyrightYear" content="2026">
-                <meta itemprop="copyrightHolder" content="Christian Comes">
-                <meta itemprop="license" content="Todos los derechos reservados — Christian Comes">
-                <figcaption>Representación en estanterías del temario de Lenguajes de Marcas y los módulos del Homelab.</figcaption>
-        </figure>
-        </section>
-        <section aria-labelledby="informes-tecnicos">
-            <h2 id="informes-tecnicos">Informes técnicos</h2>
-            <ul>
-                <li>
-                    <a href="content/informes/nucster/index.html">Índice de informes técnicos</a>
-                </li>
-                <li>
-                    <a href="content/informes/nucster/informe-cluster01.html">INF-2026-01 - Clúster 01: fase de planificación</a>
-                </li>
-                <li>
-                    <a href="content/informes/nucster/informe-cluster02.html">INF-2026-02 - Clúster 02: puesta en servicio del clúster Proxmox</a>
-                </li>
-                <li>
-                    <a href="content/informes/nucster/informe-validacion.html">INF-2026-03 - Validación y accesibilidad del sitio</a>
-                </li>
-            </ul>
-        </section>
+        <section id="indice_proyectos" aria-labelledby="titulo-indice-proyectos">
+        <h2 id="titulo-indice-proyectos">Índice de Proyectos</h2>
+        <p>
+          La siguiente tabla recoge de forma clara los proyectos actuales.
+        </p>
+        <table border="1" cellpadding="8" cellspacing="0" width="100%">
+          <caption>
+            Índice de proyectos aquí publicados.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="colgroup" colspan="2">Nucster</th>
+              <th scope="colgroup">Portfolio</th>
+            </tr>
+            <tr>
+              <th scope="col">Blog</th>
+              <th scope="col">Informes</th>
+              <th scope="col">Blog de Construcción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="content/posts/nucster/cluster01elgermen.html">Clúster 01 - El germen</a></td>
+              <td><a href="content/informes/nucster/informe-cluster01.html">INF-2026-01 - Clúster 01: fase de planificación</a></td>
+              <td><a href="content/posts/portfolio/portfolio01planificacion.html">Portfolio 01 - Planificación</a></td>
+            </tr>
+            <tr>
+              <td><a href="content/posts/nucster/cluster02primerospasos.html">Clúster 02 - Primeros pasos</a></td>
+              <td><a href="content/informes/nucster/informe-cluster02.html">INF-2026-02 - Clúster 02: puesta en servicio del clúster Proxmox</a></td>
+              <td><a href="content/posts/portfolio/portfolio02construccion.html">Portfolio 02 - Construcción</a></td>
+            </tr>
+            <tr>
+              <td><a href="content/posts/nucster/cluster03primerpfsense.html">Clúster 03 - El primer pfSense</a></td>
+              <td><a href="content/informes/nucster/informe-cluster03.html">INF-2026-03 - Clúster 03: instalación del firewall pfSense master</a></td>
+              <td><a href="content/posts/portfolio/portfolio03validacion.html">Portfolio 03 - Validación y accesibilidad</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
         <section aria-labelledby="entradasrecientes">
           <h2 id="entradasrecientes">Entradas Recientes</h2>
           <ul>
              <li>
               <a href="content/posts/nucster/cluster01elgermen.html">Clúster 01 - El germen</a>
             </li>
-            <li>
+             <li>
               <a href="content/posts/nucster/cluster02primerospasos.html">Clúster 02 - Primeros pasos</a>
             </li>
-            <li>
+             <li>
+              <a href="content/posts/nucster/cluster03primerpfsense.html">Clúster 03 - El primer pfSense</a>
+            </li>
+             <li>
               <a href="content/posts/portfolio/portfolio01planificacion.html">Portfolio 01 - Planificación</a>
             </li>
             <li>
