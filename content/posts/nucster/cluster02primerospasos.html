@@ -14,10 +14,32 @@
     <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/posts/nucster/cluster02primerospasos.html">
     <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
     <title>Clúster 02 - Primeros pasos</title>
+    <style>
+        /* Imágenes responsivas: sin este límite el srcset no tiene efecto, porque la
+           imagen se dibuja a su anchura natural y desborda el viewport. */
+        img { max-width: 100%; height: auto; }
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+           oculto visualmente hasta que recibe el foco del teclado. */
+        .saltar-contenido {
+            position: absolute;
+            left: -10000px;
+        }
+        .saltar-contenido:focus {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 0 0 0.25rem 0;
+        }
+</style>
     </head>
 
 <body>
-        <a href="#contenido">Saltar al contenido</a>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
 <header>
         <p>
             Clúster 02 - Primeros pasos
@@ -46,13 +68,16 @@
                 </p>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/switch.png"
-                        alt="Switch Zyxel GS1200-8 con 5 puertos a 1000 Mbps Full" width="1479" height="856">
+                        alt="Switch Zyxel GS1200-8 con 5 puertos a 1000 Mbps Full" width="1479" height="856"
+                        srcset="../../../img/cluster01/switch-480w.png 480w, ../../../img/cluster01/switch-720w.png 720w, ../../../img/cluster01/switch-1080w.png 1080w, ../../../img/cluster01/switch.png 1479w"
+                        sizes="(max-width: 1479px) 100vw, 1479px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="157 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>El árbitro: 5 bocas a 1G y 3 libres para WAN y trunk.<br>PNG · 1479×856 px · 157 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>El árbitro: 5 bocas a 1G y 3 libres para WAN y trunk.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
             </section>
             <section aria-labelledby="inventario">
@@ -128,34 +153,43 @@
                 </table>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster10/nucster10_sumary.png" alt="Resumen Proxmox de nucster10"
-                        width="1919" height="867">
+                        width="1919" height="867"
+                        srcset="../../../img/cluster01/nucster10/nucster10_sumary-480w.png 480w, ../../../img/cluster01/nucster10/nucster10_sumary-720w.png 720w, ../../../img/cluster01/nucster10/nucster10_sumary-1080w.png 1080w, ../../../img/cluster01/nucster10/nucster10_sumary.png 1919w"
+                        sizes="(max-width: 1919px) 100vw, 1919px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="190 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>El gemelo bueno número uno.<br>PNG · 1919×867 px · 190 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>El gemelo bueno número uno.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster20/nucster20_summary.png" alt="Resumen Proxmox de nucster20"
-                        width="1919" height="867">
+                        width="1919" height="867"
+                        srcset="../../../img/cluster01/nucster20/nucster20_summary-480w.png 480w, ../../../img/cluster01/nucster20/nucster20_summary-720w.png 720w, ../../../img/cluster01/nucster20/nucster20_summary-1080w.png 1080w, ../../../img/cluster01/nucster20/nucster20_summary.png 1919w"
+                        sizes="(max-width: 1919px) 100vw, 1919px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="193 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>El gemelo bueno número dos.<br>PNG · 1919×867 px · 193 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>El gemelo bueno número dos.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster30/nucster30_summary.png" alt="Resumen Proxmox de nucster30"
-                        width="1919" height="867">
+                        width="1919" height="867"
+                        srcset="../../../img/cluster01/nucster30/nucster30_summary-480w.png 480w, ../../../img/cluster01/nucster30/nucster30_summary-720w.png 720w, ../../../img/cluster01/nucster30/nucster30_summary-1080w.png 1080w, ../../../img/cluster01/nucster30/nucster30_summary.png 1919w"
+                        sizes="(max-width: 1919px) 100vw, 1919px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="191 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>El raro, con la raíz pequeña. Las capturas de discos las quito: llevaban seriales a la
-                        vista.<br>PNG · 1919×867 px · 191 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        vista.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
             </section>
             <section aria-labelledby="nag">
@@ -180,33 +214,42 @@ apt update &amp;&amp; apt full-upgrade -y  # 182 paquetes, kernel 7.0.2-6 -&gt; 
                 </p>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster10/nucster10_fastfetch.png" alt="fastfetch de nucster10"
-                        width="922" height="390">
+                        width="922" height="390"
+                        srcset="../../../img/cluster01/nucster10/nucster10_fastfetch-480w.png 480w, ../../../img/cluster01/nucster10/nucster10_fastfetch-720w.png 720w, ../../../img/cluster01/nucster10/nucster10_fastfetch.png 922w"
+                        sizes="(max-width: 922px) 100vw, 922px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="71 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>Ficha del 10: J3455, 7.17 GiB, .10/24.<br>PNG · 922×390 px · 71 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>Ficha del 10: J3455, 7.17 GiB, .10/24.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster20/nucster20_fastfetch.png" alt="fastfetch de nucster20"
-                        width="922" height="390">
+                        width="922" height="390"
+                        srcset="../../../img/cluster01/nucster20/nucster20_fastfetch-480w.png 480w, ../../../img/cluster01/nucster20/nucster20_fastfetch-720w.png 720w, ../../../img/cluster01/nucster20/nucster20_fastfetch.png 922w"
+                        sizes="(max-width: 922px) 100vw, 922px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="72 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>Ficha del 20: el gemelo con 7.60 GiB.<br>PNG · 922×390 px · 72 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>Ficha del 20: el gemelo con 7.60 GiB.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster30/nucster30_fastfetch.png" alt="fastfetch de nucster30"
-                        width="922" height="390">
+                        width="922" height="390"
+                        srcset="../../../img/cluster01/nucster30/nucster30_fastfetch-480w.png 480w, ../../../img/cluster01/nucster30/nucster30_fastfetch-720w.png 720w, ../../../img/cluster01/nucster30/nucster30_fastfetch.png 922w"
+                        sizes="(max-width: 922px) 100vw, 922px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="72 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>Ficha del 30: mismo micro, disco pequeño.<br>PNG · 922×390 px · 72 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>Ficha del 30: mismo micro, disco pequeño.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
             </section>
             <section aria-labelledby="red">
@@ -218,33 +261,42 @@ apt update &amp;&amp; apt full-upgrade -y  # 182 paquetes, kernel 7.0.2-6 -&gt; 
                 </p>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster10/nucster10_vlan_aware.png"
-                        alt="Red de nucster10 con vmbr0 VLAN aware" width="1039" height="172">
+                        alt="Red de nucster10 con vmbr0 VLAN aware" width="1039" height="172"
+                        srcset="../../../img/cluster01/nucster10/nucster10_vlan_aware-480w.png 480w, ../../../img/cluster01/nucster10/nucster10_vlan_aware-720w.png 720w, ../../../img/cluster01/nucster10/nucster10_vlan_aware.png 1039w"
+                        sizes="(max-width: 1039px) 100vw, 1039px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="26 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>Red del 10, MACs tachadas: ya voy aprendiendo.<br>PNG · 1039×172 px · 26 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>Red del 10, MACs tachadas: ya voy aprendiendo.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster20/nucster20_vlan_aware.png"
-                        alt="Red de nucster20 con vmbr0 VLAN aware" width="1039" height="172">
+                        alt="Red de nucster20 con vmbr0 VLAN aware" width="1039" height="172"
+                        srcset="../../../img/cluster01/nucster20/nucster20_vlan_aware-480w.png 480w, ../../../img/cluster01/nucster20/nucster20_vlan_aware-720w.png 720w, ../../../img/cluster01/nucster20/nucster20_vlan_aware.png 1039w"
+                        sizes="(max-width: 1039px) 100vw, 1039px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="26 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>Red del 20, calcada.<br>PNG · 1039×172 px · 26 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>Red del 20, calcada.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster30/nucster30_vlan_aware.png"
-                        alt="Red de nucster30 con USB enx inactivo" width="1039" height="191">
+                        alt="Red de nucster30 con USB enx inactivo" width="1039" height="191"
+                        srcset="../../../img/cluster01/nucster30/nucster30_vlan_aware-480w.png 480w, ../../../img/cluster01/nucster30/nucster30_vlan_aware-720w.png 720w, ../../../img/cluster01/nucster30/nucster30_vlan_aware.png 1039w"
+                        sizes="(max-width: 1039px) 100vw, 1039px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="29 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>Red del 30 con el USB <code>enx...</code> quieto hasta la WAN.<br>PNG · 1039×191 px · 29 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>Red del 30 con el USB <code>enx...</code> quieto hasta la WAN.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
             </section>
             <section aria-labelledby="cluster">
@@ -258,35 +310,44 @@ pvecm add 192.168.1.10 --link0 192.168.1.30</code></pre>
                     entré por consola física. Con <code>yes</code> completo, dentro.</p>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster10/nucster10_cluster.png"
-                        alt="pvecm status 3/3 en nucster10" width="1143" height="856">
+                        alt="pvecm status 3/3 en nucster10" width="1143" height="856"
+                        srcset="../../../img/cluster01/nucster10/nucster10_cluster-480w.png 480w, ../../../img/cluster01/nucster10/nucster10_cluster-720w.png 720w, ../../../img/cluster01/nucster10/nucster10_cluster-1080w.png 1080w, ../../../img/cluster01/nucster10/nucster10_cluster.png 1143w"
+                        sizes="(max-width: 1143px) 100vw, 1143px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="148 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>3/3 quorate visto desde el 10.<br>PNG · 1143×856 px · 148 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>3/3 quorate visto desde el 10.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster20/nucster20_cluster.png"
-                        alt="pvecm status 3/3 en nucster20" width="1143" height="856">
+                        alt="pvecm status 3/3 en nucster20" width="1143" height="856"
+                        srcset="../../../img/cluster01/nucster20/nucster20_cluster-480w.png 480w, ../../../img/cluster01/nucster20/nucster20_cluster-720w.png 720w, ../../../img/cluster01/nucster20/nucster20_cluster-1080w.png 1080w, ../../../img/cluster01/nucster20/nucster20_cluster.png 1143w"
+                        sizes="(max-width: 1143px) 100vw, 1143px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="158 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>
                         Lo mismo desde el 20.
-                    <br>PNG · 1143×856 px · 158 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/cluster01/nucster30/nucster30_cluster.png"
-                        alt="pvecm status 3/3 en nucster30" width="1143" height="856">
+                        alt="pvecm status 3/3 en nucster30" width="1143" height="856"
+                        srcset="../../../img/cluster01/nucster30/nucster30_cluster-480w.png 480w, ../../../img/cluster01/nucster30/nucster30_cluster-720w.png 720w, ../../../img/cluster01/nucster30/nucster30_cluster-1080w.png 1080w, ../../../img/cluster01/nucster30/nucster30_cluster.png 1143w"
+                        sizes="(max-width: 1143px) 100vw, 1143px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="167 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>Y desde el 30: con 3 votos aguantas una caída.<br>PNG · 1143×856 px · 167 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>Y desde el 30: con 3 votos aguantas una caída.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <p>Y llegó LA lección: <code>unknown node 'Nucster10' (500)</code>, <code>Standalone</code> viendo 3
                     nodos, <code>?</code> grises y <code>401 No ticket</code>. Causa: mi cambio a minúsculas dejó un
@@ -310,6 +371,7 @@ pvecm add 192.168.1.10 --link0 192.168.1.30</code></pre>
                 <meta itemprop="creator" content="Christian Comes">
                 <meta itemprop="copyrightYear" content="2026">
                 <meta itemprop="copyrightHolder" content="Christian Comes">
+                <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                 <meta itemprop="duration" content="PT1M13S">
                 <meta itemprop="name" content="Demostración: inventario y funcionamiento del clúster Nucster">
                 <meta itemprop="description" content="El vídeo muestra el inventario, y el funcionamiento como clúster de Nucster.">
@@ -335,7 +397,23 @@ pvecm add 192.168.1.10 --link0 192.168.1.30</code></pre>
         </section>
     </main>
     <footer>
-        <p>Christian Comes - octubre 2026</p>
+    <p>Christian Comes · <time datetime="2026-10">octubre de 2026</time></p>
+    <figure itemscope itemtype="https://schema.org/ImageObject">
+        <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+            <img itemprop="contentUrl" src="../../../img/licencias/cc-by-nc-nd-88x31.png"
+                width="88" height="31"
+                alt="Licencia Creative Commons: atribución, no comercial y sin obras derivadas">
+        </a>
+        <meta itemprop="encodingFormat" content="image/png">
+        <meta itemprop="contentSize" content="1 KB">
+        <meta itemprop="width" content="88">
+        <meta itemprop="height" content="31">
+        <meta itemprop="creator" content="Creative Commons">
+        <meta itemprop="license" content="Sello oficial de Creative Commons (creativecommons.org)">
+        <figcaption>Salvo indicación contraria, este contenido se publica bajo licencia
+            <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons
+            Atribución-NoComercial-SinDerivadas 4.0 Internacional</a>.</figcaption>
+    </figure>
     </footer>
 </body>
 

@@ -13,9 +13,31 @@
     <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/posts/nucster/cluster01elgermen.html">
     <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
     <title>Clúster 01 - El germen</title>
+    <style>
+        /* Imágenes responsivas: sin este límite el srcset no tiene efecto, porque la
+           imagen se dibuja a su anchura natural y desborda el viewport. */
+        img { max-width: 100%; height: auto; }
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+           oculto visualmente hasta que recibe el foco del teclado. */
+        .saltar-contenido {
+            position: absolute;
+            left: -10000px;
+        }
+        .saltar-contenido:focus {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 0 0 0.25rem 0;
+        }
+</style>
     </head>
   <body>
-        <a href="#contenido">Saltar al contenido</a>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
 <header>
       <p>Clúster 01 - Nucster</p>
 <nav aria-label="Navegación principal">
@@ -73,13 +95,16 @@
           <figure itemscope itemtype="https://schema.org/ImageObject">
             <img
               itemprop="contentUrl" src="../../../img/nucster01.jpg" width="300" height="300"
-              alt="Estado inicial del conjunto de hardware del clúster"> <!--En el manual se especifica que se deben poner ../ para subir un nivel de carpetas (relativas a la ubicación de la presente página). En este caso son necesarias 2 subidas y una bajada específica a img para llegar a la ruta de la imagen-->
+              alt="Estado inicial del conjunto de hardware del clúster"
+              srcset="../../../img/nucster01-480w.jpg 480w, ../../../img/nucster01-720w.jpg 720w, ../../../img/nucster01-1080w.jpg 1080w, ../../../img/nucster01.jpg 1551w"
+              sizes="(max-width: 300px) 100vw, 300px"> <!--En el manual se especifica que se deben poner ../ para subir un nivel de carpetas (relativas a la ubicación de la presente página). En este caso son necesarias 2 subidas y una bajada específica a img para llegar a la ruta de la imagen-->
           <meta itemprop="encodingFormat" content="image/jpeg">
           <meta itemprop="contentSize" content="450 KB">
           <meta itemprop="creator" content="Christian Comes">
           <meta itemprop="copyrightYear" content="2026">
           <meta itemprop="copyrightHolder" content="Christian Comes">
-          <figcaption>Estado inicial del hardware del clúster llamado Nucster.<br>JPEG · 1551×1551 px · 450 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>  
+          <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+          <figcaption>Estado inicial del hardware del clúster llamado Nucster.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>  
           </figure>
         </section>
         <section aria-labelledby="arquitectura-titulo">
@@ -118,7 +143,23 @@
     </main>
     
     <footer>
-      <p>Christian Comes - octubre de 2026</p>
+    <p>Christian Comes · <time datetime="2026-10">octubre de 2026</time></p>
+    <figure itemscope itemtype="https://schema.org/ImageObject">
+        <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+            <img itemprop="contentUrl" src="../../../img/licencias/cc-by-nc-nd-88x31.png"
+                width="88" height="31"
+                alt="Licencia Creative Commons: atribución, no comercial y sin obras derivadas">
+        </a>
+        <meta itemprop="encodingFormat" content="image/png">
+        <meta itemprop="contentSize" content="1 KB">
+        <meta itemprop="width" content="88">
+        <meta itemprop="height" content="31">
+        <meta itemprop="creator" content="Creative Commons">
+        <meta itemprop="license" content="Sello oficial de Creative Commons (creativecommons.org)">
+        <figcaption>Salvo indicación contraria, este contenido se publica bajo licencia
+            <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons
+            Atribución-NoComercial-SinDerivadas 4.0 Internacional</a>.</figcaption>
+    </figure>
     </footer>
   </body>
 </html>

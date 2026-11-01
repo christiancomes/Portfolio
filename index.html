@@ -31,7 +31,10 @@
                 border: 2px solid #000;
                 border-radius: 0 0 0.25rem 0;
             }
-        </style>
+            /* Imágenes responsivas: sin este límite el srcset no tiene efecto, porque la
+               imagen se dibuja a su anchura natural y desborda el viewport. */
+            img { max-width: 100%; height: auto; }
+</style>
     </head>
   <body>
         <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
@@ -83,15 +86,17 @@
         </section>
         <section aria-labelledby="entradasrecientes">
           <h2 id="entradasrecientes">Entradas Recientes</h2>
+          <p>Solo se enlaza la entrada más reciente de cada serie; el listado completo está en el
+            <a href="content/posts/indice_posts.html">índice de entradas</a>.</p>
           <ul>
             <li>
               <a href="proyectos.html#proyectoscatalogo">Proyectos</a>
             </li>
              <li>
-              <a href="content/posts/nucster/cluster01elgermen.html">Clúster 01 - El germen</a>
+              <a href="content/posts/nucster/cluster03primerpfsense.html">Clúster 03 - El primer pfSense</a>
             </li>
              <li>
-              <a href="content/posts/nucster/cluster02primerospasos.html">Clúster 02 - Primeros pasos</a>
+              <a href="content/posts/portfolio/portfolio03validacion.html">Portfolio 03 - Validación y accesibilidad</a>
             </li>
           </ul>
         </section>
@@ -99,7 +104,23 @@
     </main>
 
     <footer>
-      <p>Christian Comes - octubre de 2026</p>
+    <p>Christian Comes · <time datetime="2026-10">octubre de 2026</time></p>
+    <figure itemscope itemtype="https://schema.org/ImageObject">
+        <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+            <img itemprop="contentUrl" src="img/licencias/cc-by-nc-nd-88x31.png"
+                width="88" height="31"
+                alt="Licencia Creative Commons: atribución, no comercial y sin obras derivadas">
+        </a>
+        <meta itemprop="encodingFormat" content="image/png">
+        <meta itemprop="contentSize" content="1 KB">
+        <meta itemprop="width" content="88">
+        <meta itemprop="height" content="31">
+        <meta itemprop="creator" content="Creative Commons">
+        <meta itemprop="license" content="Sello oficial de Creative Commons (creativecommons.org)">
+        <figcaption>Salvo indicación contraria, este contenido se publica bajo licencia
+            <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons
+            Atribución-NoComercial-SinDerivadas 4.0 Internacional</a>.</figcaption>
+    </figure>
     </footer>
   </body>
 </html>

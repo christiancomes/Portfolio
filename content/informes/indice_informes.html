@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Índice general de informes técnicos: los cuatro informes emitidos, su referencia, fecha de emisión y estado, con enlace a cada documento.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="Índice de informes técnicos">
+    <meta property="og:description" content="Índice general de informes técnicos: los cuatro informes emitidos, su referencia, fecha de emisión y estado, con enlace a cada documento.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/informes/indice_informes.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>Índice de informes técnicos</title>
+    <style>
+        /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+           oculto visualmente hasta que recibe el foco del teclado. */
+        .saltar-contenido {
+            position: absolute;
+            left: -10000px;
+        }
+        .saltar-contenido:focus {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 0 0 0.25rem 0;
+        }
+        /* Tablas: sustituye a los atributos obsoletos border, cellpadding y
+           cellspacing, conservando el aspecto de antes (borde y 8px de margen) */
+        table {
+            border-collapse: collapse;
+            border: 1px solid;
+        }
+        th, td {
+            border: 1px solid;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "https://christiancomes.github.io/Portfolio/#web",
+                "name": "Portfolio de Christian Comes",
+                "url": "https://christiancomes.github.io/Portfolio/",
+                "inLanguage": "es",
+                "publisher": { "@id": "https://christiancomes.github.io/Portfolio/#autor" }
+            },
+            {
+                "@type": "CollectionPage",
+                "@id": "https://christiancomes.github.io/Portfolio/content/informes/indice_informes.html#pagina",
+                "url": "https://christiancomes.github.io/Portfolio/content/informes/indice_informes.html",
+                "name": "Índice de informes técnicos",
+                "description": "Índice general de informes técnicos: los cuatro informes emitidos, su referencia, fecha de emisión y estado, con enlace a cada documento.",
+                "inLanguage": "es",
+                "isPartOf": { "@id": "https://christiancomes.github.io/Portfolio/#web" },
+                "author": { "@id": "https://christiancomes.github.io/Portfolio/#autor" },
+                "license": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+                "breadcrumb": {
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://christiancomes.github.io/Portfolio/" },
+                        { "@type": "ListItem", "position": 2, "name": "Proyectos", "item": "https://christiancomes.github.io/Portfolio/proyectos.html" },
+                        { "@type": "ListItem", "position": 3, "name": "Índice de informes" }
+                    ]
+                }
+            },
+            {
+                "@type": "Person",
+                "@id": "https://christiancomes.github.io/Portfolio/#autor",
+                "name": "Christian Comes",
+                "url": "https://christiancomes.github.io/Portfolio/cv-es.html",
+                "sameAs": [ "https://github.com/christiancomes" ]
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+    <header>
+        <p>Christian Comes - Índice de informes técnicos</p>
+        <nav aria-label="Navegación principal">
+            <a href="../../index.html">Inicio</a>
+            <a href="../../sobremi.html">Sobre mí</a>
+            <a href="../../contacto.html">Contacto</a>
+            <a href="../../proyectos.html">Proyectos</a>
+            <a href="../posts/nucster/inventario.html">Inventario de Nucster</a>
+            <a href="../../cv-es.html">CV</a>
+        </nav>
+    </header>
+    <main id="contenido">
+        <article id="indice-informes" data-estado="revision">
+            <header>
+                <h1>Índice de informes técnicos</h1>
+                <p>Índice general de toda la documentación formal publicada. Los informes no sustituyen a las
+                    entradas del blog: la bitácora conserva el relato del día a día y los errores tal y como
+                    ocurrieron, mientras que aquí se concentra la información en estado consolidado, con vocación de
+                    documento de referencia.</p>
+                <p>Los informes se identifican con una referencia <code>INF-AAAA-NN</code>. Las convenciones de
+                    numeración, sanitización de datos y registro de incidencias están detalladas en el
+                    <a href="nucster/index.html">índice de informes del clúster Nucster</a>.</p>
+                <p><strong>Nota:</strong> INF-2026-03 trata sobre la validación del sitio, pero está archivado
+                    junto al resto de informes del proyecto Nucster, en
+                    <code>content/informes/nucster/</code>, que es donde se emitió.</p>
+            </header>
+
+            <section aria-labelledby="titulo-catalogo-informes">
+                <h2 id="titulo-catalogo-informes">Catálogo de informes</h2>
+                <table>
+                    <caption>Informes técnicos emitidos, con su referencia, fecha y estado</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Referencia</th>
+                            <th scope="col">Proyecto</th>
+                            <th scope="col">Título</th>
+                            <th scope="col">Fecha de emisión</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Documento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">INF-2026-01</th>
+                            <td>Nucster</td>
+                            <td>Clúster 01: fase de planificación</td>
+                            <td><time datetime="2026-10-17">17 de octubre de 2026</time></td>
+                            <td>En revisión</td>
+                            <td><a href="nucster/informe-cluster01.html">Abrir informe</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INF-2026-02</th>
+                            <td>Nucster</td>
+                            <td>Clúster 02: puesta en servicio del clúster Proxmox</td>
+                            <td><time datetime="2026-10-17">17 de octubre de 2026</time></td>
+                            <td>En revisión</td>
+                            <td><a href="nucster/informe-cluster02.html">Abrir informe</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INF-2026-03</th>
+                            <td>Portfolio</td>
+                            <td>Validación y accesibilidad del sitio</td>
+                            <td><time datetime="2026-10-18">18 de octubre de 2026</time></td>
+                            <td>En revisión</td>
+                            <td><a href="nucster/informe-validacion.html">Abrir informe</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">INF-2026-04</th>
+                            <td>Nucster</td>
+                            <td>Clúster 03: instalación del firewall pfSense master</td>
+                            <td><time datetime="2026-10-24">24 de octubre de 2026</time></td>
+                            <td>En revisión</td>
+                            <td><a href="nucster/informe-cluster03.html">Abrir informe</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section aria-labelledby="titulo-por-proyecto">
+                <h2 id="titulo-por-proyecto">Informes por proyecto</h2>
+                <ul>
+                    <li><strong>Nucster (homelab):</strong>
+                        <a href="nucster/index.html">índice de informes del clúster Nucster</a>, con las convenciones
+                        de numeración y el registro de incidencias.
+                    </li>
+                    <li><strong>Portfolio (Lenguajes de Marcas):</strong> la construcción de esta web se documenta en
+                        la <a href="../posts/indice_posts.html">serie Portfolio del blog</a>; el informe de
+                        validación actualmente emitido es INF-2026-03.
+                    </li>
+                </ul>
+            </section>
+
+            <section aria-labelledby="relacionados">
+                <h2 id="relacionados">Ver también</h2>
+                <ul>
+                    <li><a href="../posts/indice_posts.html">Índice de entradas del blog</a></li>
+                    <li><a href="../proyectos/indice_proyectos.html">Índice de proyectos</a></li>
+                    <li><a href="../../proyectos.html">Catálogo de proyectos</a></li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Christian Comes · <time datetime="2026-10">octubre de 2026</time></p>
+        <figure itemscope itemtype="https://schema.org/ImageObject">
+            <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                <img itemprop="contentUrl" src="../../img/licencias/cc-by-nc-nd-88x31.png"
+                    width="88" height="31"
+                    alt="Licencia Creative Commons: atribución, no comercial y sin obras derivadas">
+            </a>
+            <meta itemprop="encodingFormat" content="image/png">
+            <meta itemprop="contentSize" content="1 KB">
+            <meta itemprop="width" content="88">
+            <meta itemprop="height" content="31">
+            <meta itemprop="creator" content="Creative Commons">
+            <meta itemprop="license" content="Sello oficial de Creative Commons (creativecommons.org)">
+            <figcaption>Salvo indicación contraria, este contenido se publica bajo licencia
+                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons
+                Atribución-NoComercial-SinDerivadas 4.0 Internacional</a>.</figcaption>
+        </figure>
+    </footer>
+</body>
+</html>

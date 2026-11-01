@@ -13,10 +13,86 @@
     <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/posts/nucster/inventario.html">
     <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
     <title>Inventario de hardware - Nucster (histórico)</title>
+    <style>
+        /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+           oculto visualmente hasta que recibe el foco del teclado. */
+        .saltar-contenido {
+            position: absolute;
+            left: -10000px;
+        }
+        .saltar-contenido:focus {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 0 0 0.25rem 0;
+        }
+        /* Tablas: sustituye a los atributos obsoletos border, cellpadding y
+           cellspacing, conservando el aspecto de antes (borde y 8px de margen) */
+        table {
+            border-collapse: collapse;
+            border: 1px solid;
+        }
+        th, td {
+            border: 1px solid;
+            padding: 8px;
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "https://christiancomes.github.io/Portfolio/#web",
+                "name": "Portfolio de Christian Comes",
+                "url": "https://christiancomes.github.io/Portfolio/",
+                "inLanguage": "es",
+                "publisher": { "@id": "https://christiancomes.github.io/Portfolio/#autor" }
+            },
+            {
+                "@type": "WebPage",
+                "@id": "https://christiancomes.github.io/Portfolio/content/posts/nucster/inventario.html#pagina",
+                "url": "https://christiancomes.github.io/Portfolio/content/posts/nucster/inventario.html",
+                "name": "Inventario de hardware - Nucster (histórico)",
+                "description": "Inventario de hardware del clúster Nucster: nodos y dispositivos de red en su estado inicial, conservado como acceso directo histórico.",
+                "inLanguage": "es",
+                "isPartOf": { "@id": "https://christiancomes.github.io/Portfolio/#web" },
+                "author": { "@id": "https://christiancomes.github.io/Portfolio/#autor" },
+                "license": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+                "primaryImageOfPage": {
+                    "@type": "ImageObject",
+                    "url": "https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg",
+                    "width": 800,
+                    "height": 800
+                },
+                "breadcrumb": {
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://christiancomes.github.io/Portfolio/" },
+                        { "@type": "ListItem", "position": 2, "name": "Proyectos", "item": "https://christiancomes.github.io/Portfolio/proyectos.html" },
+                        { "@type": "ListItem", "position": 3, "name": "Inventario de Nucster" }
+                    ]
+                }
+            },
+            {
+                "@type": "Person",
+                "@id": "https://christiancomes.github.io/Portfolio/#autor",
+                "name": "Christian Comes",
+                "url": "https://christiancomes.github.io/Portfolio/cv-es.html",
+                "sameAs": [ "https://github.com/christiancomes" ]
+            }
+        ]
+    }
+    </script>
     </head>
 
 <body>
-        <a href="#inventario">Saltar al contenido</a>
+        <a class="saltar-contenido" href="#inventario">Saltar al contenido</a>
 <header>
         <p>Christian Comes - Inventario de hardware del Homelab</p>
 <nav aria-label="Navegación principal">
@@ -37,7 +113,7 @@
 
         <section aria-labelledby="nodos">
             <h2 id="nodos">Nodos</h2>
-            <table border="1">
+            <table>
                 <caption>Inventario de Nodos</caption>
                 <thead>
                     <tr>
@@ -77,7 +153,6 @@
                 </tbody>
             </table>
         </section>
-
         <section aria-labelledby="dispositivos">
             <h2 id="dispositivos">Otros dispositivos</h2>
             <table>
@@ -91,21 +166,42 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Switch gestionado</td>
+                        <th scope="row">Switch gestionado</th>
                         <td>Zyxel</td>
                         <td>GS1200-8</td>
                     </tr>
                     <tr>
-                        <td>Adaptador de red</td>
+                        <th scope="row">Adaptador de red</th>
                         <td>RyuuOto</td>
                         <td>1000 Mbps</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Adaptador de red</th>
+                        <td>tp-link</td>
+                        <td>UE306</td>
                     </tr>
                 </tbody>
             </table>
         </section>
     </main>
     <footer>
-        <p>Christian Comes - octubre de 2026</p>
+        <p>Christian Comes · <time datetime="2026-10">octubre de 2026</time></p>
+        <figure itemscope itemtype="https://schema.org/ImageObject">
+            <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                <img itemprop="contentUrl" src="../../../img/licencias/cc-by-nc-nd-88x31.png"
+                    width="88" height="31"
+                    alt="Licencia Creative Commons: atribución, no comercial y sin obras derivadas">
+            </a>
+            <meta itemprop="encodingFormat" content="image/png">
+            <meta itemprop="contentSize" content="1 KB">
+            <meta itemprop="width" content="88">
+            <meta itemprop="height" content="31">
+            <meta itemprop="creator" content="Creative Commons">
+            <meta itemprop="license" content="Sello oficial de Creative Commons (creativecommons.org)">
+            <figcaption>Salvo indicación contraria, este contenido se publica bajo licencia
+                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons
+                Atribución-NoComercial-SinDerivadas 4.0 Internacional</a>.</figcaption>
+        </figure>
     </footer>
 </body>
 </html>

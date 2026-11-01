@@ -12,12 +12,34 @@
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_ES">
     <meta property="og:url" content="https://christiancomes.github.io/Portfolio/cv-es.html">
-    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes-1080w.jpg">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
     <title>Christian Comes - CV</title>
+    <style>
+        /* Imágenes responsivas: sin este límite el srcset no tiene efecto, porque la
+           imagen se dibuja a su anchura natural y desborda el viewport. */
+        img { max-width: 100%; height: auto; }
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+           oculto visualmente hasta que recibe el foco del teclado. */
+        .saltar-contenido {
+            position: absolute;
+            left: -10000px;
+        }
+        .saltar-contenido:focus {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 0 0 0.25rem 0;
+        }
+</style>
     </head>
 
 <body>
-        <a href="#cv">Saltar al contenido</a>
+        <a class="saltar-contenido" href="#cv">Saltar al contenido</a>
 <header>
         <h1>Christian Comes</h1>
         <p>Técnico IT L2 / Sysadmin — Valencia | Remoto/Híbrido</p>
@@ -47,16 +69,16 @@
                 <h1>Currículum vitae</h1>
                 <p>Publicado el <time datetime="2026-05-27">27 de mayo de 2026</time>.</p>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
-                    <img itemprop="contentUrl" src="img/ChristianComes-480w.jpg" alt="Retrato de Christian Comes" width="480" height="480" loading="lazy"
-                        srcset="img/ChristianComes-480w.jpg 480w, img/ChristianComes-720w.jpg 720w, img/ChristianComes-1080w.jpg 1080w"
-                        sizes="(max-width: 720px) 90vw, 500px" />
+                    <img itemprop="contentUrl" src="img/ChristianComes.jpg" alt="Retrato de Christian Comes" width="480" height="480" loading="lazy"
+                        srcset="img/ChristianComes-480w.jpg 480w, img/ChristianComes-720w.jpg 720w, img/ChristianComes.jpg 800w"
+                        sizes="(max-width: 480px) 100vw, 480px">
                     <meta itemprop="encodingFormat" content="image/jpeg">
                     <meta itemprop="contentSize" content="95 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>Christian Comes.<br>JPEG · 800×800 px · 95 KB · material propio de Christian Comes ·
-                        licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>Christian Comes.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <p>Técnico IT L2 con más de 8 años de experiencia en soporte a entornos de gran escala — incluyendo
                     administración pública (GVA, +20.000 usuarios), sector del automóvil (Ford, implantación HoloLens 2)
@@ -168,7 +190,23 @@
     </main>
 
     <footer>
-        <p>Christian Comes - octubre de 2026</p>
+    <p>Christian Comes · <time datetime="2026-10">octubre de 2026</time></p>
+    <figure itemscope itemtype="https://schema.org/ImageObject">
+        <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+            <img itemprop="contentUrl" src="img/licencias/cc-by-nc-nd-88x31.png"
+                width="88" height="31"
+                alt="Licencia Creative Commons: atribución, no comercial y sin obras derivadas">
+        </a>
+        <meta itemprop="encodingFormat" content="image/png">
+        <meta itemprop="contentSize" content="1 KB">
+        <meta itemprop="width" content="88">
+        <meta itemprop="height" content="31">
+        <meta itemprop="creator" content="Creative Commons">
+        <meta itemprop="license" content="Sello oficial de Creative Commons (creativecommons.org)">
+        <figcaption>Salvo indicación contraria, este contenido se publica bajo licencia
+            <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons
+            Atribución-NoComercial-SinDerivadas 4.0 Internacional</a>.</figcaption>
+    </figure>
     </footer>
   <script type="application/ld+json">
     {
@@ -176,7 +214,7 @@
       "@type": "Person",
       "name": "Christian Comes",
       "url": "https://christiancomes.github.io/Portfolio/cv-es.html",
-      "image": "img/ChristianComes-1080w.jpg",
+      "image": "img/ChristianComes.jpg",
       "sameAs": ["https://github.com/christiancomes"],
       "jobTitle": "Técnico IT L2"
     

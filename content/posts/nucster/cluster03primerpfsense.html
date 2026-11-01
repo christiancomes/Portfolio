@@ -14,10 +14,32 @@
     <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/posts/nucster/cluster03primerpfsense.html">
     <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
     <title>Clúster 03 - El primer pfSense</title>
+    <style>
+        /* Imágenes responsivas: sin este límite el srcset no tiene efecto, porque la
+           imagen se dibuja a su anchura natural y desborda el viewport. */
+        img { max-width: 100%; height: auto; }
+            /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+           oculto visualmente hasta que recibe el foco del teclado. */
+        .saltar-contenido {
+            position: absolute;
+            left: -10000px;
+        }
+        .saltar-contenido:focus {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 0 0 0.25rem 0;
+        }
+</style>
     </head>
 
 <body>
-        <a href="#contenido">Saltar al contenido</a>
+        <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
 <header>
         <p>
             Clúster 03 - El primer pfSense
@@ -49,15 +71,18 @@
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_hardware_config.png"
                         alt="Hardware de la VM 100 pfsense-master: ISO del instalador, disco de 32 GB y dos NIC VirtIO sobre vmbr1 y vmbr10"
-                        width="1817" height="734">
+                        width="1817" height="734"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_hardware_config-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_hardware_config-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_hardware_config-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_hardware_config.png 1817w"
+                        sizes="(max-width: 1817px) 100vw, 1817px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="89 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>La VM 100 tal como la quise: 2 GiB, 2 núcleos <i>host</i>, disco de 32 GB, CD con el
                         instalador y las dos redes separadas (WAN en <code>vmbr1</code>, LAN en <code>vmbr10</code>).
-                    <br>PNG · 1817×734 px · 105 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
             </section>
 
@@ -74,15 +99,18 @@
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller10.png"
                         alt="Pantalla Connectivity Check del instalador: verificando la conexión a internet contra los servidores de Netgate"
-                        width="1817" height="734">
+                        width="1817" height="734"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller10-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller10-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller10-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller10.png 1817w"
+                        sizes="(max-width: 1817px) 100vw, 1817px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="110 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>El connectivity check: "Trying to reach the Netgate Servers". Sin WAN viva no hay
                         instalación. Dato tropezado: el cableado del 30 estaba AL REVÉS de mi plan (lo cuento en el
-                        apartado 5), y aún así funcionó — pero por motivos equivocados.<br>PNG · 1817×734 px · 110 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        apartado 5), y aún así funcionó — pero por motivos equivocados.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
             </section>
 
@@ -95,86 +123,107 @@
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller5.png"
                         alt="Network Mode Setup de la WAN vtnet0: modo DHCP cliente, VLAN tagging desactivado"
-                        width="1817" height="734">
+                        width="1817" height="734"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller5-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller5-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller5-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller5.png 1817w"
+                        sizes="(max-width: 1817px) 100vw, 1817px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="167 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>WAN (<code>vtnet0</code>) en modo DHCP (cliente) sin VLANs.<br>PNG · 1817×734 px · 167 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>WAN (<code>vtnet0</code>) en modo DHCP (cliente) sin VLANs.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller8.png"
                         alt="Network Mode Setup de la LAN vtnet1: IP estática 192.168.10.1/24 con DHCP server de .100 a .199"
-                        width="1817" height="734">
+                        width="1817" height="734"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller8-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller8-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller8-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller8.png 1817w"
+                        sizes="(max-width: 1817px) 100vw, 1817px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="180 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>LAN (<code>vtnet1</code>): estática 192.168.10.1/24 y DHCP server .100-.199, tal
-                        cual el plan. No hay nada detrás, pero pfSense ya da casa.<br>PNG · 1817×734 px · 180 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        cual el plan. No hay nada detrás, pero pfSense ya da casa.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller12.png"
                         alt="Installation Options: sistema de ficheros ZFS recomendado y esquema de particiones GPT"
-                        width="1817" height="734">
+                        width="1817" height="734"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller12-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller12-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller12-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller12.png 1817w"
+                        sizes="(max-width: 1817px) 100vw, 1817px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="151 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>ZFS recomendado + GPT compatible con MBR: por defecto y sin estrés.<br>PNG · 1817×734 px · 151 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>ZFS recomendado + GPT compatible con MBR: por defecto y sin estrés.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller17.png"
                         alt="Selección de versión de pfSense CE: 2.9.0 estable destacada"
-                        width="1817" height="734">
+                        width="1817" height="734"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller17-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller17-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller17-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller17.png 1817w"
+                        sizes="(max-width: 1817px) 100vw, 1817px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="140 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>Versión elegida: <code>2.9.0</code> "Current Stable Version" (había 2.8.1 y 2.7.2). Se
                         instalará FreeBSD 16.0-CURRENT, así que para el backup CARP el backup debe llevar LA MISMA
-                        versión exacta. Otra lección.<br>PNG · 1817×734 px · 140 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        versión exacta. Otra lección.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller18.png"
                         alt="Descarga de 179 paquetes pfSense desde servidores de Netgate"
-                        width="1817" height="734">
+                        width="1817" height="734"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller18-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller18-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller18-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller18.png 1817w"
+                        sizes="(max-width: 1817px) 100vw, 1817px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="267 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>La trampa del instalador online: 179 paquetes, 994 MiB necesarios y 298 MiB bajados, no
-                        era offline. Suerte que la WAN la daba el router de casas.<br>PNG · 1817×734 px · 267 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        era offline. Suerte que la WAN la daba el router de casas.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller20.png"
                         alt="Instalación completa de pfSense, pantalla de reinicio"
-                        width="1817" height="734">
+                        width="1817" height="734"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller20-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller20-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller20-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller20.png 1817w"
+                        sizes="(max-width: 1817px) 100vw, 1817px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="109 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>"Installation of pfSense complete! Would you like to reboot into the installed system
-                        now?" — sí, por favor.<br>PNG · 1817×734 px · 109 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        now?" — sí, por favor.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller21.png"
                         alt="Edición del CD/DVD de la VM 100: opción Do not use any media señalada"
-                        width="1817" height="734">
+                        width="1817" height="734"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller21-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller21-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller21-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller21.png 1817w"
+                        sizes="(max-width: 1817px) 100vw, 1817px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="121 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>Trucuito fácil de olvidar: tras instalar, quitar el CD (edición del CD/DVD a "Do not
                         use any media"); si no, en cada reinicio puede volver el instalador (el arranque tiene el CD
-                        por delante del disco).<br>PNG · 1817×734 px · 121 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        por delante del disco).<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
             </section>
 
@@ -190,51 +239,63 @@
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller22.png"
                         alt="Menú de consola de pfSense tras arrancar: WAN en DHCP 192.168.1.52 y LAN 192.168.10.1"
-                        width="1817" height="734">
+                        width="1817" height="734"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller22-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller22-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller22-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller22.png 1817w"
+                        sizes="(max-width: 1817px) 100vw, 1817px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="222 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>El menú clásico 0-16 con las dos interfaces a la vista: WAN por DHCP (192.168.1.52) y
-                        LAN estática (192.168.10.1).<br>PNG · 1817×734 px · 120 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        LAN estática (192.168.10.1).<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller24.png"
                         alt="Login de pfSense desde el Firefox de la VM 102 livedebian"
-                        width="1817" height="734">
+                        width="1817" height="734"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller24-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller24-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller24-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsenseinstaller24.png 1817w"
+                        sizes="(max-width: 1817px) 100vw, 1817px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="185 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>Solo queda entrar. Todo lo que hacemos con el firewall lo miro desde la VM 102 (la
-                        jumpbox en la LAN), porque el 102 es el único en ese puente aislado.<br>PNG · 1817×734 px · 185 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        jumpbox en la LAN), porque el 102 es el único en ese puente aislado.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall2.png"
                         alt="Aviso de Firefox por el certificado autofirmado del pfSense en 192.168.10.1"
-                        width="1753" height="790">
+                        width="1753" height="790"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall2-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall2-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall2-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall2.png 1753w"
+                        sizes="(max-width: 1753px) 100vw, 1753px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="171 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>El "Warning: Potential Security Risk Ahead" clásico: cert autofirmado, Go Back o
-                        Advanced para aceptar el riesgo justificado.<br>PNG · 1753×790 px · 171 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        Advanced para aceptar el riesgo justificado.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall5.png"
                         alt="Dashboard de pfSense con aviso de contraseña por defecto y datos de versión 2.9.0"
-                        width="1753" height="790">
+                        width="1753" height="790"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall5-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall5-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall5-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall5.png 1753w"
+                        sizes="(max-width: 1753px) 100vw, 1753px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="306 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>Dentro: "Password is currently set to the default value (pfsense)" en rojo y el panel
                         System Information viendo <code>2.9.0-RELEASE amd64</code> de 21-oct-2026 sobre
-                        <code>FreeBSD 16.0-CURRENT</code> (parece rama de desarrollo, algo a vigilar).<br>PNG · 1753×790 px · 348 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        <code>FreeBSD 16.0-CURRENT</code> (parece rama de desarrollo, algo a vigilar).<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
             </section>
 
@@ -270,36 +331,45 @@
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall9.png"
                         alt="Wizard paso 2 de 9: hostname pfsense-master, dominio home.arpa y servidores DNS"
-                        width="1753" height="790">
+                        width="1753" height="790"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall9-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall9-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall9-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall9.png 1753w"
+                        sizes="(max-width: 1753px) 100vw, 1753px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="248 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>Paso 2/9: hostname, <code>home.arpa</code>, DNS 1.1.1.1 + 80.58.61.250 y Override
-                        marcado.<br>PNG · 1753×790 px · 248 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        marcado.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall6.png"
                         alt="Cambio de contraseña del admin confirmado en pfSense"
-                        width="1753" height="790">
+                        width="1753" height="790"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall6-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall6-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall6-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall6.png 1753w"
+                        sizes="(max-width: 1753px) 100vw, 1753px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="219 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>"Password changed for user: admin" en verde — la fábrica a la calle.<br>PNG · 1753×790 px · 219 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>"Password changed for user: admin" en verde — la fábrica a la calle.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall14.png"
                         alt="Wizard paso 7 de 9: Reload configuration"
-                        width="1753" height="790">
+                        width="1753" height="790"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall14-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall14-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall14-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall14.png 1753w"
+                        sizes="(max-width: 1753px) 100vw, 1753px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="168 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>Paso 7/9: Reload para reencarnar el firewall con la config definitiva.<br>PNG · 1753×790 px · 168 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>Paso 7/9: Reload para reencarnar el firewall con la config definitiva.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
             </section>
 
@@ -316,15 +386,18 @@
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall19.png"
                         alt="Terminal de la VM 102: IP por DHCP de pfSense, gateway 192.168.10.1 y pings de validación"
-                        width="1194" height="790">
+                        width="1194" height="790"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall19-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall19-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall19-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall19.png 1194w"
+                        sizes="(max-width: 1194px) 100vw, 1194px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="291 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>La prueba de fuego: DHCP del pfSense (192.168.10.100), y los tres pings (LAN, NAT 1.1.1.1
                         y DNS deb.debian.org) en verde. Además, justo después, el <code>scp</code> del config.xml hacia
-                        el 30 — el backup del día, que cuento abajo.<br>PNG · 1194×790 px · 291 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        el 30 — el backup del día, que cuento abajo.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
             </section>
 
@@ -345,24 +418,30 @@
                     sin IP y sin bridge no hay bucle posible.</p>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb.png"
-                        alt="ip link show del USB del 30 en estado DOWN" width="1814" height="226">
+                        alt="ip link show del USB del 30 en estado DOWN" width="1814" height="226"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb.png 1814w"
+                        sizes="(max-width: 1814px) 100vw, 1814px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="38 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>El USB del 30 en DOWN: la interfaz no emite señal y no negocia enlace.<br>PNG · 1814×226 px · 48 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>El USB del 30 en DOWN: la interfaz no emite señal y no negocia enlace.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb_up.png"
-                        alt="ip link show del USB del 30 ya en estado UP con enlace" width="1814" height="226">
+                        alt="ip link show del USB del 30 ya en estado UP con enlace" width="1814" height="226"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb_up-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb_up-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb_up-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_ip_link_show_nicusb_up.png 1814w"
+                        sizes="(max-width: 1814px) 100vw, 1814px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="46 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>Y ya con <code>up</code>: UP, a la espera de bridge. Down/UP son estados
-                        administrativos; LOWER_UP es el del cable físico — no caer en el semántico.<br>PNG · 1814×226 px · 59 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        administrativos; LOWER_UP es el del cable físico — no caer en el semántico.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
 
                 <h3>6.2 El bridge sin cable y las dos islas</h3>
@@ -377,26 +456,32 @@
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_autostart.png"
                         alt="GUI de red de nucster20: vmbr1 sin puertos y USB ya levantado"
-                        width="1370" height="707">
+                        width="1370" height="707"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_autostart-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_autostart-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_autostart-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_autostart.png 1370w"
+                        sizes="(max-width: 1370px) 100vw, 1370px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="91 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>El vmbr1 del 20 antes de ponerle puerto: bridge sin cable = no hay nada bridged. Igual
-                        la "Apply Configuration" al gris tras aplicar los cambios — buena señal: nada pendiente.<br>PNG · 1370×707 px · 107 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        la "Apply Configuration" al gris tras aplicar los cambios — buena señal: nada pendiente.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_up.png"
                         alt="USB de nucster20 ya en UP y LOWER_UP tras levantarlo"
-                        width="1370" height="707">
+                        width="1370" height="707"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_up-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_up-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_up-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster20/nucster20_ip_link_show_nicusb_up.png 1370w"
+                        sizes="(max-width: 1370px) 100vw, 1370px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="161 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>Y el del 20 en UP + LOWER_UP: escalo. Igual siempre y con un solo puente: USB →
-                        router. NUNCA al Zyxel (sin STP: unir ambos segmentos sería un bucle de capa 2 manual).<br>PNG · 1370×707 px · 194 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        router. NUNCA al Zyxel (sin STP: unir ambos segmentos sería un bucle de capa 2 manual).<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
 
                 <h3>6.3 El cable del 30 estaba al revés (y la lección del testigo físico)</h3>
@@ -464,35 +549,44 @@
                 </ol>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup1.png"
-                        alt="Creación del snapshot pfsense-master-freshinstall-validado en Proxmox" width="1452" height="790">
+                        alt="Creación del snapshot pfsense-master-freshinstall-validado en Proxmox" width="1452" height="790"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup1-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup1-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup1-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup1.png 1452w"
+                        sizes="(max-width: 1452px) 100vw, 1452px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="66 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
-                    <figcaption>Snapshot creado tras dejar el wizard y la contraseña listas.<br>PNG · 1452×790 px · 66 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                    <figcaption>Snapshot creado tras dejar el wizard y la contraseña listas.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup2.png"
-                        alt="Tarea de snapshot completada: 1.90 GiB guardados en 17 segundos" width="1452" height="790">
+                        alt="Tarea de snapshot completada: 1.90 GiB guardados en 17 segundos" width="1452" height="790"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup2-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup2-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup2-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup2.png 1452w"
+                        sizes="(max-width: 1452px) 100vw, 1452px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="110 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>"Saving VM state and RAM using storage local-lvm": TASK OK tras 1.90 GiB y 17
-                        s.<br>PNG · 1452×790 px · 110 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        s.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
                 <figure itemscope itemtype="https://schema.org/ImageObject">
                     <img itemprop="contentUrl" src="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup3.png"
-                        alt="Backup and Restore de pfSense: opciones de export del config.xml" width="1383" height="665">
+                        alt="Backup and Restore de pfSense: opciones de export del config.xml" width="1383" height="665"
+                        srcset="../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup3-480w.png 480w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup3-720w.png 720w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup3-1080w.png 1080w, ../../../img/nucster03_instalando_el_primer_pfsense/nucster30/nucster30_vm100_pfsensefreshinstall_backup3.png 1383w"
+                        sizes="(max-width: 1383px) 100vw, 1383px">
                     <meta itemprop="encodingFormat" content="image/png">
                     <meta itemprop="contentSize" content="158 KB">
                     <meta itemprop="creator" content="Christian Comes">
                     <meta itemprop="copyrightYear" content="2026">
                     <meta itemprop="copyrightHolder" content="Christian Comes">
+                    <meta itemprop="license" content="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <figcaption>El export "todo" (Backup area All, RRD fuera, SSH keys sí). El checkbox de cifrado
-                        aún sin marcar: faena pendiente.<br>PNG · 1383×665 px · 158 KB · material propio de Christian Comes · licencia: todos los derechos reservados.</figcaption>
+                        aún sin marcar: faena pendiente.<br>material propio de Christian Comes · licencia: CC BY-NC-ND 4.0.</figcaption>
                 </figure>
             </section>
 
@@ -530,7 +624,23 @@
         </section>
     </main>
     <footer>
-        <p>Christian Comes - octubre de 2026</p>
+    <p>Christian Comes · <time datetime="2026-10">octubre de 2026</time></p>
+    <figure itemscope itemtype="https://schema.org/ImageObject">
+        <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+            <img itemprop="contentUrl" src="../../../img/licencias/cc-by-nc-nd-88x31.png"
+                width="88" height="31"
+                alt="Licencia Creative Commons: atribución, no comercial y sin obras derivadas">
+        </a>
+        <meta itemprop="encodingFormat" content="image/png">
+        <meta itemprop="contentSize" content="1 KB">
+        <meta itemprop="width" content="88">
+        <meta itemprop="height" content="31">
+        <meta itemprop="creator" content="Creative Commons">
+        <meta itemprop="license" content="Sello oficial de Creative Commons (creativecommons.org)">
+        <figcaption>Salvo indicación contraria, este contenido se publica bajo licencia
+            <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons
+            Atribución-NoComercial-SinDerivadas 4.0 Internacional</a>.</figcaption>
+    </figure>
     </footer>
 </body>
 

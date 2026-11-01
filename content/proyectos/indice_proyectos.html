@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Índice de proyectos del portfolio: el homelab Nucster y la construcción de esta web, con sus entradas de blog e informes técnicos.">
+    <meta name="author" content="Christian Comes">
+    <meta property="og:title" content="Índice de proyectos">
+    <meta property="og:description" content="Índice de proyectos del portfolio: el homelab Nucster y la construcción de esta web, con sus entradas de blog e informes técnicos.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://christiancomes.github.io/Portfolio/content/proyectos/indice_proyectos.html">
+    <meta property="og:image" content="https://christiancomes.github.io/Portfolio/img/ChristianComes.jpg">
+    <title>Índice de proyectos</title>
+    <style>
+        /* Enlace «Saltar al contenido» (WCAG 2.4.1 Bloques de saltos):
+           oculto visualmente hasta que recibe el foco del teclado. */
+        .saltar-contenido {
+            position: absolute;
+            left: -10000px;
+        }
+        .saltar-contenido:focus {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 0 0 0.25rem 0;
+        }
+        /* Tablas: sustituye a los atributos obsoletos border, cellpadding y
+           cellspacing, conservando el aspecto de antes (borde y 8px de margen) */
+        table {
+            border-collapse: collapse;
+            border: 1px solid;
+        }
+        th, td {
+            border: 1px solid;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "https://christiancomes.github.io/Portfolio/#web",
+                "name": "Portfolio de Christian Comes",
+                "url": "https://christiancomes.github.io/Portfolio/",
+                "inLanguage": "es",
+                "publisher": { "@id": "https://christiancomes.github.io/Portfolio/#autor" }
+            },
+            {
+                "@type": "CollectionPage",
+                "@id": "https://christiancomes.github.io/Portfolio/content/proyectos/indice_proyectos.html#pagina",
+                "url": "https://christiancomes.github.io/Portfolio/content/proyectos/indice_proyectos.html",
+                "name": "Índice de proyectos",
+                "description": "Índice de proyectos del portfolio: el homelab Nucster y la construcción de esta web, con sus entradas de blog e informes técnicos.",
+                "inLanguage": "es",
+                "isPartOf": { "@id": "https://christiancomes.github.io/Portfolio/#web" },
+                "author": { "@id": "https://christiancomes.github.io/Portfolio/#autor" },
+                "license": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+                "breadcrumb": {
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://christiancomes.github.io/Portfolio/" },
+                        { "@type": "ListItem", "position": 2, "name": "Proyectos", "item": "https://christiancomes.github.io/Portfolio/proyectos.html" },
+                        { "@type": "ListItem", "position": 3, "name": "Índice de proyectos" }
+                    ]
+                }
+            },
+            {
+                "@type": "Person",
+                "@id": "https://christiancomes.github.io/Portfolio/#autor",
+                "name": "Christian Comes",
+                "url": "https://christiancomes.github.io/Portfolio/cv-es.html",
+                "sameAs": [ "https://github.com/christiancomes" ]
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+    <header>
+        <p>Christian Comes - Índice de proyectos</p>
+        <nav aria-label="Navegación principal">
+            <a href="../../index.html">Inicio</a>
+            <a href="../../sobremi.html">Sobre mí</a>
+            <a href="../../contacto.html">Contacto</a>
+            <a href="../../proyectos.html">Proyectos</a>
+            <a href="../posts/nucster/inventario.html">Inventario de Nucster</a>
+            <a href="../../cv-es.html">CV</a>
+        </nav>
+    </header>
+    <main id="contenido">
+        <article id="indice-proyectos" data-estado="revision">
+            <header>
+                <h1>Índice de proyectos</h1>
+                <p>Este es el índice de los dos grandes bloques de este sitio, tal y como se planteó en la
+                    <a href="../posts/portfolio/portfolio01planificacion.html">planificación</a>: por un lado el
+                    <strong>homelab Nucster</strong> y por otro la construcción de este <strong>portfolio</strong>
+                    para la asignatura Lenguajes de Marcas. Cada proyecto se documenta en dos formatos
+                    complementarios, la bitácora del blog y el informe técnico.</p>
+                <p>La versión en tabla, con vista de conjunto, está en la página
+                    <a href="../../proyectos.html">Proyectos</a>.</p>
+            </header>
+
+            <section id="proyecto-nucster" aria-labelledby="titulo-proyecto-nucster">
+                <h2 id="titulo-proyecto-nucster">Nucster (homelab)</h2>
+                <p>Montaje y puesta en marcha de un clúster de tres nodos basado en Proxmox, con su firewall, a
+                    partir de tres Intel NUC.</p>
+                <table>
+                    <caption>Documentación publicada del proyecto Nucster</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Referencia</th>
+                            <th scope="col">Título</th>
+                            <th scope="col">Documento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Blog</th>
+                            <td>Clúster 01</td>
+                            <td>Clúster 01 - El germen</td>
+                            <td><a href="../posts/nucster/cluster01elgermen.html">Abrir entrada</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Blog</th>
+                            <td>Clúster 02</td>
+                            <td>Clúster 02 - Primeros pasos</td>
+                            <td><a href="../posts/nucster/cluster02primerospasos.html">Abrir entrada</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Blog</th>
+                            <td>Clúster 03</td>
+                            <td>Clúster 03 - El primer pfSense</td>
+                            <td><a href="../posts/nucster/cluster03primerpfsense.html">Abrir entrada</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Blog</th>
+                            <td>Inventario</td>
+                            <td>Inventario de hardware de Nucster (histórico)</td>
+                            <td><a href="../posts/nucster/inventario.html">Abrir entrada</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Informe</th>
+                            <td>INF-2026-01</td>
+                            <td>Clúster 01: fase de planificación</td>
+                            <td><a href="../informes/nucster/informe-cluster01.html">Abrir informe</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Informe</th>
+                            <td>INF-2026-02</td>
+                            <td>Clúster 02: puesta en servicio del clúster Proxmox</td>
+                            <td><a href="../informes/nucster/informe-cluster02.html">Abrir informe</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Informe</th>
+                            <td>INF-2026-04</td>
+                            <td>Clúster 03: instalación del firewall pfSense master</td>
+                            <td><a href="../informes/nucster/informe-cluster03.html">Abrir informe</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Índice específico del proyecto:
+                    <a href="../informes/nucster/index.html">Informes técnicos de Nucster</a>.</p>
+            </section>
+
+            <section id="proyecto-portfolio" aria-labelledby="titulo-proyecto-portfolio">
+                <h2 id="titulo-proyecto-portfolio">Portfolio (Lenguajes de Marcas)</h2>
+                <p>Construcción, validación y accesibilidad de esta web como proyecto de la asignatura Lenguajes de
+                    Marcas y Sistemas de Gestión de la Información.</p>
+                <table>
+                    <caption>Documentación publicada del proyecto Portfolio</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Referencia</th>
+                            <th scope="col">Título</th>
+                            <th scope="col">Documento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Blog</th>
+                            <td>Portfolio 01</td>
+                            <td>Portfolio 01 - Planificación</td>
+                            <td><a href="../posts/portfolio/portfolio01planificacion.html">Abrir entrada</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Blog</th>
+                            <td>Portfolio 02</td>
+                            <td>Portfolio 02 - Construcción</td>
+                            <td><a href="../posts/portfolio/portfolio02construccion.html">Abrir entrada</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Blog</th>
+                            <td>Portfolio 03</td>
+                            <td>Portfolio 03 - Validación y accesibilidad</td>
+                            <td><a href="../posts/portfolio/portfolio03validacion.html">Abrir entrada</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Informe</th>
+                            <td>INF-2026-03</td>
+                            <td>Validación y accesibilidad del sitio</td>
+                            <td><a href="../informes/nucster/informe-validacion.html">Abrir informe</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Nota:</strong> INF-2026-03 valida este sitio, pero se emitió y está archivado dentro del
+                    directorio de informes de Nucster, <code>content/informes/nucster/</code>.</p>
+            </section>
+
+            <section aria-labelledby="relacionados">
+                <h2 id="relacionados">Ver también</h2>
+                <ul>
+                    <li><a href="../posts/indice_posts.html">Índice de entradas del blog</a></li>
+                    <li><a href="../informes/indice_informes.html">Índice de informes técnicos</a></li>
+                    <li><a href="../../proyectos.html">Catálogo de proyectos</a></li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Christian Comes · <time datetime="2026-10">octubre de 2026</time></p>
+        <figure itemscope itemtype="https://schema.org/ImageObject">
+            <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                <img itemprop="contentUrl" src="../../img/licencias/cc-by-nc-nd-88x31.png"
+                    width="88" height="31"
+                    alt="Licencia Creative Commons: atribución, no comercial y sin obras derivadas">
+            </a>
+            <meta itemprop="encodingFormat" content="image/png">
+            <meta itemprop="contentSize" content="1 KB">
+            <meta itemprop="width" content="88">
+            <meta itemprop="height" content="31">
+            <meta itemprop="creator" content="Creative Commons">
+            <meta itemprop="license" content="Sello oficial de Creative Commons (creativecommons.org)">
+            <figcaption>Salvo indicación contraria, este contenido se publica bajo licencia
+                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons
+                Atribución-NoComercial-SinDerivadas 4.0 Internacional</a>.</figcaption>
+        </figure>
+    </footer>
+</body>
+</html>
